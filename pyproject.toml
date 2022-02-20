@@ -1,0 +1,40 @@
+[tool.poetry]
+name = 'H1st-Contrib'
+version = '0.0.0'
+description = 'H1st Contrib'
+authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
+license = 'Apache-2.0'
+readme = 'README.md'
+homepage = 'https://github.com/h1st-ai/contrib'
+repository = 'https://github.com/h1st-ai/contrib'
+packages = [
+  {include = 'h1st_contrib'}
+]
+
+
+[tool.poetry.dependencies]
+Python = '>= 3.8, < 3.10'
+
+# Data Processing
+NumPy = '*'
+PyArrow = '^7.0.0'
+PySpark = '^3.2.1'
+
+# ML/DL
+SciKit-Learn = '^1.0.2'
+TensorFlow = '^2.8.0'
+
+# AWS deps: often conflict w/ other deps, so need separate installation
+# AWSCLI = '*'
+# Boto3 = '*'
+
+# misc/other
+'Ruamel.YAML' = '^0.17.21'
+Tqdm = '^4.62.3'
+
+
+[build-system]
+requires = [
+  'Poetry-Core >= 1.0.7',
+]
+build-backend = 'poetry.core.masonry.api'
