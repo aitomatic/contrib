@@ -1,0 +1,49 @@
+{
+  "editor.rulers": [79],
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.mypy_cache": true,
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ropeproject": true,
+  },
+
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports" : "none",
+  },
+
+  "python.linting.enabled": true,
+
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--disable", "arguments-differ",
+    "--disable", "fixme",
+    "--disable", "invalid-name",
+  ],
+
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [
+  ],
+
+  "python.linting.mypyEnabled": false,
+
+  "python.linting.pydocstyleEnabled": true,
+
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pycodestyleArgs": [
+    "--ignore=E251,E501,W503,W504",
+  ],
+
+  "python.linting.prospectorEnabled": true,
+
+  "python.linting.pylamaEnabled": true,
+  "python.linting.pylamaArgs": [
+    "--disable=E501"
+  ],
+
+  "python.linting.banditEnabled": false,
+  "python.linting.banditArgs": [
+    "--skip B101",
+  ],
+}
