@@ -10,7 +10,6 @@ from pandas import DataFrame
 
 from h1st.model.oracle.teacher import Teacher
 
-# pylint: disable=import-error
 from h1st_contrib.pmfp.models.base import BaseFaultPredictor
 
 
