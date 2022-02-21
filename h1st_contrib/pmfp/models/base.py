@@ -66,6 +66,7 @@ class BaseFaultPredictor(Model):
 
     @property
     def logger(self) -> Logger:
+        """Logger."""
         logger: Logger = getLogger(name=str(self))
         logger.setLevel(level=DEBUG)
         logger.addHandler(hdlr=STDOUT_HANDLER)
@@ -88,6 +89,7 @@ class BaseFaultPredictor(Model):
 
     @classmethod
     def list_versions(cls) -> List[str]:
+        """List model versions."""
         prefix_len: int = len(prefix := f'{MODELS_S3_PREFIX}/{cls.__name__}/')
 
         results: dict = s3.client().list_objects_v2(Bucket=_S3_BUCKET,
@@ -112,6 +114,7 @@ class BaseFaultPredictor(Model):
     def batch_predict(self,
                       s3_parquet_df: S3ParquetDataFeeder, /,
                       **predict_kwargs) -> Series:
+        """Batch predict."""
         return s3_parquet_df.map(
             lambda df: (df.groupby(by=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],
                                    axis='index',
