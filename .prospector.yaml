@@ -2,3 +2,4 @@ pylint:
   disable:
     - arguments-differ
     - useless-suppression
+    - unexpected-keyword-arg
