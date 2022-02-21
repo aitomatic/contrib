@@ -11,7 +11,7 @@ from typing import List   # Py3.9+: use built-ins
 
 from pandas import DataFrame
 
-from ai_utils.data_proc import S3ParquetDataFeeder
+from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
 
 
 _EQUIPMENT_DATA_S3_PARENT_DIR_PATH: str = \
