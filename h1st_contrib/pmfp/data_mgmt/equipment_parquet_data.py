@@ -14,6 +14,7 @@ from pandas import DataFrame
 from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
 
 
+_AWS_REGION: str = os.environ['H1ST_PMFP_AWS_REGION']
 _EQUIPMENT_DATA_S3_PARENT_DIR_PATH: str = \
     os.environ['H1ST_PMFP_EQUIPMENT_DATA_S3_PARENT_DIR_PATH']
 _EQUIPMENT_DATA_TIMEZONE: str = os.environ['H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE']
@@ -55,7 +56,7 @@ class EquipmentParquetDataSet:
         """Load as a Parquet Data Feeder."""
         return S3ParquetDataFeeder(
             path=self.url,
-            awsRegion='ap-northeast-1',   # default is location-dependent
+            awsRegion=_AWS_REGION,   # default is location-dependent
             iCol=EQUIPMENT_INSTANCE_ID_COL, tCol=DATE_TIME_COL
         ).castType(**{EQUIPMENT_INSTANCE_ID_COL: str})
 
