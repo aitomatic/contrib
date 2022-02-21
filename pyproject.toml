@@ -29,8 +29,13 @@ TensorFlow = '^2.8.0'
 # Boto3 = '*'
 
 # misc/other
+CLICK = '^8.0.4'
 'Ruamel.YAML' = '^0.17.21'
 Tqdm = '^4.62.3'
+
+
+[tool.poetry.scripts]
+h1st = 'h1st_contrib.cli:h1st'
 
 
 [build-system]
