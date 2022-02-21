@@ -533,7 +533,8 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
     def load(cls, version: str) -> TimeSeriesDLFaultPredStudent:
         # pylint: disable=too-many-locals
         """Load Time-Series-DL-based k-gen ("student") model."""
-        import ai.models   # pylint: disable=import-outside-toplevel
+        # pylint: disable=import-error,import-outside-toplevel
+        import ai.models
 
         teacher_name, student_str = version.split('---')
 
@@ -641,6 +642,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
 
     @property
     def flattening_subsampler(self) -> PandasFlatteningSubsampler:
+        """Get instance's Pandas flattening subsampler."""
         return PandasFlatteningSubsampler(
             columns=tuple(self.preprocessor.sortedPreprocCols),
             everyNRows=self.input_subsampling_factor,
@@ -661,6 +663,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
     def batch_predict(self,
                       s3_parquet_df: S3ParquetDataFeeder, /,
                       return_binary: bool = True) -> Series:
+        """Batch-Predict faults."""
         df: DataFrame = s3_parquet_df.map(
             self.preprocessor,
             lambda df: (df.groupby(by=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],

@@ -20,6 +20,7 @@
     "--disable", "arguments-differ",
     "--disable", "fixme",
     "--disable", "invalid-name",
+    "--disable", "too-many-arguments",
     "--disable", "unexpected-keyword-arg",
   ],
 
