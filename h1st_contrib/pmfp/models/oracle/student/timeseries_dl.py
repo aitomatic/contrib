@@ -21,17 +21,17 @@ from ruamel import yaml
 
 from h1st.model.oracle.student import StudentModeler, Student
 
-from h1st_contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
-                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
-from h1st_contrib.pmfp.models.base import BaseFaultPredictor, H1ST_MODELS_S3_DIR_PATH   # noqa: E501
-from h1st_contrib.pmfp.models.oracle.teacher.base import BaseFaultPredTeacher
-
 from h1st_contrib.utils.data_proc import (PandasFlatteningSubsampler,
                                           PandasMLPreprocessor,
                                           S3ParquetDataFeeder)
 from h1st_contrib.utils.data_proc._abstract import ColsType
 from h1st_contrib.utils.iter import to_iterable
 from h1st_contrib.utils import s3
+
+from h1st_contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
+                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
+from h1st_contrib.pmfp.models.base import BaseFaultPredictor, H1ST_MODELS_S3_DIR_PATH   # noqa: E501
+from h1st_contrib.pmfp.models.oracle.teacher.base import BaseFaultPredTeacher
 
 
 N_MINUTES_PER_DAY: int = 24 * 60
