@@ -31,7 +31,7 @@ __all__ = (
 )
 
 
-_S3_BUCKET: str = os.environ['H1ST_PMFP_S3_BUCKET']
+_S3_BUCKET: Optional[str] = os.environ.get('H1ST_PMFP_S3_BUCKET')
 
 
 MODELS_S3_PREFIX: str = '.h1st/models'
@@ -90,6 +90,9 @@ class BaseFaultPredictor(Model):
     @classmethod
     def list_versions(cls) -> List[str]:
         """List model versions."""
+        assert _S3_BUCKET, \
+            EnvironmentError('*** H1ST_PMFP_S3_BUCKET env var not set ***')
+
         prefix_len: int = len(prefix := f'{MODELS_S3_PREFIX}/{cls.__name__}/')
 
         results: dict = s3.client().list_objects_v2(Bucket=_S3_BUCKET,

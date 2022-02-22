@@ -14,10 +14,11 @@ from pandas import DataFrame
 from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
 
 
-_AWS_REGION: str = os.environ['H1ST_PMFP_AWS_REGION']
-_EQUIPMENT_DATA_S3_PARENT_DIR_PATH: str = \
-    os.environ['H1ST_PMFP_EQUIPMENT_DATA_S3_PARENT_DIR_PATH']
-_EQUIPMENT_DATA_TIMEZONE: str = os.environ['H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE']
+_AWS_REGION: Optional[str] = os.environ.get('H1ST_PMFP_AWS_REGION')
+_EQUIPMENT_DATA_S3_PARENT_DIR_PATH: Optional[str] = \
+    os.environ.get('H1ST_PMFP_EQUIPMENT_DATA_S3_PARENT_DIR_PATH')
+_EQUIPMENT_DATA_TIMEZONE: Optional[str] = \
+    os.environ.get('H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE')
 
 
 EQUIPMENT_INSTANCE_ID_COL: str = 'equipment_instance_id'
@@ -45,6 +46,10 @@ class EquipmentParquetDataSet:
     @cached_property
     def url(self) -> str:
         """Get URL of data set."""
+        assert _EQUIPMENT_DATA_S3_PARENT_DIR_PATH, \
+            EnvironmentError(
+                '*** H1ST_PMFP_EQUIPMENT_DATA_S3_PARENT_DIR_PATH env var not set ***')  # noqa: E501
+
         return f'{_EQUIPMENT_DATA_S3_PARENT_DIR_PATH}/{self.name}.parquet'
 
     def __repr__(self) -> str:
@@ -54,6 +59,9 @@ class EquipmentParquetDataSet:
     @lru_cache(maxsize=None, typed=False)
     def load(self) -> S3ParquetDataFeeder:
         """Load as a Parquet Data Feeder."""
+        assert _AWS_REGION, \
+            EnvironmentError('*** H1ST_PMFP_AWS_REGION env var not set ***')
+
         return S3ParquetDataFeeder(
             path=self.url,
             awsRegion=_AWS_REGION,   # default is location-dependent
@@ -111,6 +119,10 @@ class EquipmentParquetDataSet:
             equipment_instance_id: str,
             date: str, to_date: Optional[str] = None) -> DataFrame:
         """Load equipment data by equipment instance ID and date(s)."""
+        assert _EQUIPMENT_DATA_TIMEZONE, \
+            EnvironmentError(
+                '*** H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE env var not set ***')
+
         s3_parquet_df: S3ParquetDataFeeder = \
             self.load().filter(f'{EQUIPMENT_INSTANCE_ID_COL} == '
                                f'"{equipment_instance_id}"')
