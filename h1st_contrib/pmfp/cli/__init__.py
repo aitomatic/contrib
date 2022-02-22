@@ -13,10 +13,12 @@ __all__ = ('h1st_pmfp_cli',)
 
 @click.group(name='pmfp',
              cls=click.Group,
-             commands={'oraclize': oraclize_fault_pred_teacher,
-                       'predict-faults': predict_faults,
-                       'tune-decision-threshold':
-                       tune_fault_pred_student_decision_threshold},
+             commands={
+                'oraclize': oraclize_fault_pred_teacher,
+                'predict-faults': predict_faults,
+                'tune-decision-threshold': tune_fault_pred_student_decision_threshold,  # noqa: E501
+             },
+
              # Command kwargs
              context_settings=None,
              # callback=None,

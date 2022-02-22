@@ -8,7 +8,9 @@ from .pmfp import h1st_pmfp_cli
 
 @click.group(name='h1st',
              cls=click.Group,
-             commands={'pmfp': h1st_pmfp_cli},
+             commands={
+                 'pmfp': h1st_pmfp_cli,
+             },
 
              # Command kwargs
              context_settings=None,
