@@ -3,6 +3,8 @@
 
 import click
 
+from .pmfp import h1st_pmfp_cli
+
 
 @click.group(name='h1st',
              cls=click.Group,
@@ -18,5 +20,5 @@ import click
              add_help_option=True,
              hidden=False,
              deprecated=False)
-def h1st():
+def h1st_cli():
     """Trigger H1st from CLI."""

@@ -35,7 +35,7 @@ Tqdm = '^4.62.3'
 
 
 [tool.poetry.scripts]
-h1st = 'h1st_contrib.cli:h1st'
+h1st = 'h1st_contrib.cli:h1st_cli'
 
 
 [build-system]
