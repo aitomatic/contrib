@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from random import choice
-from typing import Literal, Optional
+from typing import Optional
 
 from pandas import DataFrame
 
@@ -18,8 +18,7 @@ class BaseFaultPredTeacher(BaseFaultPredictor, Teacher):
     """Base Fault Prediction knowledge ("teacher") model class."""
 
     def __init__(self,
-                 general_type: Literal['refrig', 'disp_case'],
-                 unique_type_group: str,
+                 general_type: str, unique_type_group: str,
                  version: Optional[str] = None):
         """Init Fault Prediction knowledge ("teacher") model."""
         super().__init__(general_type=general_type,
