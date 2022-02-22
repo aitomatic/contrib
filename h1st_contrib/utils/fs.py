@@ -92,7 +92,6 @@ if _HADOOP_HOME:
 else:
     HDFS_CLIENT = None
     _ON_LINUX_CLUSTER_WITH_HDFS: bool = False
-    _LOGGER.debug('*** HDFS UNAVAILABLE ***')
 
 
 def _exec(cmd: str, must_succeed: bool = False):
