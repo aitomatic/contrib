@@ -15,6 +15,9 @@ packages = [
 [tool.poetry.dependencies]
 Python = '>= 3.8, < 3.10'
 
+# H1st
+H1st = {url = 'https://github.com/h1st-ai/h1st/archive/main.zip'}
+
 # Data Processing
 NumPy = '*'
 PyArrow = '^7.0.0'
