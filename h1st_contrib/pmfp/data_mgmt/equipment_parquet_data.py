@@ -9,9 +9,18 @@ import os
 from typing import Literal, Optional
 from typing import List   # Py3.9+: use built-ins
 
+from dotenv.main import load_dotenv
 from pandas import DataFrame
 
 from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
+
+
+load_dotenv(dotenv_path='.env',
+            stream=None,
+            verbose=True,
+            override=False,
+            interpolate=True,
+            encoding='utf-8')
 
 
 _AWS_REGION: Optional[str] = os.environ.get('H1ST_PMFP_AWS_REGION')

@@ -33,6 +33,7 @@ TensorFlow = '^2.8.0'
 
 # misc/other
 CLICK = '^8.0.4'
+Python-DotEnv = '^0.19.2'
 'Ruamel.YAML' = '^0.17.21'
 Tqdm = '^4.62.3'
 
