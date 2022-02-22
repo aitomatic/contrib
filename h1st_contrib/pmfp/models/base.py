@@ -12,6 +12,7 @@ from typing import Literal, Optional, Union
 from typing import Dict, List   # Py3.9+: use built-ins
 from uuid import uuid4
 
+from dotenv.main import load_dotenv
 from pandas import DataFrame, Series
 
 from h1st.model.model import Model
@@ -29,6 +30,14 @@ __all__ = (
 
     'BaseFaultPredictor',
 )
+
+
+load_dotenv(dotenv_path='.env',
+            stream=None,
+            verbose=True,
+            override=False,
+            interpolate=True,
+            encoding='utf-8')
 
 
 _S3_BUCKET: Optional[str] = os.environ.get('H1ST_PMFP_S3_BUCKET')
