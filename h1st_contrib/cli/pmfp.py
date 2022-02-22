@@ -1,7 +1,7 @@
-"""Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
+"""H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
 
 
-from ..pmfp.cli.oracle import h1st_pmfp_cli
+from ..pmfp.cli import h1st_pmfp_cli
 
 
 __all__ = ('h1st_pmfp_cli',)
