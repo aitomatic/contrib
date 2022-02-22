@@ -75,7 +75,7 @@ import h1st_contrib.utils.debug
                 envvar=None,
                 shell_complete=None,
                 autocompletion=None)
-@click.option('--to',
+@click.option('--to-date',
               show_default=True,
               prompt=False,
               confirmation_prompt=False,
