@@ -24,6 +24,7 @@ PyArrow = '^7.0.0'
 PySpark = '^3.2.1'
 
 # ML/DL
+Imbalanced-Learn = '^0.9.0'
 SciKit-Learn = '^1.0.2'
 TensorFlow = '^2.8.0'
 
