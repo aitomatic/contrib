@@ -3,7 +3,8 @@
 Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
-    h1st pmfp oraclize-fault-pred-teacher \
+    \
+    h1st pmfp oraclize \
     My1stFaultPredTeacher <...teacher-model-version...> \
     \
     --input-cat-cols compressor1 compressor2 compressor3 \
@@ -14,14 +15,14 @@ AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
 """
 
 
-from typing import Optional
-from typing import Collection, Tuple   # Py3.9+: use built-ins/collections.abc
+from typing import List, Tuple   # Py3.9+: use built-ins/collections.abc
 
 import click
 
 from h1st_contrib.pmfp.models import BaseFaultPredTeacher, FaultPredOracleModeler   # noqa: E501
 
 import h1st_contrib.utils.debug
+from h1st_contrib.utils.path import add_cwd_to_py_path
 
 
 @click.command(name='oraclize-fault-pred-teacher',
@@ -66,56 +67,56 @@ import h1st_contrib.utils.debug
                 shell_complete=None,
                 autocompletion=None)
 @click.option('--input-cat-cols',
-              show_default=False,
+              show_default=True,
               prompt=False,
               confirmation_prompt=False,
               prompt_required=True,
               hide_input=False,
               is_flag=False,
               flag_value=None,
-              multiple=True,
+              multiple=False,
               count=False,
               allow_from_autoenv=True,
-              help='Input Categorical Columns',
+              help='Comma-separated Input Categorical Columns',
               hidden=False,
               show_choices=True,
               show_envvar=False,
 
               type=str,
               required=False,
-              default=None,
+              default='',
               callback=None,
               nargs=None,
               # multiple=False,
-              metavar='INPUT_CAT_COL INPUT_CAT_COL ...',
+              metavar='INPUT_CAT_COL,INPUT_CAT_COL,...',
               expose_value=True,
               is_eager=False,
               envvar=None,
               shell_complete=None,
               autocompletion=None)
 @click.option('--input-num-cols',
-              show_default=False,
+              show_default=True,
               prompt=False,
               confirmation_prompt=False,
               prompt_required=True,
               hide_input=False,
               is_flag=False,
               flag_value=None,
-              multiple=True,
+              multiple=False,
               count=False,
               allow_from_autoenv=True,
-              help='Input Numerical Columns',
+              help='Comma-separated Input Numerical Columns',
               hidden=False,
               show_choices=True,
               show_envvar=False,
 
               type=str,
               required=False,
-              default=None,
+              default='',
               callback=None,
               nargs=None,
               # multiple=False,
-              metavar='INPUT_NUM_COL INPUT_NUM_COL ...',
+              metavar='INPUT_NUM_COL,INPUT_NUM_COL,...',
               expose_value=True,
               is_eager=False,
               envvar=None,
@@ -157,7 +158,7 @@ import h1st_contrib.utils.debug
               hide_input=False,
               is_flag=False,
               flag_value=None,
-              multiple=True,
+              multiple=False,
               count=False,
               allow_from_autoenv=True,
               help='Training Data Date Range',
@@ -185,7 +186,7 @@ import h1st_contrib.utils.debug
               hide_input=False,
               is_flag=False,
               flag_value=None,
-              multiple=True,
+              multiple=False,
               count=False,
               allow_from_autoenv=True,
               help='Decision-Threshold-Tuning Data Date Range',
@@ -234,19 +235,21 @@ import h1st_contrib.utils.debug
               shell_complete=None,
               autocompletion=None)
 def oraclize_fault_pred_teacher(teacher_class_name: str, teacher_version: str,
-                                input_cat_cols: Optional[Collection[str]],
-                                input_num_cols: Optional[Collection[str]],
+                                input_cat_cols: str, input_num_cols: str,
                                 input_subsampling_factor: int,
                                 train_date_range: Tuple[str, str],
                                 tune_date_range: Tuple[str, str],
                                 debug: bool = False):
     """Oraclize a Fault-Prediction Knowledge ("Teacher") model."""
     assert input_cat_cols or input_num_cols
+    input_cat_cols: List[str] = input_cat_cols.split(sep=',', maxsplit=-1)
+    input_num_cols: List[str] = input_num_cols.split(sep=',', maxsplit=-1)
 
     if debug:
         h1st_contrib.utils.debug.ON = True
 
     # load Teacher model
+    add_cwd_to_py_path()
     import ai.models   # pylint: disable=import-error,import-outside-toplevel
 
     teacher: BaseFaultPredTeacher = (getattr(ai.models, teacher_class_name)
