@@ -132,7 +132,7 @@ def mkdir(dir_path: PathType,
                     (' -m 0777' if _ON_LINUX_CLUSTER and (not hdfs) else ''))
 
     _ = os.system(command=command)
-    assert _ <= 0, OSError(f'***FAILED: {command} (EXIT CODE: {_}) ***')
+    assert _ <= 0, OSError(f'*** FAILED: {command} (EXIT CODE: {_}) ***')
 
 
 def rm(path: PathType, *, hdfs: bool = True, is_dir: bool = True,
