@@ -26,6 +26,7 @@ from h1st_contrib.utils.data_proc import (PandasFlatteningSubsampler,
                                           S3ParquetDataFeeder)
 from h1st_contrib.utils.data_proc._abstract import ColsType
 from h1st_contrib.utils.iter import to_iterable
+from h1st_contrib.utils.path import add_cwd_to_py_path
 from h1st_contrib.utils import s3
 
 from h1st_contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
@@ -533,7 +534,9 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
     def load(cls, version: str) -> TimeSeriesDLFaultPredStudent:
         # pylint: disable=too-many-locals
         """Load Time-Series-DL-based k-gen ("student") model."""
-        # pylint: disable=import-error,import-outside-toplevel
+        add_cwd_to_py_path()
+
+        # pylint: disable=import-error,import-outside-toplevel        
         import ai.models
 
         teacher_name, student_str = version.split('---')
