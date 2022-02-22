@@ -536,7 +536,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
         """Load Time-Series-DL-based k-gen ("student") model."""
         add_cwd_to_py_path()
 
-        # pylint: disable=import-error,import-outside-toplevel        
+        # pylint: disable=import-error,import-outside-toplevel
         import ai.models
 
         teacher_name, student_str = version.split('---')
