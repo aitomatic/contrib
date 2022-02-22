@@ -1,4 +1,4 @@
-"""Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
+"""H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
 
 
 import click
@@ -17,16 +17,23 @@ __all__ = ('h1st_pmfp_cli',)
                        'predict-faults': predict_faults,
                        'tune-fault-pred-student-decision-threshold':
                        tune_fault_pred_student_decision_threshold},
-             invoke_without_command=False,
-             no_args_is_help=True,
-             subcommand_metavar='H1ST_SUB_COMMAND',
-             chain=False,
-             help='H1st CLI >>>',
-             epilog='^^^ H1st CLI',
-             short_help='H1st CLI',
+             # Command kwargs
+             context_settings=None,
+             # callback=None,
+             # params=None,
+             help='H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI >>>',   # noqa: E501
+             epilog='^^^ H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI',  # noqa: E501
+             short_help='H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI',  # noqa: E501
              options_metavar='[OPTIONS]',
              add_help_option=True,
+             no_args_is_help=True,
              hidden=False,
-             deprecated=False)
+             deprecated=False,
+
+             # Group/MultiCommand kwargs
+             invoke_without_command=False,
+             subcommand_metavar='H1ST_PMFP_SUB_COMMAND',
+             chain=False,
+             result_callback=None)
 def h1st_pmfp_cli():
-    """Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
+    """H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI."""
