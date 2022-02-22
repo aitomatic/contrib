@@ -19,6 +19,7 @@ from pandas import Series
 from h1st_contrib.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_S3_DIR_PATH  # noqa: E501
 
 import h1st_contrib.utils.debug
+from h1st_contrib.utils.path import add_cwd_to_py_path
 
 
 @click.command(name='predict-faults',
@@ -140,6 +141,7 @@ def predict_faults(
         h1st_contrib.utils.debug.ON = True
 
     # load model
+    add_cwd_to_py_path()
     import ai.models   # pylint: disable=import-error,import-outside-toplevel
 
     model: BaseFaultPredictor = (getattr(ai.models, model_class_name)
