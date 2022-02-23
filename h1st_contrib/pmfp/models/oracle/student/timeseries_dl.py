@@ -46,6 +46,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                  input_cat_cols: Optional[ColsType],
                  input_num_cols: Optional[ColsType],
                  input_subsampling_factor: int,
+                 input_n_rows_per_day: int,
                  date_range: Tuple[str, str]):
         # pylint: disable=super-init-not-called
         """Init Time-Series-DL-based student modeler."""
@@ -62,6 +63,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                                          if input_num_cols
                                          else set())
         self.input_subsampling_factor: int = input_subsampling_factor
+        self.input_n_rows_per_day: int = input_n_rows_per_day
 
         self.date_range: Tuple[str, str] = date_range
 
@@ -93,7 +95,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
         flattening_subsampler: PandasFlatteningSubsampler = \
             PandasFlatteningSubsampler(columns=tuple(preprocessor.sortedPreprocCols),   # noqa: E501
                                        everyNRows=self.input_subsampling_factor,   # noqa: E501
-                                       totalNRows=N_MINUTES_PER_DAY)
+                                       totalNRows=self.input_n_rows_per_day)
 
         s3_parquet_df: S3ParquetDataFeeder = s3_parquet_df.map(
             lambda df: (df.groupby(by=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],
@@ -329,14 +331,15 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
         native_skl_mlp_classifier.fit(X=x_resampled, y=y_resampled)
 
         student_model: TimeSeriesDLFaultPredStudent = \
-            TimeSeriesDLFaultPredStudent(teacher=self.teacher,
-                                         input_cat_cols=self.input_cat_cols,
-                                         input_num_cols=self.input_num_cols,
-                                         input_subsampling_factor=   # noqa: E251,E501
-                                         self.input_subsampling_factor,
-                                         preprocessor=preprocessor,
-                                         native_obj=native_skl_mlp_classifier,
-                                         decision_threshold=.5)   # tune later
+            TimeSeriesDLFaultPredStudent(
+                teacher=self.teacher,
+                input_cat_cols=self.input_cat_cols,
+                input_num_cols=self.input_num_cols,
+                input_subsampling_factor=self.input_subsampling_factor,
+                input_n_rows_per_day=self.input_n_rows_per_day,
+                preprocessor=preprocessor,
+                native_obj=native_skl_mlp_classifier,
+                decision_threshold=.5)   # tune later
 
         student_model.save()
 
@@ -351,7 +354,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
 
                  input_cat_cols: Optional[ColsType],
                  input_num_cols: Optional[ColsType],
-                 input_subsampling_factor: int,
+                 input_subsampling_factor: int, input_n_rows_per_day: int,
 
                  preprocessor: PandasMLPreprocessor,
 
@@ -379,6 +382,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
                                          if input_num_cols
                                          else set())
         self.input_subsampling_factor: int = input_subsampling_factor
+        self.input_n_rows_per_day: int = input_n_rows_per_day
 
         # preprocessing params
         self.preprocessor: PandasMLPreprocessor = preprocessor
@@ -440,7 +444,8 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
                                 errors=None) as input_params_tmp_file:
             yaml.safe_dump(data={'cat-cols': self.input_cat_cols,
                                  'num-cols': self.input_num_cols,
-                                 'subsampling-factor': self.input_subsampling_factor},  # noqa: E501
+                                 'subsampling-factor': self.input_subsampling_factor,   # noqa: E501
+                                 'n-rows-per-day': self.input_n_rows_per_day},
                            stream=input_params_tmp_file,
                            default_style=None,
                            default_flow_style=False,
@@ -553,6 +558,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
             # params to load in subsequent steps below
             input_cat_cols=None, input_num_cols=None,
             input_subsampling_factor=None,
+            input_n_rows_per_day=None,
             preprocessor=None,
             native_obj=None,
             decision_threshold=None,
@@ -582,7 +588,8 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
 
             student.input_cat_cols = d['cat-cols']
             student.input_num_cols = d['num-cols']
-            student.input_subsampling_factor = d['subsampling-factor']
+            student.input_subsampling_factor = d.get('subsampling-factor', 1)
+            student.input_n_rows_per_day = d.get('n-rows-per-day', N_MINUTES_PER_DAY)   # noqa: E501
 
         # load preprocessing params
         with NamedTemporaryFile(mode='rt',
@@ -649,7 +656,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
         return PandasFlatteningSubsampler(
             columns=tuple(self.preprocessor.sortedPreprocCols),
             everyNRows=self.input_subsampling_factor,
-            totalNRows=N_MINUTES_PER_DAY)
+            totalNRows=self.input_n_rows_per_day)
 
     def predict(self,
                 df_for_1_equipment_unit_for_1_day: DataFrame, /,

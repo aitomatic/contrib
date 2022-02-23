@@ -20,6 +20,7 @@ from typing import List, Tuple   # Py3.9+: use built-ins/collections.abc
 import click
 
 from h1st_contrib.pmfp.models import BaseFaultPredTeacher, FaultPredOracleModeler   # noqa: E501
+from h1st_contrib.pmfp.models.oracle.student.timeseries_dl import N_MINUTES_PER_DAY   # noqa: E501
 
 import h1st_contrib.utils.debug
 from h1st_contrib.utils.path import add_cwd_to_py_path
@@ -150,6 +151,34 @@ from h1st_contrib.utils.path import add_cwd_to_py_path
               envvar=None,
               shell_complete=None,
               autocompletion=None)
+@click.option('--input-n-rows-per-day',
+              show_default=True,
+              prompt=False,
+              confirmation_prompt=False,
+              prompt_required=True,
+              hide_input=False,
+              is_flag=False,
+              flag_value=None,
+              multiple=False,
+              count=False,
+              allow_from_autoenv=True,
+              help='Input No. of Rows per Day (positive int)',
+              hidden=False,
+              show_choices=True,
+              show_envvar=False,
+
+              type=int,
+              required=False,
+              default=N_MINUTES_PER_DAY,
+              callback=None,
+              nargs=None,
+              # multiple=False,
+              metavar='INPUT_N_ROWS_PER_DAY',
+              expose_value=True,
+              is_eager=False,
+              envvar=None,
+              shell_complete=None,
+              autocompletion=None)
 @click.option('--train-date-range',
               show_default=False,
               prompt=False,
@@ -237,6 +266,7 @@ from h1st_contrib.utils.path import add_cwd_to_py_path
 def oraclize_fault_pred_teacher(teacher_class_name: str, teacher_version: str,
                                 input_cat_cols: str, input_num_cols: str,
                                 input_subsampling_factor: int,
+                                input_n_rows_per_day: int,
                                 train_date_range: Tuple[str, str],
                                 tune_date_range: Tuple[str, str],
                                 debug: bool = False):
@@ -262,6 +292,7 @@ def oraclize_fault_pred_teacher(teacher_class_name: str, teacher_version: str,
         student_input_cat_cols=input_cat_cols,
         student_input_num_cols=input_num_cols,
         student_input_subsampling_factor=input_subsampling_factor,
+        student_input_n_rows_per_day=input_n_rows_per_day,
 
         student_train_date_range=train_date_range,
         student_tuning_date_range=tune_date_range,

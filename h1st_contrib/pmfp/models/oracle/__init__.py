@@ -28,6 +28,7 @@ class FaultPredOracleModeler(Modeler):
                  student_input_cat_cols: Sequence[str],
                  student_input_num_cols: Sequence[str],
                  student_input_subsampling_factor: int,
+                 student_input_n_rows_per_day: int,
 
                  student_train_date_range: Tuple[str, str],
                  student_tuning_date_range: Tuple[str, str]):
@@ -38,6 +39,7 @@ class FaultPredOracleModeler(Modeler):
         self.student_input_cat_cols: Sequence[str] = student_input_cat_cols
         self.student_input_num_cols: Sequence[str] = student_input_num_cols
         self.student_input_subsampling_factor: int = student_input_subsampling_factor   # noqa: E501
+        self.student_input_n_rows_per_day: int = student_input_n_rows_per_day
 
         self.student_train_date_range: Tuple[str, str] = student_train_date_range   # noqa: E501
         self.student_tuning_date_range: Tuple[str, str] = student_tuning_date_range   # noqa: E501
@@ -51,6 +53,7 @@ class FaultPredOracleModeler(Modeler):
                 input_cat_cols=self.student_input_cat_cols,
                 input_num_cols=self.student_input_num_cols,
                 input_subsampling_factor=self.student_input_subsampling_factor,
+                input_n_rows_per_day=self.student_input_n_rows_per_day,
                 date_range=self.student_train_date_range).build_model()
 
         # tune Knowledge Generalizer ("Student") model's decision threshold
