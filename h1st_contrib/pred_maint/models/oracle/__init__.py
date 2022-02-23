@@ -13,7 +13,7 @@ from h1st.model.oracle.oracle import Oracle
 
 from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
 
-from h1st_contrib.pmfp.models.base import BaseFaultPredictor
+from h1st_contrib.pred_maint.models.base import BaseFaultPredictor
 from .teacher.base import BaseFaultPredTeacher
 from .student.timeseries_dl import (TimeSeriesDLFaultPredStudentModeler,
                                     TimeSeriesDLFaultPredStudent)

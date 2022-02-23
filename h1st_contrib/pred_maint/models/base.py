@@ -21,8 +21,8 @@ from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
 from h1st_contrib.utils.log import STDOUT_HANDLER
 from h1st_contrib.utils import s3
 
-from h1st_contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
-                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
+from h1st_contrib.pred_maint.data_mgmt import (EquipmentParquetDataSet,
+                                               EQUIPMENT_INSTANCE_ID_COL, DATE_COL)   # noqa: E501
 
 
 __all__ = (
