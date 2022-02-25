@@ -3,11 +3,11 @@
 
 from rest_framework_filters import FilterSet, RelatedFilter
 
-from h1st_iot.data_mgmt.models import (EquipmentUniqueTypeGroup,
-                                       EquipmentInstance)
-from h1st_iot.data_mgmt.filters import (EquipmentUniqueTypeGroupFilter,
-                                        EquipmentInstanceFilter)
-from h1st_iot.maint_ops.models import (
+from h1st_contrib.iot_mgmt.data.models import (EquipmentUniqueTypeGroup,
+                                               EquipmentInstance)
+from h1st_contrib.iot_mgmt.data.filters import (EquipmentUniqueTypeGroupFilter,
+                                                EquipmentInstanceFilter)
+from h1st_contrib.iot_mgmt.maint_ops.models import (
     EquipmentInstanceDailyRiskScore,
     EquipmentProblemType,
     EquipmentInstanceAlarmPeriod,

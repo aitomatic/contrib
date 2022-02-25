@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 
 from rest_framework.routers import DefaultRouter
 
-from h1st_iot.maint_ops.views import (
+from h1st_contrib.iot_mgmt.maint_ops.views import (
     EquipmentInstanceDailyRiskScoreViewSet,
     EquipmentProblemTypeViewSet,
     EquipmentInstanceAlarmPeriodViewSet,

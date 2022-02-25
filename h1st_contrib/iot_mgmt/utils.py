@@ -16,9 +16,6 @@ __all__: Sequence[str] = (
 )
 
 
-# pylint: disable=invalid-name
-
-
 MAX_CHAR_LEN = 255
 
 

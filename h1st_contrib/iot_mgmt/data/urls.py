@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 
 from rest_framework.routers import DefaultRouter
 
-from h1st_iot.data_mgmt.views import (
+from h1st_contrib.iot_mgmt.data_mgmt.views import (
     DataTypeViewSet,
     NumericMeasurementUnitViewSet,
     EquipmentDataFieldTypeViewSet,

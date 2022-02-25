@@ -7,7 +7,7 @@ from django.apps.config import AppConfig
 class H1stIoTDataManagementMaintenanceOperationsModuleConfig(AppConfig):
     """H1st IoT Maintenance Operations module config."""
 
-    name = 'h1st_iot.maint_ops'
+    name = 'h1st_contrib.iot_mgmt.maint_ops'
 
     label = 'IoT_MaintOps'
 

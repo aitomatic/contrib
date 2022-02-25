@@ -11,7 +11,7 @@ from django.db.models import (
     PROTECT)
 from django.db.models.signals import m2m_changed, pre_delete
 
-from h1st_iot.util import MAX_CHAR_LEN, clean_lower_str, clean_upper_str
+from h1st_contrib.iot_mgmt.utils import MAX_CHAR_LEN, clean_lower_str, clean_upper_str  # noqa: E501
 
 
 # pylint: disable=line-too-long

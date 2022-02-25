@@ -7,7 +7,7 @@ from django.db.models import Prefetch
 
 from silk.profiling.profiler import silk_profile
 
-from h1st_iot.maint_ops.models import (
+from h1st_contrib.iot_mgmt.maint_ops.models import (
     EquipmentProblemType,
     EquipmentInstanceDailyPredictedFault,
     EquipmentInstanceAlarmPeriod,
@@ -15,7 +15,7 @@ from h1st_iot.maint_ops.models import (
     EquipmentInstanceAlertPeriod,
     AlertDiagnosisStatus,
 )
-from h1st_iot.maint_ops.querysets import (
+from h1st_contrib.iot_mgmt.maint_ops.querysets import (
     EQUIPMENT_INSTANCE_ALARM_PERIOD_STR_QUERYSET,
     EQUIPMENT_INSTANCE_ALERT_PERIOD_STR_QUERYSET,
     EQUIPMENT_INSTANCE_PROBLEM_DIAGNOSIS_ID_ONLY_UNORDERED_QUERYSET,
