@@ -5,8 +5,8 @@ description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
 readme = 'README.md'
-homepage = 'https://github.com/h1st-ai/contrib'
-repository = 'https://github.com/h1st-ai/contrib'
+homepage = 'https://github.com/h1st-ai/h1st-contrib'
+repository = 'https://github.com/h1st-ai/h1st-contrib'
 packages = [
   {include = 'h1st_contrib'}
 ]
@@ -27,6 +27,18 @@ PySpark = '^3.2.1'
 Imbalanced-Learn = '^0.9.0'
 SciKit-Learn = '^1.0.2'
 TensorFlow = '^2.8.0'
+
+# Django & related
+Django = '^4.0.2'
+Django-Configurations = '^2.3.2'
+Django-CORS-Headers = '^3.11.0'
+Django-Environ = '^0.8.1'
+DjangoRESTFramework = '^3.13.1'
+Django-Silk = '^4.2.0'
+DRF-Writable-Nested = '^0.6.3'
+
+# DB-related
+PsycoPG2-binary = '^2.9.3'
 
 # AWS deps: often conflict w/ other deps, so need separate installation
 # AWSCLI = '*'
