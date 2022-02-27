@@ -48,7 +48,8 @@ def run(general_type: str, unique_type_group: str):
                 eq_unq_tp_grp_parquet_df.distinct(eq_data_field_name).items()}
             _n_distinct_values: int = len(_distinct_values_proportions)
 
-            eq_unq_tp_grp_data_field_profile: EquipmentUniqueTypeGroupDataFieldProfile = \
+            eq_unq_tp_grp_data_field_profile: \
+                EquipmentUniqueTypeGroupDataFieldProfile = \
                 EquipmentUniqueTypeGroupDataFieldProfile.objects.create(
                     equipment_unique_type_group=eq_unq_tp_grp,
                     equipment_data_field=equipment_data_field,
