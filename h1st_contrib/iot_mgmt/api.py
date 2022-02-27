@@ -3,7 +3,7 @@
 
 import sys
 
-from .data_mgmt.models import (
+from .data.models import (
     LogicalDataType,
     NumericMeasurementUnit,
     EquipmentDataFieldType,
