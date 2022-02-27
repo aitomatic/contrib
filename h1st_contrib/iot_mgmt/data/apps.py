@@ -7,7 +7,7 @@ from django.apps.config import AppConfig
 class H1stIoTDataManagementBaseModuleConfig(AppConfig):
     """H1st IoT Data Management Base module config."""
 
-    name = 'h1st_contrib.iot_mgmt.data_mgmt'
+    name = 'h1st_contrib.iot_mgmt.data'
 
     label = 'IoT_DataMgmt'
 
@@ -16,7 +16,7 @@ class H1stIoTDataManagementBaseModuleConfig(AppConfig):
     def ready(self):
         """Run scripts/tasks to initialize module."""
         # pylint: disable=import-outside-toplevel
-        from h1st_contrib.iot_mgmt.data_mgmt.scripts import (
+        from h1st_contrib.iot_mgmt.data.scripts import (
             create_logical_data_types,
             create_control_and_measurement_equipment_data_field_types,
         )

@@ -7,7 +7,7 @@ from rest_framework.serializers import (ModelSerializer,
 
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
-from h1st_contrib.iot_mgmt.data_mgmt.models import EquipmentInstance
+from h1st_contrib.iot_mgmt.data.models import EquipmentInstance
 
 from h1st_contrib.iot_mgmt.maint_ops.models import (
     EquipmentInstanceDailyRiskScore,
