@@ -24,6 +24,7 @@ from .maint_ops.models import (
     EquipmentInstanceAlertPeriod,
 )
 
+
 __all__ = (
     'LogicalDataType',
     'NumericMeasurementUnit',
