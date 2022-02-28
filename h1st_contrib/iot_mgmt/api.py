@@ -1,8 +1,6 @@
 """H1st IoT public API."""
 
 
-import sys
-
 from .data.models import (
     LogicalDataType,
     NumericMeasurementUnit,
@@ -26,13 +24,7 @@ from .maint_ops.models import (
     EquipmentInstanceAlertPeriod,
 )
 
-if sys.version_info >= (3, 9):
-    from collections.abc import Sequence
-else:
-    from typing import Sequence
-
-
-__all__: Sequence[str] = (
+__all__ = (
     'LogicalDataType',
     'NumericMeasurementUnit',
     'EquipmentDataFieldType',

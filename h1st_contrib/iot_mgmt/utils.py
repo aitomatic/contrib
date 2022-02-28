@@ -2,21 +2,15 @@
 
 
 import re
-import sys
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Sequence
-else:
-    from typing import Sequence
 
 
-__all__: Sequence[str] = (
+__all__ = (
     'MAX_CHAR_LEN',
     'clean_lower_str', 'clean_upper_str',
 )
 
 
-MAX_CHAR_LEN = 255
+MAX_CHAR_LEN: int = 255
 
 
 def _clean_str(s: str) -> str:
