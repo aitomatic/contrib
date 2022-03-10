@@ -29,13 +29,13 @@ SciKit-Learn = '^1.0.2'
 TensorFlow = '^2.8.0'
 
 # Django & related
-Django = '^4.0.2'
+Django = '^4.0.3'
 Django-Configurations = '^2.3.2'
 Django-CORS-Headers = '^3.11.0'
 Django-Environ = '^0.8.1'
 Django-Extensions = '^3.1.5'
 DjangoRESTFramework = '^3.13.1'
-Django-Silk = '^4.2.0'
+Django-Silk = '^4.3.0'
 DRF-Writable-Nested = '^0.6.3'
 
 # DB-related
@@ -49,7 +49,7 @@ PsycoPG2-binary = '^2.9.3'
 CLICK = '^8.0.4'
 Python-DotEnv = '^0.19.2'
 'Ruamel.YAML' = '^0.17.21'
-Tqdm = '^4.62.3'
+Tqdm = '^4.63.0'
 
 
 [tool.poetry.scripts]
@@ -58,6 +58,6 @@ h1st = 'h1st_contrib.cli:h1st_cli'
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.0.7',
+  'Poetry-Core >= 1.0.8',
 ]
 build-backend = 'poetry.core.masonry.api'
