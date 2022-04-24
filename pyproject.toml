@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'H1st-Contrib'
-version = '22.3.29'
+version = '22.4.24'
 description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -29,7 +29,7 @@ SciKit-Learn = '^1.0.2'
 TensorFlow = '^2.8.0'
 
 # Django & related
-Django = '^4.0.3'
+Django = '^4.0.4'
 Django-Configurations = '^2.3.2'
 Django-CORS-Headers = '^3.11.0'
 Django-Environ = '^0.8.1'
@@ -46,10 +46,10 @@ PsycoPG2-binary = '^2.9.3'
 # Boto3 = '*'
 
 # misc/other
-CLICK = '^8.0.4'
-Python-DotEnv = '^0.19.2'
+CLICK = '^8.1.2'
+Python-DotEnv = '^0.20.0'
 'Ruamel.YAML' = '^0.17.21'
-Tqdm = '^4.63.0'
+Tqdm = '^4.64.0'
 
 
 [tool.poetry.scripts]
