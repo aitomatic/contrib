@@ -54,6 +54,7 @@ Tqdm = '^4.64.0'
 
 [tool.poetry.scripts]
 h1st = 'h1st_contrib.cli:h1st_cli'
+aito = 'h1st_contrib.cli:h1st_cli'
 
 
 [build-system]
