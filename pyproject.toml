@@ -20,7 +20,7 @@ H1st = {url = 'https://github.com/h1st-ai/h1st/archive/dev.zip'}
 
 # Data Processing
 NumPy = '*'
-PyArrow = '^8.0.0'
+PyArrow = '^7.0.0'
 PySpark = '^3.2.1'
 
 # ML/DL
