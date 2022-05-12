@@ -106,6 +106,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
             AbstractDataHandler._DEFAULT_MIN_PROPORTION_BY_MAX_N_CATS))
 
     def __init__(self, path: str, *, awsRegion: Optional[str] = None,
+                 accessKey: Optional[str] = None, secretKey: Optional[str] = None,   # noqa: E501
                  _mappers: Optional[callable] = None,
                  _reduceMustInclCols: Optional[ColsType] = None,
                  verbose: bool = True, **kwargs: Any):
@@ -119,6 +120,8 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         self.path: str = path
 
         self.awsRegion: Optional[str] = awsRegion
+        self.accessKey: Optional[str] = accessKey
+        self.secretKey: Optional[str] = secretKey
 
         if path in self._CACHE:
             _cache: Namespace = self._CACHE[path]
@@ -151,14 +154,17 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                       quiet=True,
                       verbose=False)
 
-                _cache._srcArrowDS = dataset(source=path.replace('s3://', ''),
-                                             schema=None,
-                                             format='parquet',
-                                             filesystem=S3FileSystem(region=awsRegion),
-                                             partitioning=None,
-                                             partition_base_dir=None,
-                                             exclude_invalid_files=None,
-                                             ignore_prefixes=None)
+                _cache._srcArrowDS = \
+                    dataset(source=path.replace('s3://', ''),
+                            schema=None,
+                            format='parquet',
+                            filesystem=S3FileSystem(region=awsRegion,
+                                                    access_key=accessKey,
+                                                    secret_key=secretKey),
+                            partitioning=None,
+                            partition_base_dir=None,
+                            exclude_invalid_files=None,
+                            ignore_prefixes=None)
 
                 if verbose:
                     toc: float = time.time()
@@ -655,6 +661,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         s3ParquetDF: S3ParquetDataFeeder = \
             S3ParquetDataFeeder(
                 path=self.path, awsRegion=self.awsRegion,
+                accessKey=self.accessKey, secretKey=self.secretKey,
 
                 _mappers=self._mappers + mappers,
                 _reduceMustInclCols=(self._reduceMustInclCols |
@@ -1045,6 +1052,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
 
             return S3ParquetDataFeeder(
                 path=subsetPath, awsRegion=self.awsRegion,
+                accessKey=self.accessKey, secretKey=self.secretKey,
 
                 _mappers=self._mappers, _reduceMustInclCols=self._reduceMustInclCols,
 
