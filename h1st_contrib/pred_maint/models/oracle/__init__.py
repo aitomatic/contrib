@@ -17,7 +17,7 @@ from h1st_contrib.pred_maint.models.base import BaseFaultPredictor
 from .teacher.base import BaseFaultPredTeacher
 from .student.timeseries_dl import (TimeSeriesDLFaultPredStudentModeler,
                                     TimeSeriesDLFaultPredStudent)
-from .ensemble.basic import UnanimousFaultPredEnsemble
+from .ensemble.basic import EitherFaultPredEnsemble
 
 
 class FaultPredOracleModeler(Modeler):
@@ -68,7 +68,7 @@ class FaultPredOracle(BaseFaultPredictor, Oracle):
     def __init__(self,
                  teacher: BaseFaultPredTeacher,
                  student: TimeSeriesDLFaultPredStudent,
-                 ensemble: Ensemble = UnanimousFaultPredEnsemble()):
+                 ensemble: Ensemble = EitherFaultPredEnsemble()):
         """Init Fault Prediction Oracle."""
         super().__init__(general_type=teacher.general_type,
                          unique_type_group=teacher.unique_type_group,
