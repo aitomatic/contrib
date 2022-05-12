@@ -24,6 +24,8 @@ load_dotenv(dotenv_path='.env',
 
 
 _AWS_REGION: Optional[str] = os.environ.get('H1ST_PMFP_AWS_REGION')
+_AWS_ACCESS_KEY: Optional[str] = os.environ.get('AWS_ACCESS_KEY_ID')
+_AWS_SECRET_KEY: Optional[str] = os.environ.get('AWS_SECRET_ACCESS_KEY')
 _EQUIPMENT_DATA_S3_PARENT_DIR_PATH: Optional[str] = \
     os.environ.get('H1ST_PMFP_EQUIPMENT_DATA_S3_PARENT_DIR_PATH')
 _EQUIPMENT_DATA_TIMEZONE: Optional[str] = \
@@ -74,6 +76,7 @@ class EquipmentParquetDataSet:
         return S3ParquetDataFeeder(
             path=self.url,
             awsRegion=_AWS_REGION,   # default is location-dependent
+            accessKey=_AWS_ACCESS_KEY, secretKey=_AWS_SECRET_KEY,
             iCol=EQUIPMENT_INSTANCE_ID_COL, tCol=DATE_TIME_COL
         ).castType(**{EQUIPMENT_INSTANCE_ID_COL: str})
 
