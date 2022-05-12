@@ -25,19 +25,20 @@ _LOGGER.addHandler(hdlr=STDOUT_HANDLER)
 _CLIENT = None
 
 
-def client():
+def client(region: Optional[str] = None,
+           access_key: Optional[str] = None, secret_key: Optional[str] = None):
     """Get Boto3 S3 Client."""
     global _CLIENT   # pylint: disable=global-statement
 
     if _CLIENT is None:
         _CLIENT = boto3.client(service_name='s3',
-                               region_name=None,
+                               region_name=region,
                                api_version=None,
                                use_ssl=True,
                                verify=None,
                                endpoint_url=None,
-                               aws_access_key_id=None,
-                               aws_secret_access_key=None,
+                               aws_access_key_id=access_key,
+                               aws_secret_access_key=secret_key,
                                aws_session_token=None,
                                config=botocore.client.Config(connect_timeout=9,
                                                              read_timeout=9))

@@ -123,6 +123,8 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         self.accessKey: Optional[str] = accessKey
         self.secretKey: Optional[str] = secretKey
 
+        self.s3Client = s3.client(region=awsRegion, access_key=accessKey, secret_key=secretKey)
+
         if path in self._CACHE:
             _cache: Namespace = self._CACHE[path]
         else:
@@ -154,17 +156,16 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                       quiet=True,
                       verbose=False)
 
-                _cache._srcArrowDS = \
-                    dataset(source=path.replace('s3://', ''),
-                            schema=None,
-                            format='parquet',
-                            filesystem=S3FileSystem(region=awsRegion,
-                                                    access_key=accessKey,
-                                                    secret_key=secretKey),
-                            partitioning=None,
-                            partition_base_dir=None,
-                            exclude_invalid_files=None,
-                            ignore_prefixes=None)
+                _cache._srcArrowDS = dataset(source=path.replace('s3://', ''),
+                                             schema=None,
+                                             format='parquet',
+                                             filesystem=S3FileSystem(region=awsRegion,
+                                                                     access_key=accessKey,
+                                                                     secret_key=secretKey),
+                                             partitioning=None,
+                                             partition_base_dir=None,
+                                             exclude_invalid_files=None,
+                                             ignore_prefixes=None)
 
                 if verbose:
                     toc: float = time.time()
@@ -500,9 +501,9 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         while not localDirPath.is_dir():
             time.sleep(1)
 
-        self.S3_CLIENT.download_file(Bucket=parsedURL.netloc,
-                                     Key=parsedURL.path[1:],
-                                     Filename=str(localPath))
+        self.s3Client.download_file(Bucket=parsedURL.netloc,
+                                    Key=parsedURL.path[1:],
+                                    Filename=str(localPath))
         # make sure AWS S3's asynchronous process has finished
         # downloading a potentially large file
         while not localPath.is_file():
@@ -1035,9 +1036,9 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                     _to_key: str = f'{subsetDirS3Key}/{filePandasDFSubPath}'
 
                     try:
-                        self.S3_CLIENT.copy(CopySource=dict(Bucket=self.s3Bucket, Key=_from_key),
-                                            Bucket=self.s3Bucket,
-                                            Key=_to_key)
+                        self.s3Client.copy(CopySource=dict(Bucket=self.s3Bucket, Key=_from_key),
+                                           Bucket=self.s3Bucket,
+                                           Key=_to_key)
 
                     except Exception as err:
                         print(f'*** FAILED TO COPY FROM "{_from_key}" TO "{_to_key}" ***')

@@ -12,7 +12,7 @@ from typing import Collection, Dict, Set, Tuple   # Py3.9+: built-ins
 from numpy import ndarray
 from pandas import DataFrame, Series
 
-from h1st_contrib.utils import debug, s3
+from h1st_contrib.utils import debug
 from h1st_contrib.utils.log import STDOUT_HANDLER
 from h1st_contrib.utils.namespace import Namespace
 
@@ -539,9 +539,6 @@ class AbstractFileDataHandler(AbstractDataHandler):
 class AbstractS3FileDataHandler(AbstractFileDataHandler):
     # pylint: disable=abstract-method
     """Abstract S3 File Data Handler."""
-
-    # AWS S3 Boto3 client
-    S3_CLIENT = s3.client()
 
     # temporary dir key
     _TMP_DIR_S3_KEY: str = 'tmp'
