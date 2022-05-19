@@ -114,7 +114,7 @@ class BaseFaultPredictor(Model):
 
     def predict(self, df_for_1_equipment_unit_for_1_day: DataFrame, /) \
             -> Union[bool, float]:
-        # pylint: disable=no-self-use,unused-argument
+        # pylint: disable=unused-argument
         """Fault Prediction logic.
 
         User shall override this method and return a boolean or float value for

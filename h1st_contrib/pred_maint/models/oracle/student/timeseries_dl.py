@@ -40,7 +40,6 @@ N_MINUTES_PER_DAY: int = 24 * 60
 
 
 class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
-    # pylint: disable=too-many-instance-attributes
     """Time-Series-DL-based Fault Prediction k-gen ("student") modeler."""
 
     def __init__(self, teacher: BaseFaultPredTeacher,
@@ -49,7 +48,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                  input_subsampling_factor: int,
                  input_n_rows_per_day: int,
                  date_range: Tuple[str, str]):
-        # pylint: disable=super-init-not-called
+        # pylint: disable=super-init-not-called,too-many-arguments
         """Init Time-Series-DL-based student modeler."""
         self.teacher: BaseFaultPredTeacher = teacher
         self.general_type: str = teacher.general_type
@@ -75,7 +74,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                     # (target Prec & Recall of 70-80% against Teacher labels)
                     random_seed: Optional[int] = None) \
             -> TimeSeriesDLFaultPredStudent:
-        # pylint: disable=arguments-differ,arguments-renamed,too-many-locals
+        # pylint: disable=arguments-differ,too-many-locals
         """Fit Knowledge Generalizer ("Student") model."""
         s3_parquet_df: S3ParquetDataFeeder = (
             EquipmentParquetDataSet(general_type=self.general_type,
@@ -141,7 +140,6 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
         transformed_cols: List[str] = flattening_subsampler.transformedCols
         print(f'{(n_cols := len(transformed_cols)):,} Columns')
 
-        # pylint: disable=c-extension-no-member
         n_fwd_transforms: int = round(number=math.log(n_cols,
                                                       hidden_layer_compress_factor),   # noqa: E501
                                       ndigits=None)
@@ -348,7 +346,6 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
 
 
 class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
-    # pylint: disable=too-many-ancestors,too-many-instance-attributes
     """Time-Series-DL-based knowledge generalizer ("student") model class."""
 
     def __init__(self, teacher: BaseFaultPredTeacher,
@@ -364,6 +361,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
                  decision_threshold: float,
 
                  _version: Optional[str] = None):
+        # pylint: disable=too-many-arguments
         """Init Time-Series-DL-based k-gen ("student") model."""
         super().__init__(general_type=teacher.general_type,
                          unique_type_group=teacher.unique_type_group,
