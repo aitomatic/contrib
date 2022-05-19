@@ -672,6 +672,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
     def batch_predict(self,
                       s3_parquet_df: S3ParquetDataFeeder, /,
                       return_binary: bool = True) -> Series:
+        # pylint: disable=arguments-differ
         """Batch-Predict faults."""
         df: DataFrame = s3_parquet_df.map(
             self.preprocessor,
