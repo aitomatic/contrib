@@ -14,7 +14,7 @@ from h1st_contrib.pred_maint.models.base import BaseFaultPredictor
 
 
 class BaseFaultPredTeacher(BaseFaultPredictor, Teacher):
-    # pylint: disable=abstract-method,too-many-ancestors
+    # pylint: disable=abstract-method
     """Base Fault Prediction knowledge ("teacher") model class."""
 
     def __init__(self,
@@ -27,7 +27,6 @@ class BaseFaultPredTeacher(BaseFaultPredictor, Teacher):
 
     @classmethod
     def load(cls, version: str) -> BaseFaultPredTeacher:
-        # pylint: disable=unused-argument
         """Load model artifacts by persisted model's version."""
         if cls is BaseFaultPredTeacher:
             # return an arbitrary model for testing
@@ -37,7 +36,6 @@ class BaseFaultPredTeacher(BaseFaultPredictor, Teacher):
         raise NotImplementedError
 
     def predict(self, df_for_1_equipment_unit_for_1_day: DataFrame, /) -> bool:
-        # pylint: disable=no-self-use,unused-argument
         """Fault Prediction logic.
 
         User shall override this method and return a boolean value indicating

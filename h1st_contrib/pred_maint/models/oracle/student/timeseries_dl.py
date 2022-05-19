@@ -40,7 +40,7 @@ N_MINUTES_PER_DAY: int = 24 * 60
 
 
 class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
-    # pylint: disable=too-many-ancestors
+    # pylint: disable=too-many-instance-attributes
     """Time-Series-DL-based Fault Prediction k-gen ("student") modeler."""
 
     def __init__(self, teacher: BaseFaultPredTeacher,
@@ -75,7 +75,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                     # (target Prec & Recall of 70-80% against Teacher labels)
                     random_seed: Optional[int] = None) \
             -> TimeSeriesDLFaultPredStudent:
-        # pylint: disable=arguments-renamed,too-many-locals
+        # pylint: disable=arguments-differ,arguments-renamed,too-many-locals
         """Fit Knowledge Generalizer ("Student") model."""
         s3_parquet_df: S3ParquetDataFeeder = (
             EquipmentParquetDataSet(general_type=self.general_type,
