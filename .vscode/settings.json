@@ -18,6 +18,7 @@
   "python.linting.pylintEnabled": true,
   "python.linting.pylintArgs": [
     "--disable", "arguments-differ",
+    "--disable", "cache-max-size-none",
     "--disable", "fixme",
     "--disable", "invalid-name",
     "--disable", "no-member",   // Django Model object attributes
