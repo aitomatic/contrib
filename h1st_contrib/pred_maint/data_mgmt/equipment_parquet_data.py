@@ -12,7 +12,7 @@ from typing import List   # Py3.9+: use built-ins
 from dotenv.main import load_dotenv
 from pandas import DataFrame
 
-from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
+from h1st_contrib.utils.data_proc import ParquetDataset
 
 
 load_dotenv(dotenv_path='.env',
@@ -68,12 +68,12 @@ class EquipmentParquetDataSet:
         return f'{self.unique_type_group.upper()} data @ {self.url}'
 
     @lru_cache(maxsize=None, typed=False)
-    def load(self) -> S3ParquetDataFeeder:
+    def load(self) -> ParquetDataset:
         """Load as a Parquet Data Feeder."""
         assert _AWS_REGION, \
             EnvironmentError('*** H1ST_PMFP_AWS_REGION env var not set ***')
 
-        return S3ParquetDataFeeder(
+        return ParquetDataset(
             path=self.url,
             awsRegion=_AWS_REGION,   # default is location-dependent
             accessKey=_AWS_ACCESS_KEY, secretKey=_AWS_SECRET_KEY,
@@ -86,12 +86,12 @@ class EquipmentParquetDataSet:
             date: Optional[str] = None, to_date: Optional[str] = None) \
             -> List[str]:
         """Get equipment instance IDs by date(s)."""
-        s3_parquet_df: S3ParquetDataFeeder = self.load()
+        s3_parquet_ds: ParquetDataset = self.load()
 
         if date:
             try:
-                s3_parquet_df: S3ParquetDataFeeder = \
-                    s3_parquet_df.filterByPartitionKeys((DATE_COL, date, to_date)   # noqa: E501
+                s3_parquet_ds: ParquetDataset = \
+                    s3_parquet_ds.filterByPartitionKeys((DATE_COL, date, to_date)   # noqa: E501
                                                         if to_date
                                                         else (DATE_COL, date))
 
@@ -100,31 +100,31 @@ class EquipmentParquetDataSet:
                 return []
 
         return [str(i) for i in
-                sorted(s3_parquet_df.collect(EQUIPMENT_INSTANCE_ID_COL)
+                sorted(s3_parquet_ds.collect(EQUIPMENT_INSTANCE_ID_COL)
                        [EQUIPMENT_INSTANCE_ID_COL].unique())]
 
     def load_by_date(self,
                      date: str, to_date: Optional[str] = None,
                      equipment_instance_id: Optional[str] = None) \
-            -> S3ParquetDataFeeder:
+            -> ParquetDataset:
         """Load equipment data by date(s)."""
-        s3_parquet_df: S3ParquetDataFeeder = self.load()
+        s3_parquet_ds: ParquetDataset = self.load()
 
         try:
-            s3_parquet_df: S3ParquetDataFeeder = \
-                s3_parquet_df.filterByPartitionKeys((DATE_COL, date, to_date)
+            s3_parquet_ds: ParquetDataset = \
+                s3_parquet_ds.filterByPartitionKeys((DATE_COL, date, to_date)
                                                     if to_date
                                                     else (DATE_COL, date))
 
         except Exception as err:   # pylint: disable=broad-except
-            S3ParquetDataFeeder.classStdOutLogger().error(msg=str(err))
+            ParquetDataset.classStdOutLogger().error(msg=str(err))
 
         if equipment_instance_id:
-            s3_parquet_df: S3ParquetDataFeeder = \
-                s3_parquet_df.filter(f'{EQUIPMENT_INSTANCE_ID_COL} == '
+            s3_parquet_ds: ParquetDataset = \
+                s3_parquet_ds.filter(f'{EQUIPMENT_INSTANCE_ID_COL} == '
                                      f'"{equipment_instance_id}"')
 
-        return s3_parquet_df
+        return s3_parquet_ds
 
     def load_by_equipment_instance_id_by_date(
             self,
@@ -135,17 +135,17 @@ class EquipmentParquetDataSet:
             EnvironmentError(
                 '*** H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE env var not set ***')
 
-        s3_parquet_df: S3ParquetDataFeeder = \
+        s3_parquet_ds: ParquetDataset = \
             self.load().filter(f'{EQUIPMENT_INSTANCE_ID_COL} == '
                                f'"{equipment_instance_id}"')
 
         if date:
-            s3_parquet_df: S3ParquetDataFeeder = \
-                s3_parquet_df.filterByPartitionKeys((DATE_COL, date, to_date)
+            s3_parquet_ds: ParquetDataset = \
+                s3_parquet_ds.filterByPartitionKeys((DATE_COL, date, to_date)
                                                     if to_date
                                                     else (DATE_COL, date))
 
-        return (s3_parquet_df.collect()
+        return (s3_parquet_ds.collect()
                 .drop(columns=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],
                       inplace=False,
                       errors='raise')

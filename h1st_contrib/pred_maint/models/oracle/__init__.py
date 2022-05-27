@@ -11,7 +11,7 @@ from h1st.model.modeler import Modeler
 from h1st.model.oracle.ensemble import Ensemble
 from h1st.model.oracle.oracle import Oracle
 
-from h1st_contrib.utils.data_proc import S3ParquetDataFeeder
+from h1st_contrib.utils.data_proc import ParquetDataset
 
 from h1st_contrib.pred_maint.models.base import BaseFaultPredictor
 from .teacher.base import BaseFaultPredTeacher
@@ -111,12 +111,12 @@ class FaultPredOracle(BaseFaultPredictor, Oracle):
             self.ensemble.predict(teacher_pred=teacher_pred,
                                   student_pred=student_pred))
 
-    def batch_predict(self, s3_parquet_df: S3ParquetDataFeeder) -> Series:
+    def batch_predict(self, s3_parquet_ds: ParquetDataset) -> Series:
         """Batch-Predict faults."""
         return Series(
             data=zip(
-                teacher_preds := self.teacher.batch_predict(s3_parquet_df),
-                student_preds := self.student.batch_predict(s3_parquet_df,
+                teacher_preds := self.teacher.batch_predict(s3_parquet_ds),
+                student_preds := self.student.batch_predict(s3_parquet_ds,
                                                             return_binary=True),   # noqa: E501
                 ensemble_preds := self.ensemble.batch_predict(
                     teacher_preds=teacher_preds, student_preds=student_preds)),

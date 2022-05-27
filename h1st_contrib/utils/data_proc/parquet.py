@@ -46,7 +46,7 @@ from ._abstract import (AbstractDataHandler, AbstractFileDataHandler, AbstractS3
 from .pandas import PandasMLPreprocessor
 
 
-__all__ = ('S3ParquetDataFeeder',)
+__all__ = ('ParquetDataset',)
 
 
 # flake8: noqa
@@ -81,7 +81,7 @@ def randomSample(population: Collection[Any], sampleSize: int,
                                 else population)
 
 
-class S3ParquetDataFeeder(AbstractS3FileDataHandler):
+class ParquetDataset(AbstractS3FileDataHandler):
     # pylint: disable=too-many-instance-attributes,too-many-public-methods
     """S3 Parquet Data Feeder."""
 
@@ -368,7 +368,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
     def _extractStdKwArgs(self, kwargs: Dict[str, Any], /, *,
                           resetToClassDefaults: bool = False,
                           inplace: bool = False) -> Optional[Namespace]:
-        namespace: Union[S3ParquetDataFeeder, Namespace] = self if inplace else Namespace()
+        namespace: Union[ParquetDataset, Namespace] = self if inplace else Namespace()
 
         for k, classDefaultV in self._DEFAULT_KWARGS.items():
             _privateK: str = f'_{k}'
@@ -428,7 +428,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                       outlierRstMin={}, outlierRstMax={},
                       outlierRstMean={}, outlierRstMedian={})
 
-    def _inheritCache(self, oldS3ParquetDF: S3ParquetDataFeeder, /,
+    def _inheritCache(self, oldS3ParquetDF: ParquetDataset, /,
                       *sameCols: str, **newColToOldColMap: str):
         # pylint: disable=arguments-differ
         if oldS3ParquetDF._cache.nRows:
@@ -651,7 +651,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
 
     def map(self, *mappers: callable,
             reduceMustInclCols: Optional[ColsType] = None,
-            **kwargs: Any) -> S3ParquetDataFeeder:
+            **kwargs: Any) -> ParquetDataset:
         """Apply mapper function(s) to files."""
         if reduceMustInclCols is None:
             reduceMustInclCols: Set[str] = set()
@@ -659,8 +659,8 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         inheritCache: bool = kwargs.pop('inheritCache', False)
         inheritNRows: bool = kwargs.pop('inheritNRows', inheritCache)
 
-        s3ParquetDF: S3ParquetDataFeeder = \
-            S3ParquetDataFeeder(
+        s3ParquetDF: ParquetDataset = \
+            ParquetDataset(
                 path=self.path, awsRegion=self.awsRegion,
                 accessKey=self.accessKey, secretKey=self.secretKey,
 
@@ -980,14 +980,14 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         return pandasDF[cols if isinstance(cols, str) else list(cols)]
 
     @lru_cache(maxsize=None, typed=False)
-    def __getitem__(self, cols: Union[str, Tuple[str]], /) -> S3ParquetDataFeeder:
+    def __getitem__(self, cols: Union[str, Tuple[str]], /) -> ParquetDataset:
         """Get column(s)."""
         return self.map(partial(self._getCols, cols=cols),
                         reduceMustInclCols=cols,
                         inheritNRows=True)
 
     @lru_cache(maxsize=None, typed=False)
-    def castType(self, **colsToTypes: Dict[str, Any]) -> S3ParquetDataFeeder:
+    def castType(self, **colsToTypes: Dict[str, Any]) -> ParquetDataset:
         """Cast data type(s) of column(s)."""
         return self.map(lambda df: df.astype(colsToTypes, copy=False, errors='raise'),
                         reduceMustInclCols=set(colsToTypes),
@@ -1005,7 +1005,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
     # filter
 
     @lru_cache(maxsize=None, typed=False)   # computationally expensive, so cached
-    def _subset(self, *filePaths: str, **kwargs: Any) -> S3ParquetDataFeeder:
+    def _subset(self, *filePaths: str, **kwargs: Any) -> ParquetDataset:
         # pylint: disable=too-many-locals
         if filePaths:
             assert self.filePaths.issuperset(filePaths)
@@ -1051,7 +1051,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
             else:
                 subsetPath: str = filePaths[0]
 
-            return S3ParquetDataFeeder(
+            return ParquetDataset(
                 path=subsetPath, awsRegion=self.awsRegion,
                 accessKey=self.accessKey, secretKey=self.secretKey,
 
@@ -1074,7 +1074,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
     @lru_cache(maxsize=None, typed=False)
     def filterByPartitionKeys(self,
                               *filterCriteriaTuples: Union[Tuple[str, str], Tuple[str, str, str]],
-                              **kwargs: Any) -> S3ParquetDataFeeder:
+                              **kwargs: Any) -> ParquetDataset:
         # pylint: disable=too-many-branches
         """Filter by partition keys."""
         filterCriteria: Dict[str, Tuple[Optional[str], Optional[str], Optional[Set[str]]]] = {}
@@ -1138,13 +1138,13 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
         return self
 
     @lru_cache(maxsize=None, typed=False)
-    def filter(self, *conditions: str, **kwargs: Any) -> S3ParquetDataFeeder:
+    def filter(self, *conditions: str, **kwargs: Any) -> ParquetDataset:
         """Apply filtering mapper."""
-        s3ParquetDF: S3ParquetDataFeeder = self
+        s3ParquetDF: ParquetDataset = self
 
         for condition in conditions:
             # pylint: disable=cell-var-from-loop
-            s3ParquetDF: S3ParquetDataFeeder = \
+            s3ParquetDF: ParquetDataset = \
                 s3ParquetDF.map(lambda df: df.query(expr=condition, inplace=False),
                                 **kwargs)
 
@@ -1841,12 +1841,12 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
     # --------------------
     # preprocForML
 
-    def preprocForML(self, *cols: str, **kwargs: Any) -> S3ParquetDataFeeder:
+    def preprocForML(self, *cols: str, **kwargs: Any) -> ParquetDataset:
         # pylint: disable=too-many-branches,too-many-locals,too-many-statements
         """Preprocess column(s) for ML training/inferencing.
 
         Return:
-            Preprocessed (incl. numerical-``NULL``-filled) ``S3ParquetDataFeeder``
+            Preprocessed (incl. numerical-``NULL``-filled) ``ParquetDataset``
 
         Args:
             *cols: column(s) to preprocess
@@ -2213,7 +2213,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                         msg=f'{prep_save_msg} done!   <{prep_save_toc - prep_save_tic:,.1f} s>')
 
         if returnNumPy:
-            s3ParquetDF: S3ParquetDataFeeder = \
+            s3ParquetDF: ParquetDataset = \
                 self.map(partial(pandasMLPreproc.__call__, returnNumPy=True),
                          inheritNRows=True, **kwargs)
 
@@ -2233,7 +2233,7 @@ class S3ParquetDataFeeder(AbstractS3FileDataHandler):
                                        PandasMLPreprocessor._NUM_SCALER_FIELD_NAME))
                     and (numPrepColDetails['logical-type'] == 'num'))))
 
-            s3ParquetDF: S3ParquetDataFeeder = \
+            s3ParquetDF: ParquetDataset = \
                 self.map(pandasMLPreproc, inheritNRows=True, **kwargs)[tuple(colsToKeep)]
             s3ParquetDF._inheritCache(self, *colsToKeep)
             s3ParquetDF._cache.reprSample = self._cache.reprSample

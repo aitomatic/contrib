@@ -23,7 +23,7 @@ from h1st.model.oracle.student import StudentModeler, Student
 
 from h1st_contrib.utils.data_proc import (PandasFlatteningSubsampler,
                                           PandasMLPreprocessor,
-                                          S3ParquetDataFeeder)
+                                          ParquetDataset)
 from h1st_contrib.utils.data_proc._abstract import ColsType
 from h1st_contrib.utils.iter import to_iterable
 from h1st_contrib.utils.path import add_cwd_to_py_path
@@ -76,7 +76,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
             -> TimeSeriesDLFaultPredStudent:
         # pylint: disable=arguments-differ,too-many-locals
         """Fit Knowledge Generalizer ("Student") model."""
-        s3_parquet_df: S3ParquetDataFeeder = (
+        s3_parquet_ds: ParquetDataset = (
             EquipmentParquetDataSet(general_type=self.general_type,
                                     unique_type_group=self.unique_type_group)
             .load()
@@ -85,9 +85,9 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
             )[(EQUIPMENT_INSTANCE_ID_COL, DATE_COL) +
               tuple(self.input_cat_cols) + tuple(self.input_num_cols)])
 
-        s3_parquet_df.cacheLocally()
+        s3_parquet_ds.cacheLocally()
 
-        s3_parquet_df, preprocessor = s3_parquet_df.preprocForML(
+        s3_parquet_ds, preprocessor = s3_parquet_ds.preprocForML(
             *self.input_cat_cols, *self.input_num_cols,
             forceCat=self.input_cat_cols, forceNum=self.input_num_cols,
             returnPreproc=True)
@@ -97,7 +97,7 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                                        everyNRows=self.input_subsampling_factor,   # noqa: E501
                                        totalNRows=self.input_n_rows_per_day)
 
-        s3_parquet_df: S3ParquetDataFeeder = s3_parquet_df.map(
+        s3_parquet_ds: ParquetDataset = s3_parquet_ds.map(
             lambda df: (df.groupby(by=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],
                                    axis='index',
                                    level=None,
@@ -110,9 +110,9 @@ class TimeSeriesDLFaultPredStudentModeler(StudentModeler):
                                    dropna=True)
                         .apply(func=flattening_subsampler, padWithLastRow=True)))   # noqa: E501
 
-        s3_parquet_df.stdOutLogger.info(msg='Featurizing into Pandas DF...')
-        df: DataFrame = s3_parquet_df.collect()
-        s3_parquet_df.stdOutLogger.info(
+        s3_parquet_ds.stdOutLogger.info(msg='Featurizing into Pandas DF...')
+        df: DataFrame = s3_parquet_ds.collect()
+        s3_parquet_ds.stdOutLogger.info(
             msg='Featurized into Pandas DF with:'
                 f'\n{len(df.columns):,} Columns:\n{df.columns}'
                 f'\nand Index:\n{df.index}')
@@ -670,11 +670,11 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor, Student):
         return (prob > self.decision_threshold) if return_binary else prob
 
     def batch_predict(self,
-                      s3_parquet_df: S3ParquetDataFeeder, /,
+                      s3_parquet_ds: ParquetDataset, /,
                       return_binary: bool = True) -> Series:
         # pylint: disable=arguments-differ
         """Batch-Predict faults."""
-        df: DataFrame = s3_parquet_df.map(
+        df: DataFrame = s3_parquet_ds.map(
             self.preprocessor,
             lambda df: (df.groupby(by=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],
                                    axis='index',

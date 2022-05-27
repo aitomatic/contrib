@@ -2,10 +2,10 @@
 
 
 from .pandas import PandasFlatteningSubsampler, PandasMLPreprocessor
-from .s3_parquet import S3ParquetDataFeeder
+from .parquet import ParquetDataset
 
 
 __all__ = (
     'PandasFlatteningSubsampler', 'PandasMLPreprocessor',
-    'S3ParquetDataFeeder',
+    'ParquetDataset',
 )
