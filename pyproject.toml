@@ -16,7 +16,7 @@ packages = [
 Python = '>= 3.8, < 3.10'
 
 # H1st
-H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
+H1st = {url = 'https://github.com/h1st-ai/h1st/archive/main.zip'}
 
 # Django & related
 Django = '^4.0.5'
