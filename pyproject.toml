@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'H1st-Contrib'
-version = '22.7.18'
+version = '22.8.2'
 description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -21,7 +21,7 @@ H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 # Django & related
 Django = '^4.0.6'
 Django-Configurations = '^2.3.2'
-Django-CORS-Headers = '^3.13.0'
+Django-CORS-Headers = '^3.10.1'   # let higher dependencies figure
 Django-Environ = '^0.9.0'
 Django-Extensions = '^3.2.0'
 DjangoRESTFramework = '^3.13.1'
