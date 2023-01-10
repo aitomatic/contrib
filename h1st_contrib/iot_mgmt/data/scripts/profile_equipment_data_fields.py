@@ -4,10 +4,11 @@
 from pandas._libs.missing import NA   # pylint: disable=no-name-in-module
 from tqdm import tqdm
 
+from h1st.contrib.pmfp.data_mgmt import EquipmentParquetDataSet
+from h1st.utils.data_proc import ParquetDataset
+
 from h1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,
                                        EquipmentUniqueTypeGroupDataFieldProfile)   # noqa: E501
-from h1st.contrib.pmfp.data_mgmt import EquipmentParquetDataSet
-from h1st_contrib.utils.data_proc import ParquetDataset
 
 
 MAX_N_DISTINCT_VALUES_TO_PROFILE: int = 30
