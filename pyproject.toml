@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'H1st-Contrib'
-version = '23.1.10'
+version = '23.2.9'
 description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -19,13 +19,13 @@ Python = '>= 3.8, < 3.12'
 H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 
 # Django & related
-Django = '>= 4.1.5'
+Django = '>= 4.1.6'
 Django-Configurations = '>= 2.4'
-Django-CORS-Headers = '>= 3.10.1'   # let higher dependencies figure
+Django-CORS-Headers = '>= 3.10.1'  # let higher dependencies figure
 Django-Environ = '>= 0.9.0'
 Django-Extensions = '>= 3.2.1'
 DjangoRESTFramework = '>= 3.14.0'
-Django-Silk = '>= 5.0.2'
+Django-Silk = '>= 5.0.3'
 DRF-Writable-Nested = '>= 0.7.0'
 
 # DB-related
@@ -34,6 +34,6 @@ PsycoPG2-binary = '>= 2.9.5'
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.4.0',
+  'Poetry-Core >= 1.5.0',
 ]
 build-backend = 'poetry.core.masonry.api'
