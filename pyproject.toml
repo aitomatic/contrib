@@ -19,7 +19,7 @@ Python = '>= 3.8, < 3.12'
 H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 
 # Django & related
-Django = '>= 4.1.6'
+Django = '>= 4.1.7'
 Django-Configurations = '>= 2.4'
 Django-CORS-Headers = '>= 3.10.1'  # let higher dependencies figure
 Django-Environ = '>= 0.9.0'
@@ -34,6 +34,6 @@ PsycoPG2-binary = '>= 2.9.5'
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.5.0',
+  'Poetry-Core >= 1.5.1',
 ]
 build-backend = 'poetry.core.masonry.api'
