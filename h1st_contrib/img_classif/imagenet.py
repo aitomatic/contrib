@@ -74,7 +74,7 @@ def classify_based_on_imagenet_similarity(
         classes_mapped_to_similar_imagenet_classes: Dict[str, List[str]], /) \
         -> Union[ImgClassifType, Sequence[ImgClassifType]]:
     """Classify target classes based on mapping from such classes to ImageNet."""  # noqa: E501
-    return ([normalize({target_class: sum(i[imagenet_class]
+    return ([normalize({target_class: sum(i.get(imagenet_class, 0)
                                           for imagenet_class in imagenet_classes)  # noqa: E501
                         for target_class, imagenet_classes
                         in classes_mapped_to_similar_imagenet_classes.items()})
@@ -83,7 +83,7 @@ def classify_based_on_imagenet_similarity(
             if isinstance(imagenet_classif := imagenet_classify(img_input),
                           (list, tuple))
 
-            else normalize({target_class: sum(imagenet_classif[imagenet_class]
+            else normalize({target_class: sum(imagenet_classif.get(imagenet_class, 0)  # noqa: E501
                                               for imagenet_class
                                               in imagenet_class_names)
                             for target_class, imagenet_class_names
