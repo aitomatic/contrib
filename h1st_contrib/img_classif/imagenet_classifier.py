@@ -51,14 +51,13 @@ def imagenet_classify(
     if isinstance(img_input, (list, tuple)):
         return [imagenet_classify(i) for i in img_input]
 
-    else:
-        imagenet_classif: ImgClassifType = {
-            i['label'].split(',')[0].replace(' ', '_').lower(): i['score']
-            for i in IMAGENET_CLASSIFIER(img_input, top_k=IMAGENET_N_CLASSES)
-        }
+    imagenet_classif: ImgClassifType = {
+        i['label'].split(',')[0].replace(' ', '_').lower(): i['score']
+        for i in IMAGENET_CLASSIFIER(img_input, top_k=IMAGENET_N_CLASSES)
+    }
 
-        assert IMAGENET_CLASSES.issuperset(imagenet_classif), \
-            KeyError('*** INVALID OUTPUT CLASSES '
-                     f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')  # noqa: E501
+    assert IMAGENET_CLASSES.issuperset(imagenet_classif), \
+        KeyError('*** INVALID OUTPUT CLASSES '
+                 f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')
 
-        return imagenet_classif
+    return imagenet_classif
