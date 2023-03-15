@@ -18,6 +18,9 @@ Python = '^3.8'
 # H1st
 H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 
+# Image Processing
+Pillow = '>= 9.4.0'
+
 # Hugging Face
 Transformers = '>= 4.26.1'
 
