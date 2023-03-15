@@ -66,7 +66,7 @@ def imagenet_classify(
 
 def normalize(d: ImgClassifType, /) -> ImgClassifType:
     """Normalize output probabilities."""
-    return {k: v / (_ := sum(d.itervalues())) for k, v in d.items()}
+    return {k: v / (_ := sum(d.values())) for k, v in d.items()}
 
 
 def classify_based_on_imagenet_similarity(
