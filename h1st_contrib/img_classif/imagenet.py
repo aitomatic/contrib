@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import Dict, List, Sequence, Set, Union  # Py3.9+: use built-ins
 
 from transformers.pipelines import pipeline
-from transformers.pipelines.image_classification import \
-    ImageClassificationPipeline
+from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
 from .util import ImgInputType, ImgClassifType, normalize
 
