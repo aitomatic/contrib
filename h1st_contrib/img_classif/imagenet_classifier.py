@@ -58,6 +58,7 @@ def imagenet_classify(
         }
 
         assert IMAGENET_CLASSES.issuperset(imagenet_classif), \
-            KeyError(f'*** INVALID OUTPUT CLASSES {set(imagenet_classif).difference(IMAGENET_CLASSES)}')  # noqa: E501
+            KeyError('*** INVALID OUTPUT CLASSES '
+                     f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')  # noqa: E501
 
         return imagenet_classif
