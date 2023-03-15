@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'H1st-Contrib'
-version = '23.3.5'
+version = '23.3.14'
 description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -34,6 +34,6 @@ PsycoPG2-binary = '>= 2.9.5'
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.5.1',
+  'Poetry-Core >= 1.5.2',
 ]
 build-backend = 'poetry.core.masonry.api'
