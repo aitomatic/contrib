@@ -9,7 +9,7 @@ from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import \
     ImageClassificationPipeline
 
-from .util import ImgInputType, ImgClassifType
+from .util import ImgInputType, ImgClassifType, normalize
 
 
 __all__: Sequence[str] = (
@@ -62,11 +62,6 @@ def imagenet_classify(
                  f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')
 
     return imagenet_classif
-
-
-def normalize(d: ImgClassifType, /) -> ImgClassifType:
-    """Normalize output probabilities."""
-    return {k: v / (_ := sum(d.values())) for k, v in d.items()}
 
 
 def classify_based_on_imagenet_similarity(
