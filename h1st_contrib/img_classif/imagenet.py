@@ -64,21 +64,27 @@ def imagenet_classify(
     return imagenet_classif
 
 
+def normalize(d: ImgClassifType, /) -> ImgClassifType:
+    """Normalize output probabilities."""
+    return {k: v / (_ := sum(d.itervalues())) for k, v in d.items()}
+
+
 def classify_based_on_imagenet_similarity(
         img_input: Union[ImgInputType, Sequence[ImgInputType]],
         classes_mapped_to_similar_imagenet_classes: Dict[str, List[str]], /) \
         -> Union[ImgClassifType, Sequence[ImgClassifType]]:
     """Classify target classes based on mapping from such classes to ImageNet."""  # noqa: E501
-    return ([{target_class: sum(i[imagenet_class]
-                                for imagenet_class in imagenet_classes)
-              for target_class, imagenet_classes
-              in classes_mapped_to_similar_imagenet_classes.items()}
+    return ([normalize({target_class: sum(i[imagenet_class]
+                                          for imagenet_class in imagenet_classes)  # noqa: E501
+                        for target_class, imagenet_classes
+                        in classes_mapped_to_similar_imagenet_classes.items()})
              for i in imagenet_classif]
 
             if isinstance(imagenet_classif := imagenet_classify(img_input),
                           (list, tuple))
 
-            else {target_class: sum(imagenet_classif[imagenet_class]
-                                    for imagenet_class in imagenet_class_names)
-                  for target_class, imagenet_class_names
-                  in classes_mapped_to_similar_imagenet_classes.items()})
+            else normalize({target_class: sum(imagenet_classif[imagenet_class]
+                                              for imagenet_class
+                                              in imagenet_class_names)
+                            for target_class, imagenet_class_names
+                            in classes_mapped_to_similar_imagenet_classes.items()}))  # noqa: E501
