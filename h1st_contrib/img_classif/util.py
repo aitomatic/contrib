@@ -8,10 +8,7 @@ from numpy import ndarray
 from PIL.Image import Image
 
 
-__all__: Sequence[str] = (
-    'ImgInputType',
-    'ImgClassifType',
-)
+__all__: Sequence[str] = 'ImgInputType', 'ImgClassifType'
 
 
 ImgInputType: type = Union[Image, ndarray, Path, str]

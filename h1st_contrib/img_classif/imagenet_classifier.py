@@ -12,9 +12,7 @@ from transformers.pipelines.image_classification import \
 from .util import ImgInputType, ImgClassifType
 
 
-__all__: Sequence[str] = (
-    'imagenet_classify',
-)
+__all__: Sequence[str] = ('imagenet_classify',)
 
 
 IMAGENET_CLASSES_FILE_NAME: str = 'ImageNet-Classes.json'
