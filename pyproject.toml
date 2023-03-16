@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'H1st-Contrib'
-version = '23.3.15.2'
+version = '23.3.16'
 description = 'H1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -22,7 +22,7 @@ H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 Pillow = '>= 9.4.0'
 
 # Hugging Face
-Transformers = '>= 4.26.1'
+Transformers = '>= 4.27.1'
 
 # Django & related
 Django = '>= 4.1.7'
