@@ -17,4 +17,6 @@ ImgClassifType: type = Dict[str, float]
 
 def normalize(d: ImgClassifType, /) -> ImgClassifType:
     """Normalize output probabilities."""
-    return {k: v / (_ := sum(d.values())) for k, v in d.items()}
+    return ({k: v / s for k, v in d.items()}
+            if (s := sum(d.values())) > 0
+            else {k: 1 / (_ := len(d)) for k in d})
