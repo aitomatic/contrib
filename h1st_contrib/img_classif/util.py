@@ -4,14 +4,13 @@
 from pathlib import Path
 from typing import Dict, Sequence, Union
 
-from numpy import ndarray
 from PIL.Image import Image
 
 
 __all__: Sequence[str] = 'ImgInputType', 'ImgClassifType', 'normalize'
 
 
-ImgInputType: type = Union[Image, ndarray, Path, str]
+ImgInputType: type = Union[Image, Path, str]
 ImgClassifType: type = Dict[str, float]
 
 
