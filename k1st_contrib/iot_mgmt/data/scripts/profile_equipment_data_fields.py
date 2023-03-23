@@ -7,7 +7,7 @@ from tqdm import tqdm
 from h1st.contrib.pmfp.data_mgmt import EquipmentParquetDataSet
 from h1st.utils.data_proc import ParquetDataset
 
-from h1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,
+from k1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,
                                        EquipmentUniqueTypeGroupDataFieldProfile)   # noqa: E501
 
 
