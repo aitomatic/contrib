@@ -13,7 +13,7 @@ from .util import ImgInputType, ImgClassifType, normalize
 
 __all__: Sequence[str] = (
     'imagenet_classify',
-    'classify_based_on_imagenet_similarity',
+    'ImageNetSimilarityBasedClassifier',
 )
 
 
@@ -63,30 +63,45 @@ def imagenet_classify(
     return imagenet_classif
 
 
-def classify_based_on_imagenet_similarity(
-        img_input: Union[ImgInputType, Sequence[ImgInputType]],
-        classes_mapped_to_similar_imagenet_classes: Dict[str, List[str]], /,
-        *, prob_threshold: float = 3e-6) \
-        -> Union[ImgClassifType, Sequence[ImgClassifType]]:
+class ImageNetSimilarityBasedClassifier:
+    # pylint: disable=too-few-public-methods
     """Classify target classes based on mapping from such classes to ImageNet."""  # noqa: E501
-    return (
-        [normalize({target_class:
-                    sum((p
-                         if (p := i.get(imagenet_class, 0)) > prob_threshold
-                         else 0)
-                        for imagenet_class in imagenet_classes)
-                    for target_class, imagenet_classes
-                    in classes_mapped_to_similar_imagenet_classes.items()})
-         for i in imagenet_classif]
 
-        if isinstance(imagenet_classif := imagenet_classify(img_input), (list, tuple))  # noqa: E501
+    def __init__(
+            self,
+            classes_mapped_to_similar_imagenet_classes: Dict[str, List[str]],
+            /, *, prob_threshold: float = 3e-6):
+        """Initialize."""
+        self.classes_mapped_to_imagenet_classes: Dict[str, List[str]] = \
+            classes_mapped_to_similar_imagenet_classes
 
-        else normalize(
-            {target_class:
-             sum((p
-                  if (p := imagenet_classif.get(imagenet_class, 0)) > prob_threshold  # noqa: E501
-                  else 0)
-                 for imagenet_class in imagenet_class_names)
-             for target_class, imagenet_class_names
-             in classes_mapped_to_similar_imagenet_classes.items()})
-    )
+        self.prob_threshold: float = prob_threshold
+
+    def __call__(self,
+                 img_input: Union[ImgInputType, Sequence[ImgInputType]]) \
+            -> Union[ImgClassifType, Sequence[ImgClassifType]]:
+        """Classify."""
+        return (
+            [normalize({
+                target_class:
+                sum((p
+                     if (p := i.get(imagenet_class, 0)) > self.prob_threshold
+                     else 0)
+                    for imagenet_class in imagenet_classes)
+                for target_class, imagenet_classes
+                in self.classes_mapped_to_similar_imagenet_classes.items()})
+             for i in imagenet_classif]
+
+            if isinstance(imagenet_classif := imagenet_classify(img_input),
+                          (list, tuple))
+
+            else normalize(
+                {target_class:
+                 sum((p
+                      if ((p := imagenet_classif.get(imagenet_class, 0))
+                          > self.prob_threshold)
+                      else 0)
+                     for imagenet_class in imagenet_class_names)
+                 for target_class, imagenet_class_names
+                 in self.classes_mapped_to_similar_imagenet_classes.items()})
+        )
