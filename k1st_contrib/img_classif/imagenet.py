@@ -89,7 +89,7 @@ class ImageNetSimilarityBasedClassifier:
                      else 0)
                     for imagenet_class in imagenet_classes)
                 for target_class, imagenet_classes
-                in self.classes_mapped_to_similar_imagenet_classes.items()})
+                in self.classes_mapped_to_imagenet_classes.items()})
              for i in imagenet_classif]
 
             if isinstance(imagenet_classif := imagenet_classify(img_input),
@@ -103,5 +103,5 @@ class ImageNetSimilarityBasedClassifier:
                       else 0)
                      for imagenet_class in imagenet_class_names)
                  for target_class, imagenet_class_names
-                 in self.classes_mapped_to_similar_imagenet_classes.items()})
+                 in self.classes_mapped_to_imagenet_classes.items()})
         )
