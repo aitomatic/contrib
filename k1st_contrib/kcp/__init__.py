@@ -25,11 +25,9 @@ class KCP:  # pylint: disable=too-few-public-methods
                     (len(ml_classif) == (n := len(k_classif)))), \
                 f'*** ml_classif NOT A SEQUENCE OF LENGTH {n} ***'
 
-            return [{class_name: (self.k_contrib * k_prob +
-                                  self.ml_contrib * d1[class_name])
-                    for class_name, k_prob in d0.items()}
+            return [normalize({class_name: (k_prob * d1[class_name])
+                               for class_name, k_prob in d0.items()})
                     for d0, d1 in zip(k_classif, ml_classif)]
 
-        return {class_name: (self.k_contrib * k_prob +
-                             self.ml_contrib * ml_classif[class_name])
-                for class_name, k_prob in k_classif.items()}
+        return normalize({class_name: (k_prob * ml_classif[class_name])
+                          for class_name, k_prob in k_classif.items()})
