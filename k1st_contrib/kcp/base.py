@@ -15,7 +15,7 @@ class KCP:  # pylint: disable=too-few-public-methods
                  classif_0: Union[ClassifType, Sequence[ClassifType]], /,
                  *other_classifs: Union[ClassifType, Sequence[ClassifType]]) \
             -> Union[ClassifType, Sequence[ClassifType]]:
-        """Fuse 2 sets of probabilities."""
+        """Fuse multiple sets of probabilities."""
         if isinstance(classif_0, (list, tuple)):
             assert (n := len(classif_0)) > 0
 
