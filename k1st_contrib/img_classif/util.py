@@ -2,20 +2,15 @@
 
 
 from pathlib import Path
-from typing import Dict, Sequence, Union
+from typing import Sequence, Union
 
 from PIL.Image import Image
 
+from ..util.types import ClassifType
 
-__all__: Sequence[str] = 'ImgInputType', 'ImgClassifType', 'normalize'
+
+__all__: Sequence[str] = 'ImgInputType', 'ImgClassifType'
 
 
 ImgInputType: type = Union[Image, Path, str]
-ImgClassifType: type = Dict[str, float]
-
-
-def normalize(d: ImgClassifType, /) -> ImgClassifType:
-    """Normalize output probabilities."""
-    return ({k: v / s for k, v in d.items()}
-            if (s := sum(d.values())) > 0
-            else {k: 1 / (_ := len(d)) for k in d})
+ImgClassifType: type = ClassifType
