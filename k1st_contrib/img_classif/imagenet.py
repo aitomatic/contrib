@@ -10,7 +10,7 @@ from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
 from ..util.prob import ClassifProbSet, normalize, rank
-from .util import ImgInputType
+from .util import ImgInput
 
 
 __all__: Sequence[str] = (
@@ -46,8 +46,7 @@ IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
              pipeline_class=None)
 
 
-def imagenet_classify(
-        img_input: Union[ImgInputType, Sequence[ImgInputType]], /) \
+def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
         -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
     """Classify image(s) according to ImageNet."""
     if isinstance(img_input, (list, tuple)):
@@ -65,7 +64,7 @@ def imagenet_classify(
     return imagenet_classif
 
 
-def profile_imagenet_similarity(imgs: Sequence[ImgInputType], /,
+def profile_imagenet_similarity(imgs: Sequence[ImgInput],
                                 labels: Sequence[str]) \
         -> Dict[str, List[Tuple[str, float]]]:
     """Profile similarity between ImageNet classes a set of labels."""
@@ -100,7 +99,7 @@ class ImageNetSimilarityBasedClassifier:
         self.prob_threshold: float = prob_threshold
 
     def __call__(self,
-                 img_input: Union[ImgInputType, Sequence[ImgInputType]]) \
+                 img_input: Union[ImgInput, Sequence[ImgInput]]) \
             -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
         """Classify."""
         return (

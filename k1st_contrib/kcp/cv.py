@@ -12,4 +12,4 @@ class KCPCV(KCP):  # pylint: disable=too-few-public-methods
 
     def __call__(self, *args, **kwargs) \
             -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
-        """Classify."""
+        """Classify image(s)."""

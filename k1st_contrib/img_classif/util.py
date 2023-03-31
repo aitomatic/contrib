@@ -7,7 +7,7 @@ from typing import Sequence, Union
 from PIL.Image import Image
 
 
-__all__: Sequence[str] = ('ImgInputType',)
+__all__: Sequence[str] = ('ImgInput',)
 
 
-ImgInputType: type = Union[Image, Path, str]
+ImgInput: type = Union[Image, Path, str]
