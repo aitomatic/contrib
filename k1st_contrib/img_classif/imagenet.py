@@ -8,8 +8,8 @@ from typing import Dict, List, Sequence, Set, Union  # Py3.9+: use built-ins
 from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
-from ..util.prob import normalize
-from .util import ImgInputType, ImgClassifType
+from ..util.prob import ClassifProbSet, normalize
+from .util import ImgInputType
 
 
 __all__: Sequence[str] = (
@@ -23,7 +23,7 @@ IMAGENET_N_CLASSES: int = 10 ** 3 - 3  # duplicates: cardigan, crane, maillot
 
 with open(file=Path(__file__).parent / IMAGENET_CLASSES_FILE_NAME,
           mode='rt', encoding='utf8') as f:
-    IMAGENET_CLASSES: Set[str] = {v[1].lower() for k, v in json.load(f).items()}  # noqa: E501
+    IMAGENET_CLASSES: Set[str] = {v[1].lower() for v in json.load(f).values()}
     assert len(IMAGENET_CLASSES) == IMAGENET_N_CLASSES
 
 
@@ -47,12 +47,12 @@ IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
 
 def imagenet_classify(
         img_input: Union[ImgInputType, Sequence[ImgInputType]], /) \
-        -> Union[ImgClassifType, Sequence[ImgClassifType]]:
+        -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
     """Classify image(s) according to ImageNet."""
     if isinstance(img_input, (list, tuple)):
         return [imagenet_classify(i) for i in img_input]
 
-    imagenet_classif: ImgClassifType = {
+    imagenet_classif: ClassifProbSet = {
         i['label'].split(',')[0].replace(' ', '_').lower(): i['score']
         for i in IMAGENET_CLASSIFIER(img_input, top_k=IMAGENET_N_CLASSES)
     }
@@ -80,7 +80,7 @@ class ImageNetSimilarityBasedClassifier:
 
     def __call__(self,
                  img_input: Union[ImgInputType, Sequence[ImgInputType]]) \
-            -> Union[ImgClassifType, Sequence[ImgClassifType]]:
+            -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
         """Classify."""
         return (
             [normalize({

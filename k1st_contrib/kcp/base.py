@@ -4,17 +4,17 @@
 from math import prod
 from typing import Sequence, Union
 
-from ..util.prob import normalize
-from ..util.types import ClassifType
+from ..util.prob import ClassifProbSet, normalize
 
 
 class KCP:  # pylint: disable=too-few-public-methods
     """Knowledge-Conditioned Probabilities (k-CP)."""
 
-    def __call__(self,
-                 classif_0: Union[ClassifType, Sequence[ClassifType]], /,
-                 *other_classifs: Union[ClassifType, Sequence[ClassifType]]) \
-            -> Union[ClassifType, Sequence[ClassifType]]:
+    def __call__(
+            self,
+            classif_0: Union[ClassifProbSet, Sequence[ClassifProbSet]], /,
+            *other_classifs: Union[ClassifProbSet, Sequence[ClassifProbSet]]) \
+            -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
         """Fuse multiple sets of probabilities."""
         if isinstance(classif_0, (list, tuple)):
             assert (n := len(classif_0)) > 0

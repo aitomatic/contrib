@@ -1,15 +1,16 @@
 """Probabilities."""
 
 
-from typing import Sequence
-
-from k1st_contrib.util.types import ClassifType
+from typing import Dict, Sequence  # Py3.9+: use built-ins/collections.abc
 
 
-__all__: Sequence[str] = ('normalize',)
+__all__: Sequence[str] = 'ClassifProbSet', 'normalize'
 
 
-def normalize(d: ClassifType, /) -> ClassifType:
+ClassifProbSet: type = Dict[str, float]
+
+
+def normalize(d: ClassifProbSet, /) -> ClassifProbSet:
     """Normalize output probabilities."""
     return ({k: v / s for k, v in d.items()}
             if (s := sum(d.values())) > 0
