@@ -1,6 +1,7 @@
 """ImageNet-based classifiers."""
 
 
+from collections import OrderedDict
 import json
 from pathlib import Path
 from typing import Dict, List, Sequence, Set  # Py3.9+: use built-ins
@@ -13,20 +14,23 @@ from ..util.prob import ClassifProbSet, OrderedClassifProbSet, normalize, order
 from .util import ImgInput
 
 
-__all__: Sequence[str] = ('imagenet_classify', 'profile_imagenet_similarity',
-                          'ImageNetSimilarityBasedClassifier')
+__all__: Sequence[str] = (
+    'IMAGENET_CLASSES',
+    'imagenet_classify', 'profile_imagenet_similarity',
+    'ImageNetSimilarityBasedClassifier',
+)
 
 
-IMAGENET_CLASSES_FILE_NAME: str = 'ImageNet-Classes.json'
-IMAGENET_N_CLASSES: int = 10 ** 3 - 3  # duplicates: cardigan, crane, maillot
+_IMAGENET_CLASSES_FILE_NAME: str = 'ImageNet-Classes.json'
+_IMAGENET_N_CLASSES: int = 10 ** 3 - 3  # duplicates: cardigan, crane, maillot
 
-with open(file=Path(__file__).parent / IMAGENET_CLASSES_FILE_NAME,
+with open(file=Path(__file__).parent / _IMAGENET_CLASSES_FILE_NAME,
           mode='rt', encoding='utf8') as f:
     IMAGENET_CLASSES: Set[str] = {v[1].lower() for v in json.load(f).values()}
-    assert len(IMAGENET_CLASSES) == IMAGENET_N_CLASSES
+    assert len(IMAGENET_CLASSES) == _IMAGENET_N_CLASSES
 
 
-IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
+_IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
     pipeline(task='image-classification',
              model=None,
              config=None,
@@ -44,22 +48,33 @@ IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
              pipeline_class=None)
 
 
-def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
-        -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
-    """Classify image(s) according to ImageNet."""
-    if isinstance(img_input, (list, tuple)):
-        return [imagenet_classify(i) for i in img_input]
+_HuggingFaceClassifOutput: type = List[Dict[str, Union[float, str]]]
 
-    imagenet_classif: ClassifProbSet = {
-        i['label'].split(',')[0].replace(' ', '_').lower(): i['score']
-        for i in IMAGENET_CLASSIFIER(img_input, top_k=IMAGENET_N_CLASSES)
-    }
 
-    assert IMAGENET_CLASSES.issuperset(imagenet_classif), \
+def _convert_hugging_face_classif_output(output: _HuggingFaceClassifOutput) \
+        -> OrderedClassifProbSet:
+    """Convert Hugging Face classification output."""
+    converted_output: OrderedClassifProbSet = OrderedDict(
+        (i['label'].split(',')[0].replace(' ', '_').lower(), i['score'])
+        for i in output)
+
+    assert IMAGENET_CLASSES.issuperset(converted_output), \
         KeyError('*** INVALID OUTPUT CLASSES '
-                 f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')
+                 f'{set(converted_output).difference(IMAGENET_CLASSES)} ***')
 
-    return imagenet_classif
+    return converted_output
+
+
+def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
+        -> Union[OrderedClassifProbSet, Sequence[OrderedClassifProbSet]]:
+    """Classify image(s) according to ImageNet."""
+    output: Union[_HuggingFaceClassifOutput,
+                  List[_HuggingFaceClassifOutput]] = \
+        _IMAGENET_CLASSIFIER(img_input, top_k=_IMAGENET_N_CLASSES)
+
+    return ([_convert_hugging_face_classif_output(i) for i in output]
+            if isinstance(img_input, (list, tuple))
+            else _convert_hugging_face_classif_output(output))
 
 
 def profile_imagenet_similarity(imgs: Sequence[ImgInput], /,
