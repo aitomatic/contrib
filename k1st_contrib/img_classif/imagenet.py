@@ -1,9 +1,9 @@
-"""ImageNet Classifier."""
+"""ImageNet-based classifiers."""
 
 
 import json
 from pathlib import Path
-from typing import Dict, List, Sequence, Set, Tuple  # Py3.9+: use built-ins
+from typing import Dict, List, Sequence, Set  # Py3.9+: use built-ins
 from typing import Union
 
 from transformers.pipelines import pipeline
