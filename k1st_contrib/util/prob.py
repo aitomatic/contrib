@@ -1,13 +1,16 @@
 """Probabilities."""
 
 
-from typing import Dict, List, Sequence, Tuple  # Py3.9+: use built-ins
+from collections import OrderedDict
+from typing import Dict, OrderedDict as _OrderedDict, Sequence  # 3.9: builtins
 
 
-__all__: Sequence[str] = 'ClassifProbSet', 'normalize', 'rank'
+__all__: Sequence[str] = ('ClassifProbSet', 'OrderedClassifProbSet',
+                          'normalize', 'order')
 
 
 ClassifProbSet: type = Dict[str, float]
+OrderedClassifProbSet: type = _OrderedDict[str, float]
 
 
 def normalize(d: ClassifProbSet, /) -> ClassifProbSet:
@@ -17,6 +20,6 @@ def normalize(d: ClassifProbSet, /) -> ClassifProbSet:
             else {k: 1 / (_ := len(d)) for k in d})
 
 
-def rank(d: ClassifProbSet, /) -> List[Tuple[str, float]]:
+def order(d: ClassifProbSet, /) -> OrderedClassifProbSet:
     """Rank output probabilities."""
-    return sorted(d.items(), key=lambda tup: tup[1], reverse=True)
+    return OrderedDict(sorted(d.items(), key=lambda tup: tup[1], reverse=True))
