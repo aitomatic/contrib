@@ -9,14 +9,12 @@ from typing import Union
 from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
-from ..util.prob import ClassifProbSet, normalize, rank
+from ..util.prob import ClassifProbSet, OrderedClassifProbSet, normalize, order
 from .util import ImgInput
 
 
-__all__: Sequence[str] = (
-    'imagenet_classify',
-    'ImageNetSimilarityBasedClassifier',
-)
+__all__: Sequence[str] = ('imagenet_classify', 'profile_imagenet_similarity',
+                          'ImageNetSimilarityBasedClassifier')
 
 
 IMAGENET_CLASSES_FILE_NAME: str = 'ImageNet-Classes.json'
@@ -64,9 +62,9 @@ def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
     return imagenet_classif
 
 
-def profile_imagenet_similarity(imgs: Sequence[ImgInput],
-                                labels: Sequence[str]) \
-        -> Dict[str, List[Tuple[str, float]]]:
+def profile_imagenet_similarity(imgs: Sequence[ImgInput], /,
+                                *, labels: Sequence[str]) \
+        -> Dict[str, OrderedClassifProbSet]:
     """Profile similarity between ImageNet classes a set of labels."""
     imagenet_classifs: Sequence[ClassifProbSet] = imagenet_classify(imgs)
 
@@ -81,7 +79,7 @@ def profile_imagenet_similarity(imgs: Sequence[ImgInput],
             else:
                 profile[imagenet_class_name]: float = prob
 
-    return {k: rank(normalize(v)) for k, v in d.items()}
+    return {k: order(normalize(v)) for k, v in d.items()}
 
 
 class ImageNetSimilarityBasedClassifier:
