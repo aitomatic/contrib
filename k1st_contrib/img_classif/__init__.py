@@ -3,11 +3,13 @@
 
 from typing import Sequence
 
-from .imagenet import imagenet_classify, ImageNetSimilarityBasedClassifier
-from .util import ImgInputType, ImgClassifType
+from .imagenet import (imagenet_classify, profile_imagenet_similarity,
+                       ImageNetSimilarityBasedClassifier)
+from .util import ImgInputType
 
 
 __all__: Sequence[str] = (
-    'imagenet_classify', 'ImageNetSimilarityBasedClassifier',
-    'ImgInputType', 'ImgClassifType',
+    'imagenet_classify', 'profile_imagenet_similarity',
+    'ImageNetSimilarityBasedClassifier',
+    'ImgInputType',
 )

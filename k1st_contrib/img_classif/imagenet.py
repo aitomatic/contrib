@@ -3,12 +3,13 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List, Sequence, Set, Union  # Py3.9+: use built-ins
+from typing import Dict, List, Sequence, Set, Tuple  # Py3.9+: use built-ins
+from typing import Union
 
 from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
-from ..util.prob import ClassifProbSet, normalize
+from ..util.prob import ClassifProbSet, normalize, rank
 from .util import ImgInputType
 
 
@@ -62,6 +63,26 @@ def imagenet_classify(
                  f'{set(imagenet_classif).difference(IMAGENET_CLASSES)} ***')
 
     return imagenet_classif
+
+
+def profile_imagenet_similarity(imgs: Sequence[ImgInputType], /,
+                                labels: Sequence[str]) \
+        -> Dict[str, List[Tuple[str, float]]]:
+    """Profile similarity between ImageNet classes a set of labels."""
+    imagenet_classifs: Sequence[ClassifProbSet] = imagenet_classify(imgs)
+
+    d: Dict[str, Dict[str, float]] = {}
+
+    for imagenet_classif, label in zip(imagenet_classifs, labels):
+        profile: Dict[str, float] = d.setdefault(label, {})
+
+        for imagenet_class_name, prob in imagenet_classif.items():
+            if imagenet_class_name in profile:
+                profile[imagenet_class_name] += prob
+            else:
+                profile[imagenet_class_name]: float = prob
+
+    return {k: rank(normalize(v)) for k, v in d.items()}
 
 
 class ImageNetSimilarityBasedClassifier:
