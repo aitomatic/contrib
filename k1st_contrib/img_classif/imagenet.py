@@ -10,7 +10,7 @@ from typing import Union
 from transformers.pipelines import pipeline
 from transformers.pipelines.image_classification import ImageClassificationPipeline  # noqa: E501
 
-from ..util.prob import ClassifProbSet, OrderedClassifProbSet, normalize, order
+from ..util.prob import OrderedClassifProbSet, normalize, order
 from .util import ImgInput
 
 
@@ -81,7 +81,7 @@ def profile_imagenet_similarity(imgs: Sequence[ImgInput], /,
                                 *, labels: Sequence[str]) \
         -> Dict[str, OrderedClassifProbSet]:
     """Profile similarity between ImageNet classes a set of labels."""
-    imagenet_classifs: Sequence[ClassifProbSet] = imagenet_classify(imgs)
+    imagenet_classifs: Sequence[OrderedClassifProbSet] = imagenet_classify(imgs)  # noqa: E501
 
     d: Dict[str, Dict[str, float]] = {}
 
@@ -111,25 +111,24 @@ class ImageNetSimilarityBasedClassifier:
 
         self.prob_threshold: float = prob_threshold
 
-    def __call__(self,
-                 img_input: Union[ImgInput, Sequence[ImgInput]]) \
-            -> Union[ClassifProbSet, Sequence[ClassifProbSet]]:
+    def __call__(self, img_input: Union[ImgInput, Sequence[ImgInput]]) \
+            -> Union[OrderedClassifProbSet, Sequence[OrderedClassifProbSet]]:
         """Classify."""
         return (
-            [normalize({
+            [order(normalize({
                 target_class:
                 sum((p
                      if (p := i.get(imagenet_class, 0)) > self.prob_threshold
                      else 0)
                     for imagenet_class in imagenet_classes)
                 for target_class, imagenet_classes
-                in self.classes_mapped_to_imagenet_classes.items()})
+                in self.classes_mapped_to_imagenet_classes.items()}))
              for i in imagenet_classif]
 
             if isinstance(imagenet_classif := imagenet_classify(img_input),
                           (list, tuple))
 
-            else normalize(
+            else order(normalize(
                 {target_class:
                  sum((p
                       if ((p := imagenet_classif.get(imagenet_class, 0))
@@ -137,5 +136,5 @@ class ImageNetSimilarityBasedClassifier:
                       else 0)
                      for imagenet_class in imagenet_class_names)
                  for target_class, imagenet_class_names
-                 in self.classes_mapped_to_imagenet_classes.items()})
+                 in self.classes_mapped_to_imagenet_classes.items()}))
         )
