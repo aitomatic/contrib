@@ -1,10 +1,11 @@
 """COCO utilities."""
 
 
-from collections.abc import Sequence
 import json
 from tempfile import NamedTemporaryFile
-from typing import Dict, List  # Py3.9+: use built-ins
+from typing import Dict, List, Sequence, Tuple  # Py3.9+: built-ins/collections
+
+from .type import Num
 
 
 __all__: Sequence[str] = ('coco_with_largest_obj_per_img',)
@@ -33,3 +34,8 @@ def coco_with_largest_obj_per_img(coco_file_path: str) -> str:
         json.dump(obj=coco, fp=f, indent=2)
 
     return f.name
+
+
+def _bbox(bbox_0: Tuple[Num, Num, Num, Num],
+          bbox_1: Tuple[Num, Num, Num, Num], /) -> Tuple[float, float, float, float]:  # noqa: E501
+    return tuple(((i + j) / 2) for i, j in zip(bbox_0, bbox_1))
