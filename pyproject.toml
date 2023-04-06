@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.3.31.1'
+version = '23.4.6'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -19,7 +19,7 @@ Python = '^3.8'
 H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 
 # Image Processing
-Pillow = '>= 9.4.0'
+Pillow = '>= 9.5.0'
 PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
@@ -27,7 +27,7 @@ Transformers = '>= 4.27.4'
 
 # Django & related
 Django = '>= 4.1.7'
-Django-Configurations = '>= 2.4'
+Django-Configurations = '>= 2.4.1'
 Django-CORS-Headers = '>= 3.14.0'
 Django-Environ = '>= 0.10.0'
 Django-Extensions = '>= 3.2.1'
@@ -36,7 +36,7 @@ Django-Silk = '>= 5.0.3'
 DRF-Writable-Nested = '>= 0.7.0'
 
 # DB-related
-PsycoPG2-binary = '>= 2.9.5'
+PsycoPG = '>= 3.1.8'
 
 
 [build-system]
