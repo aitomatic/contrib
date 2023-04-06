@@ -20,6 +20,7 @@ H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
 
 # Image Processing
 Pillow = '>= 9.4.0'
+PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
 Transformers = '>= 4.27.4'
