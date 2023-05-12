@@ -16,6 +16,6 @@ class TimeSeriesAnalyzer:  # pylint: disable=too-few-public-methods
                                             verbose=False,
                                             enforce_privacy=False)
 
-    def analyze(self, df: DataFrame, /, prompt: str):
+    def __call__(self, df: DataFrame, /, prompt: str):
         """Analyze tabular/time-series data frame."""
         return self.pandas_ai.run(data_frame=df, prompt=prompt)
