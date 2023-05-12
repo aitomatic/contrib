@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.4.25'
+version = '23.5.12'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -23,12 +23,12 @@ Pillow = '>= 9.5.0'
 PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
-Transformers = '>= 4.28.1'
+Transformers = '>= 4.29.1'
 
 # Django & related
-Django = '>= 4.2'
+Django = '>= 4.2.1'
 Django-Configurations = '>= 2.4.1'
-Django-CORS-Headers = '>= 3.14.0'
+Django-CORS-Headers = '>= 4.0.0'
 Django-Environ = '>= 0.10.0'
 Django-Extensions = '>= 3.2.1'
 DjangoRESTFramework = '>= 3.14.0'
@@ -36,7 +36,8 @@ Django-Silk = '>= 5.0.3'
 DRF-Writable-Nested = '>= 0.7.0'
 
 # DB-related
-PsycoPG = '>= 3.1.8'
+PsycoPG = '>= 3.1.9'
+PsycoPG2 = '>= 2.9.6'
 
 
 [build-system]
