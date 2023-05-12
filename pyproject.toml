@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.5.12.1'
+version = '23.5.12.2'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -24,6 +24,9 @@ PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
 Transformers = '>= 4.29.1'
+
+# LLM & related
+PandasAI = '>= 0.2.11'
 
 # Django & related
 Django = '>= 4.2.1'
