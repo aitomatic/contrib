@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.5.12'
+version = '23.5.12.1'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -37,7 +37,7 @@ DRF-Writable-Nested = '>= 0.7.0'
 
 # DB-related
 PsycoPG = '>= 3.1.9'
-PsycoPG2 = '>= 2.9.6'
+PsycoPG2-binary = '>= 2.9.6'
 
 
 [build-system]
