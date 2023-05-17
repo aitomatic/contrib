@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.5.17'
+version = '23.5.17.1'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
