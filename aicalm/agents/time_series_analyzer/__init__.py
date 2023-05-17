@@ -12,7 +12,7 @@ class TimeSeriesAnalyzer:  # pylint: disable=too-few-public-methods
     def __init__(self, llm: LLM, verbose: bool = False):
         """Initialize TSA."""
         self.pandas_ai: PandasAI = PandasAI(llm=llm,
-                                            conversational=True,
+                                            conversational=False,
                                             verbose=verbose,
                                             enforce_privacy=False)
 
