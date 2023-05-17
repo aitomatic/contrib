@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'K1st-Contrib'
-version = '23.5.12.2'
+version = '23.5.17'
 description = 'K1st Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
@@ -24,10 +24,10 @@ Pillow = '>= 9.5.0'
 PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
-Transformers = '>= 4.29.1'
+Transformers = '>= 4.29.2'
 
 # LLM & related
-PandasAI = '>= 0.2.11'
+PandasAI = '>= 0.2.13'
 
 # Django & related
 Django = '>= 4.2.1'
@@ -46,6 +46,6 @@ PsycoPG2-binary = '>= 2.9.6'
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.5.2',
+  'Poetry-Core >= 1.6.0',
 ]
 build-backend = 'poetry.core.masonry.api'
