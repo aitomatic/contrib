@@ -27,7 +27,7 @@ PyCOCOTools = '>= 2.0.6'
 Transformers = '>= 4.29.2'
 
 # LLM & related
-PandasAI = '>= 0.2.13'
+PandasAI = '>= 0.2.15'
 
 # Django & related
 Django = '>= 4.2.1'
