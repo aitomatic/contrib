@@ -8,7 +8,7 @@ readme = 'README.md'
 homepage = 'https://github.com/aitomatic/k1st-contrib'
 repository = 'https://github.com/aitomatic/k1st-contrib'
 packages = [
-  {include = 'aicalm'},
+  {include = 'aicalm_contrib'},
   {include = 'k1st_contrib'},
 ]
 
