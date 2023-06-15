@@ -9,8 +9,8 @@ __all__: Sequence[str] = ('ClassifProbSet', 'OrderedClassifProbSet',
                           'normalize', 'order')
 
 
-ClassifProbSet: type = Dict[str, float]
-OrderedClassifProbSet: type = _OrderedDict[str, float]
+ClassifProbSet: type = dict[str, float]
+OrderedClassifProbSet: type = _Ordereddict[str, float]
 
 
 def normalize(d: ClassifProbSet, /) -> ClassifProbSet:

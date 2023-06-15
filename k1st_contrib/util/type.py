@@ -1,7 +1,8 @@
 """Type utilities."""
 
 
-from typing import Sequence, Union  # Py3.9+: use built-ins/collections.abc
+from collections.abc import Sequence
+from typing import Union
 
 
 __all__: Sequence[str] = ('Num',)

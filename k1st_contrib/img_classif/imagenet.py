@@ -2,9 +2,9 @@
 
 
 from collections import OrderedDict
+from collections.abc import Sequence
 import json
 from pathlib import Path
-from typing import Dict, List, Sequence, Set  # Py3.9+: use built-ins
 from typing import Union
 
 from transformers.pipelines import pipeline
@@ -26,7 +26,7 @@ _IMAGENET_N_CLASSES: int = 10 ** 3 - 3  # duplicates: cardigan, crane, maillot
 
 with open(file=Path(__file__).parent / _IMAGENET_CLASSES_FILE_NAME,
           mode='rt', encoding='utf8') as f:
-    IMAGENET_CLASSES: Set[str] = {v[1].lower() for v in json.load(f).values()}
+    IMAGENET_CLASSES: set[str] = {v[1].lower() for v in json.load(f).values()}
     assert len(IMAGENET_CLASSES) == _IMAGENET_N_CLASSES
 
 
@@ -48,7 +48,7 @@ _IMAGENET_CLASSIFIER: ImageClassificationPipeline = \
              pipeline_class=None)
 
 
-_HuggingFaceClassifOutput: type = List[Dict[str, Union[float, str]]]
+_HuggingFaceClassifOutput: type = list[dict[str, Union[float, str]]]
 
 
 def _convert_hugging_face_classif_output(output: _HuggingFaceClassifOutput) \
@@ -69,7 +69,7 @@ def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
         -> Union[OrderedClassifProbSet, Sequence[OrderedClassifProbSet]]:
     """Classify image(s) according to ImageNet."""
     output: Union[_HuggingFaceClassifOutput,
-                  List[_HuggingFaceClassifOutput]] = \
+                  list[_HuggingFaceClassifOutput]] = \
         _IMAGENET_CLASSIFIER(img_input, top_k=_IMAGENET_N_CLASSES)
 
     return ([_convert_hugging_face_classif_output(i) for i in output]
@@ -79,14 +79,14 @@ def imagenet_classify(img_input: Union[ImgInput, Sequence[ImgInput]], /) \
 
 def profile_imagenet_similarity(imgs: Sequence[ImgInput], /,
                                 *, labels: Sequence[str]) \
-        -> Dict[str, OrderedClassifProbSet]:
+        -> dict[str, OrderedClassifProbSet]:
     """Profile similarity between ImageNet classes a set of labels."""
     imagenet_classifs: Sequence[OrderedClassifProbSet] = imagenet_classify(imgs)  # noqa: E501
 
-    d: Dict[str, Dict[str, float]] = {}
+    d: dict[str, dict[str, float]] = {}
 
     for imagenet_classif, label in zip(imagenet_classifs, labels):
-        profile: Dict[str, float] = d.setdefault(label, {})
+        profile: dict[str, float] = d.setdefault(label, {})
 
         for imagenet_class_name, prob in imagenet_classif.items():
             if imagenet_class_name in profile:
@@ -103,10 +103,10 @@ class ImageNetSimilarityBasedClassifier:
 
     def __init__(
             self,
-            classes_mapped_to_similar_imagenet_classes: Dict[str, List[str]],
+            classes_mapped_to_similar_imagenet_classes: dict[str, list[str]],
             /, *, prob_threshold: float = 3e-6):
         """Initialize."""
-        self.classes_mapped_to_imagenet_classes: Dict[str, List[str]] = \
+        self.classes_mapped_to_imagenet_classes: dict[str, list[str]] = \
             classes_mapped_to_similar_imagenet_classes
 
         self.prob_threshold: float = prob_threshold
