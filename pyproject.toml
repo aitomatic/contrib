@@ -1,12 +1,12 @@
 [tool.poetry]
-name = 'K1st-Contrib'
-version = '23.5.17.1'
-description = 'K1st Contrib'
+name = 'AICALM-Contrib'
+version = '23.6.15.0'
+description = 'AICALM Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
 readme = 'README.md'
-homepage = 'https://github.com/aitomatic/k1st-contrib'
-repository = 'https://github.com/aitomatic/k1st-contrib'
+homepage = 'https://github.com/aitomatic/aicalm-contrib'
+repository = 'https://github.com/aitomatic/aicalm-contrib'
 packages = [
   {include = 'aicalm_contrib'},
   {include = 'k1st_contrib'},
