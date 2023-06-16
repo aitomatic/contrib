@@ -17,7 +17,7 @@ packages = [
 Python = '>= 3.11'
 
 # H1st
-H1st = {url = 'https://github.com/h1st-ai/h1st/archive/oracle-pmfp.zip'}
+H1st-Contrib = '>= 2.1.2.dev0'
 
 # Image Processing
 Pillow = '>= 9.5.0'
