@@ -64,7 +64,7 @@ def cp(from_path: PathType, to_path: PathType,
 
     if verbose:
         toc: float = time.time()
-        _LOGGER.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+        _LOGGER.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
 
 def mv(from_path: PathType, to_path: PathType,
@@ -85,7 +85,7 @@ def mv(from_path: PathType, to_path: PathType,
 
     if verbose:
         toc: float = time.time()
-        _LOGGER.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+        _LOGGER.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
 
 def rm(path: PathType,
@@ -119,7 +119,7 @@ def rm(path: PathType,
 
     if verbose:
         toc: float = time.time()
-        _LOGGER.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+        _LOGGER.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
 
 def sync(from_dir_path: PathType, to_dir_path: PathType,
@@ -140,4 +140,4 @@ def sync(from_dir_path: PathType, to_dir_path: PathType,
 
     if verbose:
         toc = time.time()
-        _LOGGER.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+        _LOGGER.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')

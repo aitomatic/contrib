@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Collection, Sequence
 import datetime
 from functools import lru_cache, partial
 from itertools import chain
@@ -14,8 +14,7 @@ import os
 import random
 import re
 import time
-from typing import Any, Optional, Union
-from typing import Collection, Dict, List, Set, Tuple   # Py3.9+: use built-ins
+from typing import Any, LiteralString, Optional, Union
 from urllib.parse import ParseResult, urlparse
 from uuid import uuid4
 # from warnings import simplefilter
@@ -23,12 +22,12 @@ from uuid import uuid4
 from numpy import isfinite, ndarray, vstack
 from pandas import DataFrame, Series, concat, isnull, notnull, read_parquet
 # from pandas.errors import PerformanceWarning
-from pandas._libs.missing import NAType   # pylint: disable=no-name-in-module
+from pandas._libs.missing import NAType  # pylint: disable=no-name-in-module
 from tqdm import tqdm
 
 from pyarrow.dataset import dataset
 from pyarrow.fs import LocalFileSystem, S3FileSystem
-from pyarrow.lib import RecordBatch, Schema, Table   # pylint: disable=no-name-in-module
+from pyarrow.lib import RecordBatch, Schema, Table  # pylint: disable=no-name-in-module
 from pyarrow.parquet import FileMetaData, read_metadata, read_schema, read_table
 
 from aito.util import debug, fs, s3
@@ -47,7 +46,7 @@ from ._abstract import (AbstractDataHandler, AbstractFileDataHandler, AbstractS3
 from .pandas import PandasMLPreprocessor
 
 
-__all__ = ('ParquetDataset',)
+__all__: Sequence[LiteralString] = ('ParquetDataset',)
 
 
 # flake8: noqa
@@ -88,13 +87,13 @@ class ParquetDataset(AbstractS3FileDataHandler):
     """S3 Parquet Data Feeder."""
 
     # caches
-    _CACHE: Dict[str, Namespace] = {}
-    _FILE_CACHES: Dict[str, Namespace] = {}
+    _CACHE: dict[str, Namespace] = {}
+    _FILE_CACHES: dict[str, Namespace] = {}
 
     # default arguments dict
     # (cannot be aito.util.namespace.Namespace
     # because that makes nested dicts into normal dicts)
-    _DEFAULT_KWARGS: Dict[str, Optional[Union[str, DefaultDict]]] = dict(
+    _DEFAULT_KWARGS: dict[str, Optional[Union[str, DefaultDict]]] = dict(
         iCol=None, tCol=None,
 
         reprSampleMinNFiles=AbstractFileDataHandler._REPR_SAMPLE_MIN_N_FILES,
@@ -109,7 +108,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
     def __init__(self, path: str, *, awsRegion: Optional[str] = None,
                  accessKey: Optional[str] = None, secretKey: Optional[str] = None,   # noqa: E501
-                 _mappers: Optional[callable] = None,
+                 _mappers: Optional[Callable] = None,
                  _reduceMustInclCols: Optional[ColsType] = None,
                  verbose: bool = True, **kwargs: Any):
         # pylint: disable=too-many-branches,too-many-locals,too-many-statements
@@ -175,7 +174,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                 if verbose:
                     toc: float = time.time()
-                    logger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+                    logger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
                 if _filePaths := _cache._srcArrowDS.files:
                     _cache.filePaths = {(f's3://{filePath}' if self.onS3 else filePath)
@@ -215,12 +214,12 @@ class ParquetDataset(AbstractS3FileDataHandler):
                         fileCache.nRows = metadata.num_rows
 
                 else:
-                    srcColsInclPartitionKVs: Set[str] = set()
+                    srcColsInclPartitionKVs: set[str] = set()
 
                     srcTypesExclPartitionKVs: Namespace = Namespace()
                     srcTypesInclPartitionKVs: Namespace = Namespace()
 
-                    partitionKVs: Dict[str, Union[datetime.date, str]] = {}
+                    partitionKVs: dict[str, Union[datetime.date, str]] = {}
 
                     for partitionKV in re.findall(pattern='[^/]+=[^/]+/', string=filePath):
                         k, v = partitionKV.split(sep='=', maxsplit=1)
@@ -240,7 +239,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                         schema: Schema = read_schema(where=localPath)
 
-                        srcColsExclPartitionKVs: Set[str] = (set(schema.names)
+                        srcColsExclPartitionKVs: set[str] = (set(schema.names)
                                                              - {'__index_level_0__'})
 
                         srcColsInclPartitionKVs.update(srcColsExclPartitionKVs)
@@ -257,7 +256,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                     else:
                         localPath: Optional[Path] = None if self.onS3 else filePath
 
-                        srcColsExclPartitionKVs: Optional[Set[str]] = None
+                        srcColsExclPartitionKVs: Optional[set[str]] = None
 
                         nCols: Optional[int] = None
                         nRows: Optional[int] = None
@@ -290,11 +289,11 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
         self.__dict__.update(_cache)
 
-        self._mappers: Tuple[callable] = (()
+        self._mappers: tuple[Callable] = (()
                                           if _mappers is None
                                           else to_iterable(_mappers, iterable_type=tuple))
 
-        self._reduceMustInclCols: Set[str] = (set()
+        self._reduceMustInclCols: set[str] = (set()
                                               if _reduceMustInclCols is None
                                               else to_iterable(_reduceMustInclCols,
                                                                iterable_type=set))
@@ -316,7 +315,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
     def __repr__(self) -> str:
         """Return string repr."""
-        colAndTypeStrs: List[str] = []
+        colAndTypeStrs: list[str] = []
 
         if self._iCol:
             colAndTypeStrs.append(f'(iCol) {self._iCol}: {self.type(self._iCol)}')
@@ -342,7 +341,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     @property
     def __shortRepr__(self) -> str:
         """Short string repr."""
-        colsDescStr: List[str] = []
+        colsDescStr: list[str] = []
 
         if self._iCol:
             colsDescStr.append(f'iCol: {self._iCol}')
@@ -371,7 +370,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     # _extractStdKwArgs
 
     # pylint: disable=inconsistent-return-statements
-    def _extractStdKwArgs(self, kwargs: Dict[str, Any], /, *,
+    def _extractStdKwArgs(self, kwargs: dict[str, Any], /, *,
                           resetToClassDefaults: bool = False,
                           inplace: bool = False) -> Optional[Namespace]:
         namespace: Union[ParquetDataset, Namespace] = self if inplace else Namespace()
@@ -446,7 +445,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
         if oldS3ParquetDF._cache.approxNRows and (self._cache.approxNRows is None):
             self._cache.approxNRows = oldS3ParquetDF._cache.approxNRows
 
-        commonCols: Set[str] = self.columns.intersection(oldS3ParquetDF.columns)
+        commonCols: set[str] = self.columns.intersection(oldS3ParquetDF.columns)
 
         if sameCols or newColToOldColMap:
             for newCol, oldCol in newColToOldColMap.items():
@@ -457,7 +456,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 newColToOldColMap[sameCol] = sameCol
 
         else:
-            newColToOldColMap: Dict[str, str] = {col: col for col in commonCols}
+            newColToOldColMap: dict[str, str] = {col: col for col in commonCols}
 
         for cacheCategory in (
                 'count', 'distinct',
@@ -490,7 +489,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             if verbose:
                 toc: float = time.time()
-                self.stdOutLogger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+                self.stdOutLogger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
     def fileLocalPath(self, filePath: str) -> Path:
         """Get local cache file path."""
@@ -604,14 +603,14 @@ class ParquetDataset(AbstractS3FileDataHandler):
         return self._cache.nRows if self._cache.nRows else self.approxNRows
 
     @property
-    def columns(self) -> Set[str]:
+    def columns(self) -> set[str]:
         """Column names."""
         return self.srcColsInclPartitionKVs
 
     @property
-    def indexCols(self) -> Set[str]:
+    def indexCols(self) -> set[str]:
         """Return index columns."""
-        s: Set[str] = set()
+        s: set[str] = set()
 
         if self._iCol:
             s.add(self._iCol)
@@ -640,12 +639,12 @@ class ParquetDataset(AbstractS3FileDataHandler):
         return is_num(self.type(col))
 
     @property
-    def possibleFeatureCols(self) -> Set[str]:
+    def possibleFeatureCols(self) -> set[str]:
         """Possible feature columns for ML modeling."""
         return {col for col in self.contentCols if is_possible_feature(self.type(col))}
 
     @property
-    def possibleCatCols(self) -> Set[str]:
+    def possibleCatCols(self) -> set[str]:
         """Possible categorical content columns."""
         return {col for col in self.contentCols if is_possible_cat(self.type(col))}
 
@@ -663,7 +662,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             **kwargs: Any) -> ParquetDataset:
         """Apply mapper function(s) to files."""
         if reduceMustInclCols is None:
-            reduceMustInclCols: Set[str] = set()
+            reduceMustInclCols: set[str] = set()
 
         inheritCache: bool = kwargs.pop('inheritCache', False)
         inheritNRows: bool = kwargs.pop('inheritNRows', inheritCache)
@@ -704,7 +703,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
         _CHUNK_SIZE: int = 10 ** 5
 
         cols: Optional[Collection[str]] = kwargs.get('cols')
-        cols: Set[str] = to_iterable(cols, iterable_type=set) if cols else set()
+        cols: set[str] = to_iterable(cols, iterable_type=set) if cols else set()
 
         nSamplesPerFile: int = kwargs.get('nSamplesPerFile')
 
@@ -726,9 +725,9 @@ class ParquetDataset(AbstractS3FileDataHandler):
         verbose: bool = kwargs.pop('verbose', True)
 
         if not filePaths:
-            filePaths: Set[str] = self.filePaths
+            filePaths: set[str] = self.filePaths
 
-        results: List[ReducedDataSetType] = []
+        results: list[ReducedDataSetType] = []
 
         # pylint: disable=too-many-nested-blocks
         for filePath in (tqdm(filePaths) if verbose and (len(filePaths) > 1) else filePaths):
@@ -736,15 +735,15 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             fileCache: Namespace = self.cacheFileMetadataAndSchema(filePath=filePath)
 
-            colsForFile: Set[str] = (
+            colsForFile: set[str] = (
                 cols
                 if cols
                 else fileCache.srcColsInclPartitionKVs
             ) | self._reduceMustInclCols
 
-            srcCols: Set[str] = colsForFile & fileCache.srcColsExclPartitionKVs
+            srcCols: set[str] = colsForFile & fileCache.srcColsExclPartitionKVs
 
-            partitionKeyCols: Set[str] = colsForFile.intersection(fileCache.partitionKVs)
+            partitionKeyCols: set[str] = colsForFile.intersection(fileCache.partitionKVs)
 
             if srcCols:
                 pandasDFConstructed: bool = False
@@ -771,7 +770,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                                            pre_buffer=True,
                                                            coerce_int96_timestamp_unit=None)
 
-                        chunkRecordBatches: List[RecordBatch] = \
+                        chunkRecordBatches: list[RecordBatch] = \
                             fileArrowTable.to_batches(max_chunksize=_CHUNK_SIZE)
 
                         nChunks: int = len(chunkRecordBatches)
@@ -785,7 +784,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                             ValueError(f'*** {filePath}: {nChunksForIntermediateN} vs. '
                                        f'{nChunks} Record Batches ***')
 
-                        chunkPandasDFs: List[DataFrame] = []
+                        chunkPandasDFs: list[DataFrame] = []
 
                         nSamplesPerChunk: int = int(math.ceil(nSamplesPerFile /
                                                               nChunksForIntermediateN))
@@ -983,21 +982,21 @@ class ParquetDataset(AbstractS3FileDataHandler):
         return reducer(results)
 
     @staticmethod
-    def _getCols(pandasDF: DataFrame, cols: Union[str, Tuple[str]]) -> DataFrame:
+    def _getCols(pandasDF: DataFrame, cols: Union[str, tuple[str]]) -> DataFrame:
         for missingCol in to_iterable(cols, iterable_type=set).difference(pandasDF.columns):
             pandasDF.loc[:, missingCol] = None
 
         return pandasDF[cols if isinstance(cols, str) else list(cols)]
 
     @lru_cache(maxsize=None, typed=False)
-    def __getitem__(self, cols: Union[str, Tuple[str]], /) -> ParquetDataset:
+    def __getitem__(self, cols: Union[str, tuple[str]], /) -> ParquetDataset:
         """Get column(s)."""
         return self.map(partial(self._getCols, cols=cols),
                         reduceMustInclCols=cols,
                         inheritNRows=True)
 
     @lru_cache(maxsize=None, typed=False)
-    def castType(self, **colsToTypes: Dict[str, Any]) -> ParquetDataset:
+    def castType(self, **colsToTypes: dict[str, Any]) -> ParquetDataset:
         """Cast data type(s) of column(s)."""
         return self.map(lambda df: df.astype(colsToTypes, copy=False, errors='raise'),
                         reduceMustInclCols=set(colsToTypes),
@@ -1029,7 +1028,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 verbose: bool = kwargs.pop('verbose', True)
 
                 _pathPlusSepLen: int = len(self.path) + 1
-                fileSubPaths: List[str] = [filePath[_pathPlusSepLen:] for filePath in filePaths]
+                fileSubPaths: list[str] = [filePath[_pathPlusSepLen:] for filePath in filePaths]
 
                 _uuid = uuid4()
                 subsetPath: str = (
@@ -1055,7 +1054,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                 if verbose:
                     toc: float = time.time()
-                    self.stdOutLogger.info(msg=f'{msg} done!   <{toc-tic:.1f} s>')
+                    self.stdOutLogger.info(msg=f'{msg} done!  <{toc-tic:.1f} s>')
 
             else:
                 subsetPath: str = filePaths[0]
@@ -1082,11 +1081,11 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
     @lru_cache(maxsize=None, typed=False)
     def filterByPartitionKeys(self,
-                              *filterCriteriaTuples: Union[Tuple[str, str], Tuple[str, str, str]],
+                              *filterCriteriaTuples: Union[tuple[str, str], tuple[str, str, str]],
                               **kwargs: Any) -> ParquetDataset:
         # pylint: disable=too-many-branches
         """Filter by partition keys."""
-        filterCriteria: Dict[str, Tuple[Optional[str], Optional[str], Optional[Set[str]]]] = {}
+        filterCriteria: dict[str, tuple[Optional[str], Optional[str], Optional[set[str]]]] = {}
 
         _samplePath: str = next(iter(self.filePaths))
 
@@ -1100,7 +1099,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if filterCriteriaTupleLen == 2:
                     fromVal: Optional[str] = None
                     toVal: Optional[str] = None
-                    inSet: Set[str] = {str(v) for v in to_iterable(filterCriteriaTuple[1])}
+                    inSet: set[str] = {str(v) for v in to_iterable(filterCriteriaTuple[1])}
 
                 elif filterCriteriaTupleLen == 3:
                     fromVal: Optional[str] = filterCriteriaTuple[1]
@@ -1111,7 +1110,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                     if toVal is not None:
                         toVal: str = str(toVal)
 
-                    inSet: Optional[Set[str]] = None
+                    inSet: Optional[set[str]] = None
 
                 else:
                     raise ValueError(f'*** {type(self)} FILTER CRITERIA MUST BE EITHER '
@@ -1121,7 +1120,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 filterCriteria[col] = fromVal, toVal, inSet
 
         if filterCriteria:
-            filePaths: Set[str] = set()
+            filePaths: set[str] = set()
 
             for filePath in self.filePaths:
                 filePandasDFSatisfiesCriteria: bool = True
@@ -1168,7 +1167,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     # _assignReprSample
 
     @property
-    def prelimReprSampleFilePaths(self) -> Set[str]:
+    def prelimReprSampleFilePaths(self) -> set[str]:
         """Prelim representative sample file paths."""
         if self._cache.prelimReprSampleFilePaths is None:
             self._cache.prelimReprSampleFilePaths = \
@@ -1178,7 +1177,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
         return self._cache.prelimReprSampleFilePaths
 
     @property
-    def reprSampleFilePaths(self) -> Set[str]:
+    def reprSampleFilePaths(self) -> set[str]:
         """Return representative sample file paths."""
         if self._cache.reprSampleFilePaths is None:
             reprSampleNFiles: int = \
@@ -1221,10 +1220,10 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 nFiles: int = min(nFiles, maxNFiles)
 
             if nFiles < self.nFiles:
-                filePaths: Set[str] = randomSample(population=self.filePaths, sampleSize=nFiles)
+                filePaths: set[str] = randomSample(population=self.filePaths, sampleSize=nFiles)
             else:
                 nFiles: int = self.nFiles
-                filePaths: Set[str] = self.filePaths
+                filePaths: set[str] = self.filePaths
 
         if verbose or debug.ON:
             self.stdOutLogger.info(
@@ -1275,7 +1274,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             for all columns
         """
         if not cols:
-            cols: Set[str] = self.contentCols
+            cols: set[str] = self.contentCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.count(col, **kwargs) for col in cols})
@@ -1380,7 +1379,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             *dict* for all columns
         """
         if not cols:
-            cols: Set[str] = self.contentCols
+            cols: set[str] = self.contentCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.nonNullProportion(col, **kwargs) for col in cols})
@@ -1408,7 +1407,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             of each distinct value of the specified ``col``
         """
         if not cols:
-            cols: Set[str] = self.contentCols
+            cols: set[str] = self.contentCols
 
         asDict: bool = kwargs.pop('asDict', False)
 
@@ -1429,7 +1428,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if asDict
                 else self._cache.distinct[col])
 
-    def distinctPartitions(self, col: str, /) -> Set[str]:
+    def distinctPartitions(self, col: str, /) -> set[str]:
         """Return distinct values of a certain partition key."""
         return {re.search(f'{col}=(.*?)/', filePath).group(1)
                 for filePath in self.filePaths}
@@ -1460,7 +1459,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                     - ``max``
         """
         if not cols:
-            cols: Set[str] = self.possibleNumCols
+            cols: set[str] = self.possibleNumCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.sampleStat(col, **kwargs) for col in cols})
@@ -1476,7 +1475,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             if s not in self._cache:
                 setattr(self._cache, s, {})
-            _cache: Dict[str, PyNumType] = getattr(self._cache, s)
+            _cache: dict[str, PyNumType] = getattr(self._cache, s)
 
             if col not in _cache:
                 verbose: Optional[bool] = True if debug.ON else kwargs.get('verbose')
@@ -1512,7 +1511,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
         # pylint: disable=too-many-branches
         """Return outlier-resistant stat for specified column(s)."""
         if not cols:
-            cols: Set[str] = self.possibleNumCols
+            cols: set[str] = self.possibleNumCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.outlierRstStat(col, **kwargs) for col in cols})
@@ -1531,7 +1530,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             if s not in self._cache:
                 setattr(self._cache, s, {})
-            _cache: Dict[str, PyNumType] = getattr(self._cache, s)
+            _cache: dict[str, PyNumType] = getattr(self._cache, s)
 
             if col not in _cache:
                 verbose: Optional[bool] = True if debug.ON else kwargs.get('verbose')
@@ -1592,7 +1591,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     def outlierRstMin(self, *cols: str, **kwargs: Any) -> Union[float, int, Namespace]:
         """Return outlier-resistant minimum for specified column(s)."""
         if not cols:
-            cols: Set[str] = self.possibleNumCols
+            cols: set[str] = self.possibleNumCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.outlierRstMin(col, **kwargs) for col in cols})
@@ -1647,7 +1646,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     def outlierRstMax(self, *cols: str, **kwargs: Any) -> Union[float, int, Namespace]:
         """Return outlier-resistant maximum for specified column(s)."""
         if not cols:
-            cols: Set[str] = self.possibleNumCols
+            cols: set[str] = self.possibleNumCols
 
         if len(cols) > 1:
             return Namespace(**{col: self.outlierRstMax(col, **kwargs) for col in cols})
@@ -1723,7 +1722,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 enough non-NULLs
         """
         if not cols:
-            cols: Set[str] = self.contentCols
+            cols: set[str] = self.contentCols
 
         asDict: bool = kwargs.pop('asDict', False)
 
@@ -1758,7 +1757,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                                             .5,
                                                             1 - outlierTailProportion,
                                                             1))
-                quantileProbsToQuery: List[float] = []
+                quantileProbsToQuery: list[float] = []
 
                 sampleMin: Optional[PyNumType] = self._cache.sampleMin.get(col)
                 if calcAndCacheSampleMin := (sampleMin is None):
@@ -1846,7 +1845,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
         if verbose:
             toc: float = time.time()
-            self.stdOutLogger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+            self.stdOutLogger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
         return Namespace(**{col: profile}) if asDict else profile
 
@@ -1938,7 +1937,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             pandasMLPreproc: PandasMLPreprocessor = PandasMLPreprocessor.from_yaml(path=loadPath)
 
         else:
-            cols: Set[str] = {col
+            cols: set[str] = {col
                               for col in ((set(cols) & self.possibleFeatureCols)
                                           if cols
                                           else self.possibleFeatureCols)
@@ -1951,7 +1950,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                               skipIfInsuffNonNull=True,
                                               asDict=True, verbose=verbose)
 
-            cols: Set[str] = {col
+            cols: set[str] = {col
                               for col in cols
                               if ((distinctProportionsIndex :=
                                    profile[col].distinctProportions.index).notnull() &
@@ -1959,7 +1958,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             assert cols, ValueError(f'*** {self}: NO COLS WITH SUFFICIENT DISTINCT VALUES ***')
 
-            forceCat: Set[str] = (((to_iterable(forceCat, iterable_type=set)
+            forceCat: set[str] = (((to_iterable(forceCat, iterable_type=set)
                                     if (forceCat := kwargs.pop('forceCat', None))
                                     else set())
                                    | (to_iterable(forceCatIncl, iterable_type=set)
@@ -1969,7 +1968,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                      if (forceCatExcl := kwargs.pop('forceCatExcl', None))
                                      else set()))
 
-            forceNum: Set[str] = (((to_iterable(forceNum, iterable_type=set)
+            forceNum: set[str] = (((to_iterable(forceNum, iterable_type=set)
                                     if (forceNum := kwargs.pop('forceNum', None))
                                     else set())
                                    | (to_iterable(forceNumIncl, iterable_type=set)
@@ -1979,16 +1978,16 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                      if (forceNumExcl := kwargs.pop('forceNumExcl', None))
                                      else set()))
 
-            catCols: Set[str] = {col
+            catCols: set[str] = {col
                                  for col in ((cols & self.possibleCatCols) - forceNum)
                                  if (col in forceCat) or
                                     (profile[col].distinctProportions
                                      .iloc[:self._maxNCats[col]].sum()
                                      >= self._minProportionByMaxNCats[col])}
 
-            numCols: Set[str] = {col for col in (cols - catCols) if self.typeIsNum(col)}
+            numCols: set[str] = {col for col in (cols - catCols) if self.typeIsNum(col)}
 
-            cols: Set[str] = catCols | numCols
+            cols: set[str] = catCols | numCols
 
             if verbose:
                 self.stdOutLogger.info(msg=(msg := ('Preprocessing Columns ' +
@@ -2009,10 +2008,10 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 origToPreprocColMap[PandasMLPreprocessor._CAT_INDEX_SCALED_FIELD_NAME] = \
                     (catIdxScaled := kwargs.pop('catIdxScaled', True))
 
-                catIdxCols: Set[str] = set()
+                catIdxCols: set[str] = set()
 
                 if catIdxScaled:
-                    catScaledIdxCols: Set[str] = set()
+                    catScaledIdxCols: set[str] = set()
 
                 for catCol in catCols:
                     catIdxCol: str = self._CAT_IDX_PREFIX + catCol
@@ -2020,13 +2019,13 @@ class ParquetDataset(AbstractS3FileDataHandler):
                     catColType: DataType = self.type(catCol)
 
                     if is_boolean(catColType):
-                        sortedCats: Tuple[bool] = False, True
+                        sortedCats: tuple[bool] = False, True
                         nCats: int = 2
 
                     else:
                         isStr: bool = is_string(catColType)
 
-                        sortedCats: Tuple[PyPossibleFeatureType] = tuple(
+                        sortedCats: tuple[PyPossibleFeatureType] = tuple(
                             cat
                             for cat in
                             (profile[catCol].distinctProportions.index
@@ -2054,31 +2053,31 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     cat_prep_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{cat_prep_msg} done!   <{cat_prep_toc - cat_prep_tic:,.1f} s>')
+                        msg=f'{cat_prep_msg} done!  <{cat_prep_toc - cat_prep_tic:,.1f} s>')
 
             if numCols:
                 origToPreprocColMap[PandasMLPreprocessor._NUM_SCALER_FIELD_NAME] = \
                     (numScaler := kwargs.pop('numScaler', 'standard'))
 
-                numNulls: Dict[str, Tuple[Optional[PyNumType], Optional[PyNumType]]] = \
+                numNulls: dict[str, tuple[Optional[PyNumType], Optional[PyNumType]]] = \
                     kwargs.pop('numNulls', {})
 
-                numOutlierTail: Optional[Union[str, Dict[str, Optional[str]]]] = \
+                numOutlierTail: Optional[Union[str, dict[str, Optional[str]]]] = \
                     kwargs.pop('numOutlierTail', 'both')
                 if not isinstance(numOutlierTail, DICT_OR_NAMESPACE_TYPES):
-                    numOutlierTail: Dict[str, Optional[str]] = \
+                    numOutlierTail: dict[str, Optional[str]] = \
                         {col: numOutlierTail for col in numCols}
 
-                numNullFillMethod: Union[str, Dict[str, str]] = \
+                numNullFillMethod: Union[str, dict[str, str]] = \
                     kwargs.pop('numNullFillMethod', 'mean')
                 if not isinstance(numNullFillMethod, DICT_OR_NAMESPACE_TYPES):
-                    numNullFillMethod: Dict[str, str] = \
+                    numNullFillMethod: dict[str, str] = \
                         {col: numNullFillMethod for col in numCols}
 
-                numNullFillValue: Dict[str, Optional[PyNumType]] = \
+                numNullFillValue: dict[str, Optional[PyNumType]] = \
                     kwargs.pop('numNullFillValue', {})
 
-                numScaledCols: Set[str] = set()
+                numScaledCols: set[str] = set()
 
                 if verbose:
                     self.stdOutLogger.info(
@@ -2089,7 +2088,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                 for numCol in numCols:
                     if numCol in numNulls:
-                        numColNulls: Tuple[Optional[PyNumType], Optional[PyNumType]] = \
+                        numColNulls: tuple[Optional[PyNumType], Optional[PyNumType]] = \
                             numNulls[numCol]
 
                         assert (isinstance(numColNulls, PY_LIST_OR_TUPLE) and
@@ -2100,7 +2099,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                                  isinstance(numColNulls[1], PY_NUM_TYPES)))
 
                     else:
-                        numColNulls: Tuple[Optional[PyNumType], Optional[PyNumType]] = None, None
+                        numColNulls: tuple[Optional[PyNumType], Optional[PyNumType]] = None, None
 
                     numColOutlierTail: Optional[str] = numOutlierTail.get(numCol, 'both')
 
@@ -2207,7 +2206,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     num_prep_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{num_prep_msg} done!   <{num_prep_toc - num_prep_tic:,.1f} s>')
+                        msg=f'{num_prep_msg} done!  <{num_prep_toc - num_prep_tic:,.1f} s>')
 
             pandasMLPreproc: PandasMLPreprocessor = \
                 PandasMLPreprocessor(origToPreprocColMap=origToPreprocColMap)
@@ -2224,7 +2223,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     prep_save_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{prep_save_msg} done!   <{prep_save_toc - prep_save_tic:,.1f} s>')
+                        msg=f'{prep_save_msg} done!  <{prep_save_toc - prep_save_tic:,.1f} s>')
 
         if returnNumPy:
             s3ParquetDF: ParquetDataset = \
@@ -2232,7 +2231,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                          inheritNRows=True, **kwargs)
 
         else:
-            colsToKeep: Set[str] = self.indexCols | (
+            colsToKeep: set[str] = self.indexCols | (
                 set(chain.from_iterable(
                     (catCol, catPrepColDetails['transform-to'])
                     for catCol, catPrepColDetails in origToPreprocColMap.items()
@@ -2254,6 +2253,6 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
         if verbose:
             toc: float = time.time()
-            self.stdOutLogger.info(msg=f'{msg} done!   <{(toc - tic) / 60:,.1f} m>')
+            self.stdOutLogger.info(msg=f'{msg} done!  <{(toc - tic) / 60:,.1f} m>')
 
         return (s3ParquetDF, pandasMLPreproc) if returnPreproc else s3ParquetDF
