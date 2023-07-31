@@ -13,9 +13,9 @@ __all__ = 'STDOUT_HANDLER', 'enable_live_print'
 STDOUT_HANDLER: StreamHandler = StreamHandler(stream=sys.stdout)
 
 STDOUT_HANDLER.setFormatter(
-    fmt=Formatter(fmt='%(asctime)s   '
-                      '%(levelname)s   '
-                      '%(name)s:   '
+    fmt=Formatter(fmt='%(asctime)s  '
+                      '%(levelname)s  '
+                      '%(name)s:  '
                       '%(message)s\n',
                   datefmt='%Y-%m-%d %H:%M',
                   style='%',
@@ -25,8 +25,8 @@ STDOUT_HANDLER.setFormatter(
 # utility class to flush logging stream upon each write
 # stackoverflow.com/questions/29772158/make-ipython-notebook-print-in-real-time
 class _FlushFile:
-    def __init__(self, f, /):   # pylint: disable=invalid-name
-        self.f = f   # pylint: disable=invalid-name
+    def __init__(self, f, /):  # pylint: disable=invalid-name
+        self.f = f  # pylint: disable=invalid-name
 
     def __getattr__(self, item: str, /):
         return self.f.__getattribute__(item)
@@ -35,7 +35,7 @@ class _FlushFile:
         """Flush."""
         self.f.flush()
 
-    def write(self, x: Any, /):   # pylint: disable=invalid-name
+    def write(self, x: Any, /):  # pylint: disable=invalid-name
         """Write."""
         self.f.write(x)
         self.flush()
