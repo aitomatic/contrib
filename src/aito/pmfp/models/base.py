@@ -194,7 +194,7 @@ class BaseFaultPredictor:
                                            key=None))
 
         toc: float = time.time()
-        self.logger.info(msg=f'{msg} done!   <{toc-tic:.1f}s>')
+        self.logger.info(msg=f'{msg} done!  <{toc-tic:.1f}s>')
 
         if return_json:
             d: Dict[str, Dict[str, Union[bool, float]]] = {}

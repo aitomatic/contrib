@@ -174,7 +174,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                 if verbose:
                     toc: float = time.time()
-                    logger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+                    logger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
                 if _filePaths := _cache._srcArrowDS.files:
                     _cache.filePaths = {(f's3://{filePath}' if self.onS3 else filePath)
@@ -489,7 +489,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
             if verbose:
                 toc: float = time.time()
-                self.stdOutLogger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+                self.stdOutLogger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
     def fileLocalPath(self, filePath: str) -> Path:
         """Get local cache file path."""
@@ -1054,7 +1054,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
                 if verbose:
                     toc: float = time.time()
-                    self.stdOutLogger.info(msg=f'{msg} done!   <{toc-tic:.1f} s>')
+                    self.stdOutLogger.info(msg=f'{msg} done!  <{toc-tic:.1f} s>')
 
             else:
                 subsetPath: str = filePaths[0]
@@ -1845,7 +1845,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
         if verbose:
             toc: float = time.time()
-            self.stdOutLogger.info(msg=f'{msg} done!   <{toc - tic:,.1f} s>')
+            self.stdOutLogger.info(msg=f'{msg} done!  <{toc - tic:,.1f} s>')
 
         return Namespace(**{col: profile}) if asDict else profile
 
@@ -2053,7 +2053,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     cat_prep_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{cat_prep_msg} done!   <{cat_prep_toc - cat_prep_tic:,.1f} s>')
+                        msg=f'{cat_prep_msg} done!  <{cat_prep_toc - cat_prep_tic:,.1f} s>')
 
             if numCols:
                 origToPreprocColMap[PandasMLPreprocessor._NUM_SCALER_FIELD_NAME] = \
@@ -2206,7 +2206,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     num_prep_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{num_prep_msg} done!   <{num_prep_toc - num_prep_tic:,.1f} s>')
+                        msg=f'{num_prep_msg} done!  <{num_prep_toc - num_prep_tic:,.1f} s>')
 
             pandasMLPreproc: PandasMLPreprocessor = \
                 PandasMLPreprocessor(origToPreprocColMap=origToPreprocColMap)
@@ -2223,7 +2223,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
                 if verbose:
                     prep_save_toc: float = time.time()
                     self.stdOutLogger.info(
-                        msg=f'{prep_save_msg} done!   <{prep_save_toc - prep_save_tic:,.1f} s>')
+                        msg=f'{prep_save_msg} done!  <{prep_save_toc - prep_save_tic:,.1f} s>')
 
         if returnNumPy:
             s3ParquetDF: ParquetDataset = \
@@ -2253,6 +2253,6 @@ class ParquetDataset(AbstractS3FileDataHandler):
 
         if verbose:
             toc: float = time.time()
-            self.stdOutLogger.info(msg=f'{msg} done!   <{(toc - tic) / 60:,.1f} m>')
+            self.stdOutLogger.info(msg=f'{msg} done!  <{(toc - tic) / 60:,.1f} m>')
 
         return (s3ParquetDF, pandasMLPreproc) if returnPreproc else s3ParquetDF
