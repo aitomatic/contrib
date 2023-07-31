@@ -13,41 +13,7 @@
     "reportMissingImports" : "none",
   },
 
-  "python.linting.enabled": true,
-
-  "python.linting.pylintEnabled": true,
-  "python.linting.pylintArgs": [
-    "--disable", "arguments-differ",
-    "--disable", "cache-max-size-none",
-    "--disable", "fixme",
-    "--disable", "invalid-name",
-    "--disable", "no-member",   // Django Model object attributes
-    "--disable", "too-many-arguments",
-    "--disable", "unexpected-keyword-arg",
-  ],
-
-  "python.linting.flake8Enabled": true,
-  "python.linting.flake8Args": [
-  ],
-
-  "python.linting.mypyEnabled": false,
-
   "python.linting.pydocstyleEnabled": true,
-
-  "python.linting.pycodestyleEnabled": true,
-  "python.linting.pycodestyleArgs": [
-    "--ignore=E251,E501,W503,W504",
-  ],
-
-  "python.linting.prospectorEnabled": true,
-
-  "python.linting.pylamaEnabled": true,
-  "python.linting.pylamaArgs": [
-    "--disable=E501"
-  ],
-
-  "python.linting.banditEnabled": false,
-  "python.linting.banditArgs": [
-    "--skip B101",
+  "python.linting.pydocstyleArgs": [
   ],
 }
