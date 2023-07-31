@@ -128,7 +128,6 @@ doc = {file = 'metadata/requirements/doc.txt'}
 lint = {file = 'metadata/requirements/lint.txt'}
 publish = {file = 'metadata/requirements/publish.txt'}
 test = {file = 'metadata/requirements/test.txt'}
-viz = {file = 'metadata/requirements/viz.txt'}
 
 
 # BUILD SYSTEM
