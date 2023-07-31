@@ -14,8 +14,8 @@ from typing import Collection, List, Tuple   # Py3.9+: use built-ins
 
 from ruamel import yaml
 
-from h1st.utils.data_types.numpy_pandas import NUMPY_INT_TYPES
-from h1st.utils.fs import PathType, mkdir
+from aito.util.data_types.numpy_pandas import NUMPY_INT_TYPES
+from aito.util.fs import PathType, mkdir
 
 
 __all__ = 'Namespace', 'DICT_OR_NAMESPACE_TYPES'

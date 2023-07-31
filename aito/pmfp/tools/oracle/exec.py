@@ -18,8 +18,8 @@ from pandas import Series
 
 from h1st.contrib.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_DIR_PATH   # noqa: E501
 
-import h1st.utils.debug
-from h1st.utils.path import add_cwd_to_py_path
+import aito.util.debug
+from aito.util.path import add_cwd_to_py_path
 
 
 @click.command(name='predict-faults',
@@ -138,7 +138,7 @@ def predict_faults(
         debug: bool = False):
     """Batch-predict equipment faults."""
     if debug:
-        h1st.utils.debug.ON = True
+        aito.util.debug.ON = True
 
     # load model
     add_cwd_to_py_path()

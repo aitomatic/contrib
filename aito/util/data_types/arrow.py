@@ -4,7 +4,7 @@
 # pylint: disable=no-name-in-module,unused-import
 
 
-from pyarrow.lib import (   # noqa: F401
+from pyarrow.lib import (  # noqa: F401
     DataType,
     NA, Type_NA, _NULL, null,
     bool_, Type_BOOL,
@@ -37,7 +37,7 @@ from pyarrow.lib import (   # noqa: F401
     is_boolean_value, is_float_value, is_integer_value,
 )
 
-from pyarrow.types import (   # noqa: F401
+from pyarrow.types import (  # noqa: F401
     is_null,
     is_boolean,
     is_string, is_unicode,
@@ -56,7 +56,7 @@ from pyarrow.types import (   # noqa: F401
     is_dictionary,
 )
 
-from h1st.utils.data_types.spark_sql import (   # noqa: F401
+from aito.util.data_types.spark_sql import (   # noqa: F401
     _NULL_TYPE,
     _BOOL_TYPE,
     _STR_TYPE,

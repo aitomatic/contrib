@@ -30,16 +30,16 @@ from pyarrow.fs import LocalFileSystem, S3FileSystem
 from pyarrow.lib import RecordBatch, Schema, Table   # pylint: disable=no-name-in-module
 from pyarrow.parquet import FileMetaData, read_metadata, read_schema, read_table
 
-from h1st.utils import debug, fs, s3
-from h1st.utils.data_types.arrow import (
+from aito.util import debug, fs, s3
+from aito.util.data_types.arrow import (
     DataType, _ARROW_STR_TYPE, _ARROW_DATE_TYPE,
     is_binary, is_boolean, is_num, is_possible_cat, is_possible_feature, is_string)
-from h1st.utils.data_types.numpy_pandas import NUMPY_FLOAT_TYPES, NUMPY_INT_TYPES
-from h1st.utils.data_types.python import (PY_NUM_TYPES, PyNumType,
-                                          PyPossibleFeatureType, PY_LIST_OR_TUPLE)
-from h1st.utils.default_dict import DefaultDict
-from h1st.utils.iter import to_iterable
-from h1st.utils.namespace import Namespace, DICT_OR_NAMESPACE_TYPES
+from aito.util.data_types.numpy_pandas import NUMPY_FLOAT_TYPES, NUMPY_INT_TYPES
+from aito.util.data_types.python import (PY_NUM_TYPES, PyNumType,
+                                         PyPossibleFeatureType, PY_LIST_OR_TUPLE)
+from aito.util.default_dict import DefaultDict
+from aito.util.iter import to_iterable
+from aito.util.namespace import Namespace, DICT_OR_NAMESPACE_TYPES
 
 from ._abstract import (AbstractDataHandler, AbstractFileDataHandler, AbstractS3FileDataHandler,
                         ColsType, ReducedDataSetType)
@@ -90,7 +90,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
     _FILE_CACHES: Dict[str, Namespace] = {}
 
     # default arguments dict
-    # (cannot be h1st.utils.namespace.Namespace
+    # (cannot be aito.util.namespace.Namespace
     # because that makes nested dicts into normal dicts)
     _DEFAULT_KWARGS: Dict[str, Optional[Union[str, DefaultDict]]] = dict(
         iCol=None, tCol=None,

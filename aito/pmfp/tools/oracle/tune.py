@@ -15,7 +15,7 @@ import click
 
 from h1st.contrib.pmfp.models import TimeSeriesDLFaultPredStudent
 
-import h1st.utils.debug
+import aito.util.debug
 
 
 @click.command(name='tune-fault-pred-student-decision-threshold',
@@ -92,7 +92,7 @@ def tune_fault_pred_student_decision_threshold(student_version: str,
                                                debug: bool = False):
     """Tune a Knowledge Generalizer ("Student") model's decision threshold."""
     if debug:
-        h1st.utils.debug.ON = True
+        aito.util.debug.ON = True
 
     # load Student model
     student: TimeSeriesDLFaultPredStudent = \

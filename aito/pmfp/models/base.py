@@ -18,9 +18,9 @@ from pandas import DataFrame, Series
 
 from h1st.model.model import Model
 
-from h1st.utils.data_proc import ParquetDataset
-from h1st.utils.log import STDOUT_HANDLER
-from h1st.utils import s3
+from aito.util.data_proc import ParquetDataset
+from aito.util.log import STDOUT_HANDLER
+from aito.util import s3
 
 from h1st.contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
                                          EQUIPMENT_INSTANCE_ID_COL, DATE_COL)

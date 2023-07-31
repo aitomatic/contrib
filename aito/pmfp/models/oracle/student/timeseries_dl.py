@@ -19,13 +19,13 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.neural_network import MLPClassifier
 from ruamel import yaml
 
-from h1st.utils.data_proc import (PandasFlatteningSubsampler,
-                                  PandasMLPreprocessor,
-                                  ParquetDataset)
-from h1st.utils.data_proc._abstract import ColsType
-from h1st.utils.iter import to_iterable
-from h1st.utils.path import add_cwd_to_py_path
-from h1st.utils import fs, s3
+from aito.util.data_proc import (PandasFlatteningSubsampler,
+                                 PandasMLPreprocessor,
+                                 ParquetDataset)
+from aito.util.data_proc._abstract import ColsType
+from aito.util.iter import to_iterable
+from aito.util.path import add_cwd_to_py_path
+from aito.util import fs, s3
 
 from h1st.contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
                                          EQUIPMENT_INSTANCE_ID_COL, DATE_COL)

@@ -7,7 +7,7 @@ from typing import List, Sequence, Tuple   # Py3.9+: use built-ins
 
 from pandas import DataFrame, Series
 
-from h1st.utils.data_proc import ParquetDataset
+from aito.util.data_proc import ParquetDataset
 
 from h1st.contrib.pmfp.models.base import BaseFaultPredictor
 from .teacher.base import BaseFaultPredTeacher
