@@ -4,7 +4,7 @@ Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
     \
-    h1st pmfp oraclize \
+    aito oraclize \
     My1stFaultPredTeacher <...teacher-model-version...> \
     \
     --input-cat-cols compressor1 compressor2 compressor3 \

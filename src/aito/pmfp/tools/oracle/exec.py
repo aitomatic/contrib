@@ -3,7 +3,7 @@
 Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
-    h1st pmfp predict-faults \
+    aito predict-faults \
     <...model-class-name...> \
     <...model-version...> \
     --from-date 2016-09-01 --to-date 2022-02-22
