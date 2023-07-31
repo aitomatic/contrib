@@ -3,17 +3,17 @@
 Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
-    h1st pmfp tune-decision-threshold \
+    aito tune-decision-threshold \
     <...student-model-version...> \
     2016-09-01 2022-02-22
 """
 
 
-from typing import Tuple   # Python 3.9+: use built-ins/collections.abc
+from typing import Tuple
 
 import click
 
-from h1st.contrib.pmfp.models import TimeSeriesDLFaultPredStudent
+from aito.pmfp.models import TimeSeriesDLFaultPredStudent
 
 import aito.util.debug
 
@@ -25,9 +25,9 @@ import aito.util.debug
                context_settings=None,
                # callback=None,
                # params=None,
-               help="Tune a Student model's decision threshold >>>",   # noqa: E501
-               epilog="^^^ Tune a Student model's decision threshold",  # noqa: E501
-               short_help="Tune a Student model's decision threshold",  # noqa: E501
+               help="Tune a Student model's decision threshold >>>",
+               epilog="^^^ Tune a Student model's decision threshold",
+               short_help="Tune a Student model's decision threshold",
                options_metavar='[OPTIONS]',
                add_help_option=True,
                no_args_is_help=True,
@@ -43,9 +43,7 @@ import aito.util.debug
                 metavar='STUDENT_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('date_range',
                 type=str,
                 required=True,
@@ -56,9 +54,7 @@ import aito.util.debug
                 metavar='FROM_DATE TO_DATE',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--debug',
               show_default=True,
               prompt=False,

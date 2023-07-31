@@ -4,7 +4,7 @@ Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
     \
-    h1st pmfp oraclize \
+    aito oraclize \
     My1stFaultPredTeacher <...teacher-model-version...> \
     \
     --input-cat-cols compressor1 compressor2 compressor3 \
@@ -19,8 +19,8 @@ from typing import List, Tuple   # Py3.9+: use built-ins/collections.abc
 
 import click
 
-from h1st.contrib.pmfp.models import BaseFaultPredTeacher, FaultPredOracleModeler   # noqa: E501
-from h1st.contrib.pmfp.models.oracle.student.timeseries_dl import N_MINUTES_PER_DAY   # noqa: E501
+from aito.pmfp.models import BaseFaultPredTeacher, FaultPredOracleModeler
+from aito.pmfp.models.oracle.student.timeseries_dl import N_MINUTES_PER_DAY
 
 import aito.util.debug
 from aito.util.path import add_cwd_to_py_path
@@ -51,9 +51,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='TEACHER_CLASS_NAME',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('teacher_version',
                 type=str,
                 required=True,
@@ -64,9 +62,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='TEACHER_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--input-cat-cols',
               show_default=True,
               prompt=False,

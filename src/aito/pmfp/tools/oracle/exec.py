@@ -3,7 +3,7 @@
 Example:
 AWS_ACCESS_KEY_ID=<...aws-access-key-id...> \
 AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
-    h1st pmfp predict-faults \
+    aito predict-faults \
     <...model-class-name...> \
     <...model-version...> \
     --from-date 2016-09-01 --to-date 2022-02-22
@@ -16,7 +16,7 @@ from typing import Optional
 import click
 from pandas import Series
 
-from h1st.contrib.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_DIR_PATH   # noqa: E501
+from aito.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_DIR_PATH
 
 import aito.util.debug
 from aito.util.path import add_cwd_to_py_path
@@ -47,9 +47,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='MODEL_CLASS_NAME',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('model_version',
                 type=str,
                 required=True,
@@ -60,9 +58,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='MODEL_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('date',
                 type=str,
                 required=True,
@@ -73,9 +69,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='DATE',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--to-date',
               show_default=True,
               prompt=False,

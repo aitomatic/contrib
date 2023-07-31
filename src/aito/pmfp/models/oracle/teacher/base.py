@@ -8,7 +8,7 @@ from typing import Optional
 
 from pandas import DataFrame
 
-from h1st.contrib.pmfp.models.base import BaseFaultPredictor
+from aito.pmfp.models.base import BaseFaultPredictor
 
 
 class BaseFaultPredTeacher(BaseFaultPredictor):

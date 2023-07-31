@@ -8,7 +8,7 @@ from .oracle import (oraclize_fault_pred_teacher,
                      tune_fault_pred_student_decision_threshold)
 
 
-__all__ = ('h1st_pmfp_cli',)
+__all__ = ('aito_pmfp_cli',)
 
 
 @click.group(name='pmfp',
@@ -37,5 +37,5 @@ __all__ = ('h1st_pmfp_cli',)
              subcommand_metavar='H1ST_PMFP_SUB_COMMAND',
              chain=False,
              result_callback=None)
-def h1st_pmfp_cli():
+def aito_pmfp_cli():
     """H1st Predictive Maintenance / Fault Prediction ("PMFP") CLI."""

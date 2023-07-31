@@ -4,7 +4,7 @@
 from pandas._libs.missing import NA   # pylint: disable=no-name-in-module
 from tqdm import tqdm
 
-from h1st.contrib.pmfp.data_mgmt import EquipmentParquetDataSet
+from aito.pmfp.data_mgmt import EquipmentParquetDataSet
 from aito.util.data_proc import ParquetDataset
 
 from k1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,

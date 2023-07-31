@@ -27,10 +27,10 @@ from aito.util.iter import to_iterable
 from aito.util.path import add_cwd_to_py_path
 from aito.util import fs, s3
 
-from h1st.contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
-                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
-from h1st.contrib.pmfp.models.base import BaseFaultPredictor, H1ST_MODELS_DIR_PATH   # noqa: E501
-from h1st.contrib.pmfp.models.oracle.teacher.base import BaseFaultPredTeacher
+from aito.pmfp.data_mgmt import (EquipmentParquetDataSet,
+                                 EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
+from aito.pmfp.models.base import BaseFaultPredictor, H1ST_MODELS_DIR_PATH
+from aito.pmfp.models.oracle.teacher.base import BaseFaultPredTeacher
 
 
 N_MINUTES_PER_DAY: int = 24 * 60

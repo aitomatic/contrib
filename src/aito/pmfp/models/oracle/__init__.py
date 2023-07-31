@@ -9,7 +9,7 @@ from pandas import DataFrame, Series
 
 from aito.util.data_proc import ParquetDataset
 
-from h1st.contrib.pmfp.models.base import BaseFaultPredictor
+from aito.pmfp.models.base import BaseFaultPredictor
 from .teacher.base import BaseFaultPredTeacher
 from .student.timeseries_dl import (TimeSeriesDLFaultPredStudentModeler,
                                     TimeSeriesDLFaultPredStudent)

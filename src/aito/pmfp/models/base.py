@@ -16,14 +16,12 @@ from uuid import uuid4
 from dotenv.main import load_dotenv
 from pandas import DataFrame, Series
 
-from h1st.model.model import Model
-
 from aito.util.data_proc import ParquetDataset
 from aito.util.log import STDOUT_HANDLER
 from aito.util import s3
 
-from h1st.contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
-                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
+from aito.pmfp.data_mgmt import (EquipmentParquetDataSet,
+                                 EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
 
 
 __all__ = (
@@ -59,7 +57,7 @@ H1ST_BATCH_OUTPUT_DIR_PATH: Union[str, Path] = (
 )
 
 
-class BaseFaultPredictor(Model):
+class BaseFaultPredictor:
     # pylint: disable=too-many-ancestors
     """Base Fault Prediction model class."""
 
