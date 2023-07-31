@@ -1,55 +1,143 @@
-[tool.poetry]
+[project]
+
+
+# GENERAL INFO
+# ============
+
 name = 'Aitomatic-Contrib'
-version = '23.7.31.0'
-description = 'Aitomatic Contrib'
-authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
-license = 'Apache-2.0'
-readme = 'README.md'
-homepage = 'https://GitHub.com/Aitomatic/Contrib'
-repository = 'https://GitHub.com/Aitomatic/Contrib'
-packages = [
-  {include = 'aito'},
+
+keywords = [
+  'Aitomatic',
+  'contrib',
+]
+
+readme = {file = 'README.md', content-type = 'text/markdown', charset = 'UTF-8'}
+
+
+# AUTHOR(S)/MAINTAINER(S) & LICENSE
+# =================================
+
+authors = [
+  {name = 'Aitomatic, Inc.', email = 'engineering@aitomatic.com'},
+]
+maintainers = [
+  {name = 'Aitomatic, Inc.', email = 'engineering@aitomatic.com'},
+]
+
+license = {file = 'LICENSE'}
+
+
+# PYTHON VERSION REQUIREMENT
+# ==========================
+
+requires-python = '>= 3.11'
+
+
+# DYNAMIC METADATA
+# ================
+
+dynamic = [
+  # version
+  'version',
+
+  # description
+  'description',
+
+  # dependencies
+  'dependencies',
+  'optional-dependencies',
+
+  # entry points / scripts
+  'entry-points',
 ]
 
 
-[tool.poetry.dependencies]
-Python = '>= 3.11'
+# URLs
+# ====
 
-# Data Proc
-PySpark = ">= 3.4.1"
+[project.urls]
+Homepage = 'https://GitHub.com/Aitomatic/Contrib'
+Repository = 'https://GitHub.com/Aitomatic/Contrib'
+GitHub = 'https://GitHub.com/Aitomatic/Contrib'
+Documentation = 'https://GitHub.com/Aitomatic/Contrib'
 
-# Image Processing
-Pillow = '>= 9.5.0'
-PyCOCOTools = '>= 2.0.6'
 
-# DL/ML
-Imbalanced-Learn = ">= 0.11.0"
-TensorFlow = ">= 2.12.0"  # let higher dependencies figure
+# SETUPTOOLS-SPECIFIC CONFIG
+# ==========================
+# setuptools.pypa.io/en/latest/userguide/pyproject_config.html#setuptools-specific-configuration
 
-# Hugging Face
-Transformers = '>= 4.31.0'
+[tool.setuptools]
 
-# LLM & related
-LangChain = '>= 0.0.248'
-PandasAI = '>= 0.8.1'
+# platforms = []  # array
 
-# Django & related
-Django = '>= 4.2.3'
-Django-Configurations = '>= 2.4.1'
-Django-CORS-Headers = '>= 4.2.0'
-Django-Environ = '>= 0.10.0'
-Django-Extensions = '>= 3.2.3'
-DjangoRESTFramework = '>= 3.14.0'
-Django-Silk = '>= 5.0.3'
-DRF-Writable-Nested = '>= 0.7.0'
+zip-safe = true
 
-# DB-related
-PsycoPG = '>= 3.1.9'
-PsycoPG2-binary = '>= 2.9.6'
+# eager-resources = []  # array
 
+py-modules = []
+
+# packages = []  # array or find directive
+
+# package-dir = {}  # table/inline-table, used when explicitly listing packages
+
+# namespace-packages = []  # array, deprecated
+
+package-data = {}  # table/inline-table
+
+include-package-data = true
+
+exclude-package-data = {}  # table/inline-table
+
+license-files = ['LICEN[CS]E*']  # array of glob patterns
+
+data-files = {}  # table/inline-table, discouraged
+
+# script-files = []  # array, deprecated
+
+provides = []  # array, ignored by pip
+
+obsoletes = []  # array, ignored by pip
+
+
+[tool.setuptools.packages.find]
+where = ['src']
+include = ['*']
+exclude = []
+namespaces = true
+
+
+[tool.setuptools.dynamic]
+
+# version
+version = {file = 'metadata/version'}
+
+# description
+description = {file = 'metadata/description'}
+
+# dependencies
+dependencies = {file = 'metadata/requirements/base.txt'}
+
+# entry points / scripts
+entry-points = {file = 'metadata/entry-points'}
+
+# optional depedendencies
+[tool.setuptools.dynamic.optional-dependencies]
+build = {file = 'metadata/requirements/build.txt'}
+dev = {file = 'metadata/requirements/dev.txt'}
+doc = {file = 'metadata/requirements/doc.txt'}
+lint = {file = 'metadata/requirements/lint.txt'}
+publish = {file = 'metadata/requirements/publish.txt'}
+test = {file = 'metadata/requirements/test.txt'}
+viz = {file = 'metadata/requirements/viz.txt'}
+
+
+# BUILD SYSTEM
+# (SetUpTools)
+# ============
 
 [build-system]
 requires = [
-  'Poetry-Core >= 1.6.1',
+  'SetUpTools >= 68.0.0',
+  'Wheel >= 0.41.0',
 ]
-build-backend = 'poetry.core.masonry.api'
+build-backend = 'setuptools.build_meta'
