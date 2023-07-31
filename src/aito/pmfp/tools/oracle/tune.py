@@ -9,11 +9,11 @@ AWS_SECRET_ACCESS_KEY=<...aws-secret-access-key...> \
 """
 
 
-from typing import Tuple   # Python 3.9+: use built-ins/collections.abc
+from typing import Tuple
 
 import click
 
-from h1st.contrib.pmfp.models import TimeSeriesDLFaultPredStudent
+from aito.pmfp.models import TimeSeriesDLFaultPredStudent
 
 import aito.util.debug
 
@@ -25,9 +25,9 @@ import aito.util.debug
                context_settings=None,
                # callback=None,
                # params=None,
-               help="Tune a Student model's decision threshold >>>",   # noqa: E501
-               epilog="^^^ Tune a Student model's decision threshold",  # noqa: E501
-               short_help="Tune a Student model's decision threshold",  # noqa: E501
+               help="Tune a Student model's decision threshold >>>",
+               epilog="^^^ Tune a Student model's decision threshold",
+               short_help="Tune a Student model's decision threshold",
                options_metavar='[OPTIONS]',
                add_help_option=True,
                no_args_is_help=True,

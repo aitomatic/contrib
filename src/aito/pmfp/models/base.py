@@ -22,8 +22,8 @@ from aito.util.data_proc import ParquetDataset
 from aito.util.log import STDOUT_HANDLER
 from aito.util import s3
 
-from h1st.contrib.pmfp.data_mgmt import (EquipmentParquetDataSet,
-                                         EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
+from aito.pmfp.data_mgmt import (EquipmentParquetDataSet,
+                                 EQUIPMENT_INSTANCE_ID_COL, DATE_COL)
 
 
 __all__ = (

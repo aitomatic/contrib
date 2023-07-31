@@ -3,13 +3,13 @@
 
 import click
 
-from h1st.contrib.pmfp.tools import h1st_pmfp_cli
+from aito.pmfp.tools import aito_pmfp_cli
 
 
 @click.group(name='h1st',
              cls=click.Group,
              commands={
-                 'pmfp': h1st_pmfp_cli,
+                 'pmfp': aito_pmfp_cli,
              },
 
              # Command kwargs
@@ -30,5 +30,5 @@ from h1st.contrib.pmfp.tools import h1st_pmfp_cli
              subcommand_metavar='H1ST_SUB_COMMAND',
              chain=False,
              result_callback=None)
-def h1st_cli():
-    """H1st CLI."""
+def aito_cli():
+    """Aito CLI."""

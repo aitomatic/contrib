@@ -16,7 +16,7 @@ from typing import Optional
 import click
 from pandas import Series
 
-from h1st.contrib.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_DIR_PATH   # noqa: E501
+from aito.pmfp.models import BaseFaultPredictor, H1ST_BATCH_OUTPUT_DIR_PATH
 
 import aito.util.debug
 from aito.util.path import add_cwd_to_py_path
