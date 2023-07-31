@@ -1,15 +1,14 @@
 [tool.poetry]
-name = 'AICALM-Contrib'
-version = '23.6.15.0'
-description = 'AICALM Contrib'
+name = 'Aitomatic-Contrib'
+version = '23.7.31.0'
+description = 'Aitomatic Contrib'
 authors = ['Aitomatic, Inc. <engineering@aitomatic.com>']
 license = 'Apache-2.0'
 readme = 'README.md'
-homepage = 'https://github.com/aitomatic/aicalm-contrib'
-repository = 'https://github.com/aitomatic/aicalm-contrib'
+homepage = 'https://GitHub.com/Aitomatic/Contrib'
+repository = 'https://GitHub.com/Aitomatic/Contrib'
 packages = [
-  {include = 'aicalm_contrib'},
-  {include = 'k1st_contrib'},
+  {include = 'aito'},
 ]
 
 
@@ -17,23 +16,23 @@ packages = [
 Python = '>= 3.11'
 
 # H1st
-H1st-Contrib = '>= 2.1.2.dev0'
+H1st-Contrib = '>= 2.1.8.dev1'
 
 # Image Processing
 Pillow = '>= 9.5.0'
 PyCOCOTools = '>= 2.0.6'
 
 # Hugging Face
-Transformers = '>= 4.30.2'
+Transformers = '>= 4.31.0'
 
 # LLM & related
-LangChain = '>= 0.0.201'
-PandasAI = '>= 0.5.3'
+LangChain = '>= 0.0.248'
+PandasAI = '>= 0.8.1'
 
 # Django & related
-Django = '>= 4.2.2'
+Django = '>= 4.2.3'
 Django-Configurations = '>= 2.4.1'
-Django-CORS-Headers = '>= 4.1.0'
+Django-CORS-Headers = '>= 4.2.0'
 Django-Environ = '>= 0.10.0'
 Django-Extensions = '>= 3.2.3'
 DjangoRESTFramework = '>= 3.14.0'
