@@ -1,3 +1,3 @@
-# H1st Contrib
+# Aitomatic Contrib
 
-Contributions that may or may not eventually be incorporated into the core `h1st` repo.
+Contributions that may or may not eventually be incorporated into core repos.
