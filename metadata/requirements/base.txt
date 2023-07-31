@@ -1,0 +1,31 @@
+# Data Proc
+PySpark >= 3.4.1
+
+# Image Processing
+Pillow >= 9.5.0  # let higher dependencies figure
+PyCOCOTools >= 2.0.6
+
+# DL/ML
+Imbalanced-Learn >= 0.11.0
+TensorFlow >= 2.12.0  # let higher dependencies figure
+
+# Hugging Face
+Transformers >= 4.31.0
+
+# LLM & related
+LangChain >= 0.0.248
+PandasAI >= 0.8.1
+
+# Django & related
+Django >= 4.2.3
+Django-Configurations >= 2.4.1
+Django-CORS-Headers >= 4.2.0
+Django-Environ >= 0.10.0
+Django-Extensions >= 3.2.3
+DjangoRESTFramework >= 3.14.0
+Django-Silk >= 5.0.3
+DRF-Writable-Nested >= 0.7.0
+
+# DB-related
+PsycoPG >= 3.1.9
+PsycoPG2-binary >= 2.9.6
