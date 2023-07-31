@@ -1,12 +1,13 @@
 """Logging utilities."""
 
 
+from collections.abc import Sequence
 from logging import Formatter, StreamHandler
 import sys
-from typing import Any
+from typing import Any, LiteralString
 
 
-__all__ = 'STDOUT_HANDLER', 'enable_live_print'
+__all__: Sequence[LiteralString] = 'STDOUT_HANDLER', 'enable_live_print'
 
 
 # handler for logging to StdOut
