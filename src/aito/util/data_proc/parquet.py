@@ -1093,20 +1093,20 @@ class ParquetDataset(AbstractS3FileDataHandler):
             assert isinstance(filterCriteriaTuple, PY_LIST_OR_TUPLE)
             filterCriteriaTupleLen: int = len(filterCriteriaTuple)
 
-            col: str = filterCriteriatuple[0]
+            col: str = filterCriteriaTuple[0]
 
             if f'{col}=' in _samplePath:
                 if filterCriteriaTupleLen == 2:
                     fromVal: Optional[str] = None
                     toVal: Optional[str] = None
-                    inSet: set[str] = {str(v) for v in to_iterable(filterCriteriatuple[1])}
+                    inSet: set[str] = {str(v) for v in to_iterable(filterCriteriaTuple[1])}
 
                 elif filterCriteriaTupleLen == 3:
-                    fromVal: Optional[str] = filterCriteriatuple[1]
+                    fromVal: Optional[str] = filterCriteriaTuple[1]
                     if fromVal is not None:
                         fromVal: str = str(fromVal)
 
-                    toVal: Optional[str] = filterCriteriatuple[2]
+                    toVal: Optional[str] = filterCriteriaTuple[2]
                     if toVal is not None:
                         toVal: str = str(toVal)
 
