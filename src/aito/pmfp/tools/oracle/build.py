@@ -51,9 +51,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='TEACHER_CLASS_NAME',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('teacher_version',
                 type=str,
                 required=True,
@@ -64,9 +62,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='TEACHER_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--input-cat-cols',
               show_default=True,
               prompt=False,

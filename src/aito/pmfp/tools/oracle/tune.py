@@ -43,9 +43,7 @@ import aito.util.debug
                 metavar='STUDENT_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('date_range',
                 type=str,
                 required=True,
@@ -56,9 +54,7 @@ import aito.util.debug
                 metavar='FROM_DATE TO_DATE',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--debug',
               show_default=True,
               prompt=False,

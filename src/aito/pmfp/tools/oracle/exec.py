@@ -47,9 +47,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='MODEL_CLASS_NAME',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('model_version',
                 type=str,
                 required=True,
@@ -60,9 +58,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='MODEL_VERSION',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.argument('date',
                 type=str,
                 required=True,
@@ -73,9 +69,7 @@ from aito.util.path import add_cwd_to_py_path
                 metavar='DATE',
                 expose_value=True,
                 is_eager=False,
-                envvar=None,
-                # shell_complete=None,
-                )
+                envvar=None)
 @click.option('--to-date',
               show_default=True,
               prompt=False,
