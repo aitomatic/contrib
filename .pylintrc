@@ -1,0 +1,3 @@
+disable=
+  fixme,
+  method-cache-max-size-none,

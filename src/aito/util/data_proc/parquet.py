@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 import datetime
 from functools import lru_cache, partial
 from itertools import chain
@@ -73,10 +74,11 @@ __all__ = ('ParquetDataset',)
 # simplefilter(action='ignore', category=PerformanceWarning)
 
 
-def randomSample(population: Collection[Any], sampleSize: int,
+def randomSample(population: Sequence[Any], sampleSize: int,
                  returnCollectionType=set) -> Collection[Any]:
     """Draw random sample from population."""
-    return returnCollectionType(random.sample(population=population, k=sampleSize)
+    return returnCollectionType(random.sample(population=list(population),
+                                              k=sampleSize)
                                 if len(population) > sampleSize
                                 else population)
 
