@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from functools import cached_property, lru_cache
 import os
 from typing import Literal, Optional
-from typing import List   # Py3.9+: use built-ins
 
 from dotenv.main import load_dotenv
 from pandas import DataFrame
@@ -23,13 +22,13 @@ load_dotenv(dotenv_path='.env',
             encoding='utf-8')
 
 
-AWS_REGION: Optional[str] = os.environ.get('H1ST_PMFP_AWS_REGION')
+AWS_REGION: Optional[str] = os.environ.get('AITO_PMFP_AWS_REGION')
 AWS_ACCESS_KEY: Optional[str] = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_KEY: Optional[str] = os.environ.get('AWS_SECRET_ACCESS_KEY')
 EQUIPMENT_DATA_PARENT_DIR_PATH: Optional[str] = \
-    os.environ.get('H1ST_PMFP_EQUIPMENT_DATA_PARENT_DIR_PATH')
+    os.environ.get('AITO_PMFP_EQUIPMENT_DATA_PARENT_DIR_PATH')
 EQUIPMENT_DATA_TIMEZONE: Optional[str] = \
-    os.environ.get('H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE')
+    os.environ.get('AITO_PMFP_EQUIPMENT_DATA_TIMEZONE')
 
 
 EQUIPMENT_INSTANCE_ID_COL: str = 'equipment_instance_id'
@@ -42,7 +41,7 @@ DATE_TIME_COL: str = 'date_time'
            eq=True,
            order=True,
            unsafe_hash=False,
-           frozen=True)   # frozen=True needed for __hash__()
+           frozen=True)  # frozen=True needed for __hash__()
 class EquipmentParquetDataSet:
     """Equipment Unique Type Group Parquet Data Set."""
 
@@ -59,7 +58,7 @@ class EquipmentParquetDataSet:
         """Get URL of data set."""
         assert EQUIPMENT_DATA_PARENT_DIR_PATH, \
             EnvironmentError(
-                '*** H1ST_PMFP_EQUIPMENT_DATA_PARENT_DIR_PATH env var not set ***')  # noqa: E501
+                '*** AITO_PMFP_EQUIPMENT_DATA_PARENT_DIR_PATH env var not set ***')  # noqa: E501
 
         return f'{EQUIPMENT_DATA_PARENT_DIR_PATH}/{self.name}.parquet'
 
@@ -72,7 +71,7 @@ class EquipmentParquetDataSet:
         """Load as a Parquet Data Feeder."""
         if EQUIPMENT_DATA_PARENT_DIR_PATH.startswith('s3://'):
             assert AWS_REGION, \
-                EnvironmentError('*** H1ST_PMFP_AWS_REGION envvar not set ***')
+                EnvironmentError('*** AITO_PMFP_AWS_REGION envvar not set ***')
 
         return ParquetDataset(
             path=self.url,
@@ -85,7 +84,7 @@ class EquipmentParquetDataSet:
     def get_equipment_instance_ids_by_date(
             self,
             date: Optional[str] = None, to_date: Optional[str] = None) \
-            -> List[str]:
+            -> list[str]:
         """Get equipment instance IDs by date(s)."""
         parquet_ds: ParquetDataset = self.load()
 
@@ -134,7 +133,7 @@ class EquipmentParquetDataSet:
         """Load equipment data by equipment instance ID and date(s)."""
         assert EQUIPMENT_DATA_TIMEZONE, \
             EnvironmentError(
-                '*** H1ST_PMFP_EQUIPMENT_DATA_TIMEZONE env var not set ***')
+                '*** AITO_PMFP_EQUIPMENT_DATA_TIMEZONE env var not set ***')
 
         parquet_ds: ParquetDataset = \
             self.load().filter(f'{EQUIPMENT_INSTANCE_ID_COL} == '
