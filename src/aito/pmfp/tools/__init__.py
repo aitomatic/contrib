@@ -34,7 +34,7 @@ __all__ = ('aito_pmfp_cli',)
 
              # Group/MultiCommand kwargs
              invoke_without_command=False,
-             subcommand_metavar='H1ST_PMFP_SUB_COMMAND',
+             subcommand_metavar='AITO_PMFP_SUB_COMMAND',
              chain=False,
              result_callback=None)
 def aito_pmfp_cli():

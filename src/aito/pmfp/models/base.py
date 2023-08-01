@@ -39,7 +39,7 @@ load_dotenv(dotenv_path='.env',
             encoding='utf-8')
 
 
-S3_BUCKET: Optional[str] = os.environ.get('H1ST_PMFP_S3_BUCKET')
+S3_BUCKET: Optional[str] = os.environ.get('AITO_PMFP_S3_BUCKET')
 LOCAL_HOME_DIR_PATH = Path.home()
 
 H1ST_MODEL_DIR_NAME: str = '.h1st/models'
