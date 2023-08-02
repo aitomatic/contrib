@@ -16,9 +16,9 @@ from django.contrib.postgres.fields import DateRangeField
 
 from psycopg2.extras import DateRange
 
-from k1st_contrib.iot_mgmt.data.models import (EquipmentUniqueTypeGroup,
-                                               EquipmentInstance)
-from k1st_contrib.iot_mgmt.utils import MAX_CHAR_LEN, clean_lower_str
+from aito.iot_mgmt.data.models import (EquipmentUniqueTypeGroup,
+                                       EquipmentInstance)
+from aito.iot_mgmt.utils import MAX_CHAR_LEN, clean_lower_str
 
 
 _ONE_DAY_TIME_DELTA = timedelta(days=1)

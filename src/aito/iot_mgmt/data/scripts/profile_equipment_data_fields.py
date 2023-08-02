@@ -7,8 +7,8 @@ from tqdm import tqdm
 from aito.pmfp.data_mgmt import EquipmentParquetDataSet
 from aito.util.data_proc import ParquetDataset
 
-from k1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,
-                                       EquipmentUniqueTypeGroupDataFieldProfile)  # noqa: E501
+from aito.iot_mgmt.api import (EquipmentUniqueTypeGroup,
+                               EquipmentUniqueTypeGroupDataFieldProfile)
 
 
 MAX_N_DISTINCT_VALUES_TO_PROFILE: int = 30

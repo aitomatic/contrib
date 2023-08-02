@@ -13,7 +13,7 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from silk.profiling.profiler import silk_profile
 
-from k1st_contrib.iot_mgmt.maint_ops.filters import (
+from aito.iot_mgmt.maint_ops.filters import (
     EquipmentInstanceDailyRiskScoreFilter,
     EquipmentProblemTypeFilter,
     EquipmentInstanceAlarmPeriodFilter,
@@ -21,7 +21,7 @@ from k1st_contrib.iot_mgmt.maint_ops.filters import (
     AlertDiagnosisStatusFilter,
     EquipmentInstanceAlertPeriodFilter,
 )
-from k1st_contrib.iot_mgmt.maint_ops.querysets import (
+from aito.iot_mgmt.maint_ops.querysets import (
     EQUIPMENT_INSTANCE_DAILY_RISK_SCORE,
     EQUIPMENT_PROBLEM_TYPE_QUERYSET,
     EQUIPMENT_INSTANCE_ALARM_PERIOD_REST_API_QUERYSET,
@@ -29,7 +29,7 @@ from k1st_contrib.iot_mgmt.maint_ops.querysets import (
     EQUIPMENT_INSTANCE_ALERT_PERIOD_REST_API_QUERYSET,
     EQUIPMENT_INSTANCE_PROBLEM_DIAGNOSIS_REST_API_QUERYSET,
 )
-from k1st_contrib.iot_mgmt.maint_ops.serializers import (
+from aito.iot_mgmt.maint_ops.serializers import (
     EquipmentInstanceDailyRiskScoreSerializer,
     EquipmentProblemTypeSerializer,
     EquipmentInstanceAlarmPeriodSerializer,

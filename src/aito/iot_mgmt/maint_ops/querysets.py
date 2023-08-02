@@ -3,7 +3,7 @@
 
 from django.db.models import Prefetch
 
-from k1st_contrib.iot_mgmt.maint_ops.models import (
+from aito.iot_mgmt.maint_ops.models import (
     EquipmentInstanceDailyRiskScore,
     EquipmentProblemType,
     EquipmentInstanceAlarmPeriod,

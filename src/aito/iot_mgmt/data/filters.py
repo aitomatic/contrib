@@ -5,7 +5,7 @@ from django.db.models.fields.json import JSONField
 
 from rest_framework_filters import CharFilter, FilterSet, RelatedFilter
 
-from k1st_contrib.iot_mgmt.data.models import (
+from aito.iot_mgmt.data.models import (
     LogicalDataType,
     NumericMeasurementUnit,
     EquipmentDataFieldType,

@@ -1,7 +1,7 @@
 """Create CAT & NUM logical data types."""
 
 
-from k1st_contrib.iot_mgmt.data.models import LogicalDataType
+from aito.iot_mgmt.data.models import LogicalDataType
 
 
 def run():
