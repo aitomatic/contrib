@@ -7,7 +7,7 @@ from rest_framework.serializers import (ModelSerializer,
 
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
-from k1st_contrib.iot_mgmt.data.models import (
+from aito.iot_mgmt.data.models import (
     LogicalDataType,
     NumericMeasurementUnit,
     EquipmentDataFieldType,
@@ -20,7 +20,7 @@ from k1st_contrib.iot_mgmt.data.models import (
     EquipmentSystem,
 )
 
-from k1st_contrib.iot_mgmt.utils import clean_lower_str
+from aito.iot_mgmt.utils import clean_lower_str
 
 
 class DataTypeSerializer(ModelSerializer):

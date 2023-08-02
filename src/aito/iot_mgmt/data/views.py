@@ -13,7 +13,7 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from silk.profiling.profiler import silk_profile
 
-from k1st_contrib.iot_mgmt.data.filters import (
+from aito.iot_mgmt.data.filters import (
     DataTypeFilter,
     NumericMeasurementUnitFilter,
     EquipmentDataFieldTypeFilter,
@@ -25,7 +25,7 @@ from k1st_contrib.iot_mgmt.data.filters import (
     EquipmentInstanceFilter,
     EquipmentSystemFilter,
 )
-from k1st_contrib.iot_mgmt.data.querysets import (
+from aito.iot_mgmt.data.querysets import (
     DATA_TYPE_QUERYSET,
     NUMERIC_MEASUREMENT_UNIT_QUERYSET,
     EQUIPMENT_DATA_FIELD_TYPE_QUERYSET,
@@ -37,7 +37,7 @@ from k1st_contrib.iot_mgmt.data.querysets import (
     EQUIPMENT_INSTANCE_REST_API_QUERYSET,
     EQUIPMENT_SYSTEM_REST_API_QUERYSET,
 )
-from k1st_contrib.iot_mgmt.data.serializers import (
+from aito.iot_mgmt.data.serializers import (
     DataTypeSerializer,
     NumericMeasurementUnitSerializer,
     EquipmentDataFieldTypeSerializer,
