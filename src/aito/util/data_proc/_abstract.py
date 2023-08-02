@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Collection
 from logging import getLogger, Logger, Handler, DEBUG, INFO
 from pathlib import Path
 import tempfile
 from typing import Any, Optional, Union
-from typing import Collection, Dict, Set, Tuple   # Py3.9+: built-ins
 
 from numpy import ndarray
 from pandas import DataFrame, Series
@@ -18,7 +18,7 @@ from aito.util.namespace import Namespace
 
 
 __all__ = (
-    'AbstractDataHandler', 'AbstractFileDataHandler', 'AbstractS3FileDataHandler',   # noqa: E501
+    'AbstractDataHandler', 'AbstractFileDataHandler', 'AbstractS3FileDataHandler',  # noqa: E501
     'ColsType', 'ReducedDataSetType',
 )
 
@@ -68,7 +68,7 @@ class AbstractDataHandler:
         raise NotImplementedError
 
     @property
-    def __shortRepr__(self) -> str:   # noqa: N802
+    def __shortRepr__(self) -> str:  # noqa: N802
         # pylint: disable=invalid-name
         """Return short string repr."""
         raise NotImplementedError
@@ -86,7 +86,7 @@ class AbstractDataHandler:
     # stdOutLogger
 
     @classmethod
-    def classLogger(cls, *handlers: Handler, **kwargs: Any) -> Logger:   # noqa: E501,N802
+    def classLogger(cls, *handlers: Handler, **kwargs: Any) -> Logger:  # noqa: E501,N802
         # pylint: disable=invalid-name
         """Get Class Logger."""
         logger: Logger = getLogger(name=cls.__name__)
@@ -104,7 +104,7 @@ class AbstractDataHandler:
         return logger
 
     @classmethod
-    def classStdOutLogger(cls) -> Logger:   # noqa: N802
+    def classStdOutLogger(cls) -> Logger:  # noqa: N802
         # pylint: disable=invalid-name
         """Get Class StdOut Logger."""
         return cls.classLogger(level=DEBUG, verbose=True)
@@ -126,7 +126,7 @@ class AbstractDataHandler:
         return logger
 
     @property
-    def stdOutLogger(self) -> Logger:   # noqa: N802
+    def stdOutLogger(self) -> Logger:  # noqa: N802
         # pylint: disable=invalid-name
         """Get StdOut Logger."""
         return self.logger(level=DEBUG, verbose=True)
@@ -138,13 +138,13 @@ class AbstractDataHandler:
     # tCol
 
     @property
-    def iCol(self) -> Optional[str]:   # noqa: N802
+    def iCol(self) -> Optional[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Entity/Identity column."""
         return self._iCol
 
     @iCol.setter
-    def iCol(self, iCol: str):   # noqa: N802,N803
+    def iCol(self, iCol: str):  # noqa: N802,N803
         # pylint: disable=invalid-name
         if iCol != self._iCol:
             self._iCol: Optional[str] = iCol
@@ -153,18 +153,18 @@ class AbstractDataHandler:
                 assert iCol, ValueError(f'*** iCol {iCol} INVALID ***')
 
     @iCol.deleter
-    def iCol(self):   # noqa: N802
+    def iCol(self):  # noqa: N802
         # pylint: disable=invalid-name
         self._iCol: Optional[str] = None
 
     @property
-    def tCol(self) -> Optional[str]:   # noqa: N802
+    def tCol(self) -> Optional[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Date-Time column."""
         return self._tCol
 
     @tCol.setter
-    def tCol(self, tCol: str):   # noqa: N802,N803
+    def tCol(self, tCol: str):  # noqa: N802,N803
         # pylint: disable=invalid-name
         if tCol != self._tCol:
             self._tCol: Optional[str] = tCol
@@ -173,7 +173,7 @@ class AbstractDataHandler:
                 assert tCol, ValueError(f'*** tCol {tCol} INVALID ***')
 
     @tCol.deleter
-    def tCol(self):   # noqa: N802
+    def tCol(self):  # noqa: N802
         # pylint: disable=invalid-name
         self._tCol: Optional[str] = None
 
@@ -183,12 +183,12 @@ class AbstractDataHandler:
     # _emptyCache
     # _inheritCache
 
-    def _emptyCache(self):   # noqa: N802
+    def _emptyCache(self):  # noqa: N802
         # pylint: disable=invalid-name
         """Empty cache."""
         raise NotImplementedError
 
-    def _inheritCache(self, *args: Any, **kwargs: Any):   # noqa: N802
+    def _inheritCache(self, *args: Any, **kwargs: Any):  # noqa: N802
         # pylint: disable=invalid-name
         """Inherit existing cache."""
         raise NotImplementedError
@@ -211,35 +211,35 @@ class AbstractDataHandler:
         return self.nRows
 
     @property
-    def nRows(self) -> int:   # noqa: N802
+    def nRows(self) -> int:  # noqa: N802
         # pylint: disable=invalid-name
         """Return number of rows."""
         raise NotImplementedError
 
     @nRows.deleter
-    def nRows(self):   # noqa: N802
+    def nRows(self):  # noqa: N802
         # pylint: disable=invalid-name
         self._cache.nRows = None
 
     @property
-    def columns(self) -> Set[str]:
+    def columns(self) -> set[str]:
         """Return columns."""
         raise NotImplementedError
 
-    def _organizeIndexCols(self):   # noqa: N802
+    def _organizeIndexCols(self):  # noqa: N802
         # pylint: disable=attribute-defined-outside-init,invalid-name
         self._dCol: Optional[str] = (self._DATE_COL
                                      if self._DATE_COL in self.columns
                                      else None)
 
     @property
-    def indexCols(self) -> Set[str]:   # noqa: N802
+    def indexCols(self) -> set[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Return index columns."""
         raise NotImplementedError
 
     @property
-    def contentCols(self) -> Set[str]:   # noqa: N802
+    def contentCols(self) -> set[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Return content columns."""
         return self.columns - self.indexCols
@@ -253,25 +253,25 @@ class AbstractDataHandler:
         """Return data type of specified column."""
         raise NotImplementedError
 
-    def typeIsNum(self, col: str) -> bool:   # noqa: N802
+    def typeIsNum(self, col: str) -> bool:  # noqa: N802
         # pylint: disable=invalid-name
         """Check whether specified column's data type is numerical."""
         raise NotImplementedError
 
     @property
-    def possibleFeatureCols(self) -> Set[str]:   # noqa: N802
+    def possibleFeatureCols(self) -> set[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Return possible feature content columns."""
         raise NotImplementedError
 
     @property
-    def possibleCatCols(self) -> Set[str]:   # noqa: N802
+    def possibleCatCols(self) -> set[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Return possible categorical content columns."""
         raise NotImplementedError
 
     @property
-    def possibleNumCols(self) -> Set[str]:   # noqa: N802
+    def possibleNumCols(self) -> set[str]:  # noqa: N802
         # pylint: disable=invalid-name
         """Return possible numerical content columns."""
         return {col for col in self.contentCols if self.typeIsNum(col)}
@@ -293,17 +293,17 @@ class AbstractDataHandler:
     # reprSampleSize
     # reprSample
 
-    def sample(self, *cols: str, **kwargs: Any) -> Union[ReducedDataSetType, Any]:   # noqa: E501
+    def sample(self, *cols: str, **kwargs: Any) -> Union[ReducedDataSetType, Any]:  # noqa: E501
         """Sample from data set."""
         raise NotImplementedError
 
-    def _assignReprSample(self):   # noqa: N802
+    def _assignReprSample(self):  # noqa: N802
         # pylint: disable=invalid-name
         """Assign representative sample."""
         raise NotImplementedError
 
     @property
-    def reprSampleSize(self) -> int:   # noqa: N802
+    def reprSampleSize(self) -> int:  # noqa: N802
         # pylint: disable=invalid-name
         """Return approx number of rows to sample for profiling purposes.
 
@@ -315,13 +315,13 @@ class AbstractDataHandler:
         return self._reprSampleSize
 
     @reprSampleSize.setter
-    def reprSampleSize(self, n: int, /):   # noqa: N802
+    def reprSampleSize(self, n: int, /):  # noqa: N802
         # pylint: disable=invalid-name
         self._reprSampleSize: int = n
         self._assignReprSample()
 
     @property
-    def reprSample(self):   # noqa: N802
+    def reprSample(self):  # noqa: N802
         # pylint: disable=invalid-name
         """Sub-sampled data set according to ``.reprSampleSize`` attribute."""
         if self._cache.reprSample is None:
@@ -346,7 +346,7 @@ class AbstractDataHandler:
     # profile
 
     @property
-    def minNonNullProportion(self) -> float:   # noqa: N802
+    def minNonNullProportion(self) -> float:  # noqa: N802
         # pylint: disable=invalid-name
         """Return min proportion of non-NULL values in each column.
 
@@ -356,14 +356,14 @@ class AbstractDataHandler:
         return self._minNonNullProportion.default
 
     @minNonNullProportion.setter
-    def minNonNullProportion(self, proportion: float, /):   # noqa: N802
+    def minNonNullProportion(self, proportion: float, /):  # noqa: N802
         # pylint: disable=invalid-name
         if proportion != self._minNonNullProportion.default:
             self._minNonNullProportion.default = proportion
             self._cache.suffNonNull = {}
 
     @property
-    def outlierTailProportion(self) -> float:   # noqa: N802
+    def outlierTailProportion(self) -> float:  # noqa: N802
         # pylint: disable=invalid-name
         """Return proportion in each tail of each numerical column's distrib.
 
@@ -373,12 +373,12 @@ class AbstractDataHandler:
         return self._outlierTailProportion.default
 
     @outlierTailProportion.setter
-    def outlierTailProportion(self, proportion: float, /):   # noqa: N802
+    def outlierTailProportion(self, proportion: float, /):  # noqa: N802
         # pylint: disable=invalid-name
         self._outlierTailProportion.default = proportion
 
     @property
-    def maxNCats(self) -> int:   # noqa: N802
+    def maxNCats(self) -> int:  # noqa: N802
         # pylint: disable=invalid-name
         """Return max number of categorical levels for possible cat. columns.
 
@@ -387,12 +387,12 @@ class AbstractDataHandler:
         return self._maxNCats.default
 
     @maxNCats.setter
-    def maxNCats(self, n: int, /):   # noqa: N802
+    def maxNCats(self, n: int, /):  # noqa: N802
         # pylint: disable=invalid-name
         self._maxNCats.default = n
 
     @property
-    def minProportionByMaxNCats(self) -> float:   # noqa: N802
+    def minProportionByMaxNCats(self) -> float:  # noqa: N802
         # pylint: disable=invalid-name
         """Return min total proportion accounted for by top ``maxNCats``.
 
@@ -402,7 +402,7 @@ class AbstractDataHandler:
         return self._minProportionByMaxNCats.default
 
     @minProportionByMaxNCats.setter
-    def minProportionByMaxNCats(self, proportion: float, /):   # noqa: N802
+    def minProportionByMaxNCats(self, proportion: float, /):  # noqa: N802
         # pylint: disable=invalid-name
         self._minProportionByMaxNCats.default = proportion
 
@@ -411,12 +411,12 @@ class AbstractDataHandler:
         raise NotImplementedError
 
     def nonNullProportion(self, *cols: str, **kwargs: Any) \
-            -> Union[float, Namespace]:   # noqa: N802
+            -> Union[float, Namespace]:  # noqa: N802
         # pylint: disable=invalid-name
         """Count non-NULL data proportion(s) in specified column(s)."""
         raise NotImplementedError
 
-    def suffNonNull(self, *cols: str, **kwargs: Any) -> Union[bool, Namespace]:   # noqa: E501,N802
+    def suffNonNull(self, *cols: str, **kwargs: Any) -> Union[bool, Namespace]:  # noqa: E501,N802
         # pylint: disable=invalid-name:
         """Check whether columns have sufficient non-NULL values.
 
@@ -432,7 +432,7 @@ class AbstractDataHandler:
             return a {``col``: ``True`` or ``False``} *dict* for all columns
         """
         if not cols:
-            cols: Tuple[str] = tuple(self.contentCols)
+            cols: tuple[str] = tuple(self.contentCols)
 
         if len(cols) > 1:
             return Namespace(**{col: self.suffNonNull(col, **kwargs)
@@ -440,14 +440,14 @@ class AbstractDataHandler:
 
         col: str = cols[0]
 
-        minNonNullProportion: float = self._minNonNullProportion[col]   # noqa: E501,N806
+        minNonNullProportion: float = self._minNonNullProportion[col]  # noqa: E501,N806
 
-        outdatedSuffNonNullProportionThreshold: bool = False   # noqa: N806
+        outdatedSuffNonNullProportionThreshold: bool = False  # noqa: N806
 
         if col in self._cache.suffNonNullProportionThreshold:
             if self._cache.suffNonNullProportionThreshold[col] != \
                     minNonNullProportion:
-                outdatedSuffNonNullProportionThreshold: bool = True   # noqa: E501,N806
+                outdatedSuffNonNullProportionThreshold: bool = True  # noqa: E501,N806
                 self._cache.suffNonNullProportionThreshold[col] = \
                     minNonNullProportion
 
@@ -463,7 +463,7 @@ class AbstractDataHandler:
 
         return self._cache.suffNonNull[col]
 
-    def distinct(self, *cols: str, **kwargs: Any) -> Union[Dict[str, float],
+    def distinct(self, *cols: str, **kwargs: Any) -> Union[dict[str, float],
                                                            Series, Namespace]:
         """Return distinct values for specified column(s)."""
         raise NotImplementedError
@@ -474,13 +474,13 @@ class AbstractDataHandler:
         raise NotImplementedError
 
     def sampleStat(self, *cols: str, **kwargs: Any) \
-            -> Union[float, int, Namespace]:   # noqa: N802
+            -> Union[float, int, Namespace]:  # noqa: N802
         # pylint: disable=invalid-name:
         """Return certain sample statistics for specified columns."""
         raise NotImplementedError
 
     def outlierRstStat(self, *cols: str, **kwargs: Any) \
-            -> Union[float, int, Namespace]:   # noqa: N802
+            -> Union[float, int, Namespace]:  # noqa: N802
         # pylint: disable=invalid-name:
         """Return outlier-resistant statistics for specified columns."""
         raise NotImplementedError
@@ -494,7 +494,7 @@ class AbstractDataHandler:
     # --------------------
     # preprocForML
 
-    def preprocForML(self, *cols: str, **kwargs: Any) -> AbstractDataHandler:   # noqa: E501,N802
+    def preprocForML(self, *cols: str, **kwargs: Any) -> AbstractDataHandler:  # noqa: E501,N802
         # pylint: disable=invalid-name
         """Pre-process specified column(s) for ML model training/inference."""
         raise NotImplementedError
@@ -509,8 +509,8 @@ class AbstractFileDataHandler(AbstractDataHandler):
     _REPR_SAMPLE_MIN_N_FILES: int = 100
 
     # local file cache dir
-    _LOCAL_CACHE_DIR_PATH: Path = (Path(tempfile.gettempdir()).resolve(strict=True) /   # noqa: E501
-                                   '.h1st/data-proc-cache')
+    _LOCAL_CACHE_DIR_PATH: Path = (Path(tempfile.gettempdir()).resolve(strict=True) /  # noqa: E501
+                                   '.aito/data-proc-cache')
 
     # ====================================
     # MIN. NO. OF FILES FOR REPR. SAMPLING
@@ -518,19 +518,19 @@ class AbstractFileDataHandler(AbstractDataHandler):
     # reprSampleMinNFiles
 
     @property
-    def reprSampleMinNFiles(self) -> int:   # noqa: N802
+    def reprSampleMinNFiles(self) -> int:  # noqa: N802
         # pylint: disable=invalid-name
         """Minimum number of pieces for reprensetative sample."""
         return self._reprSampleMinNFiles
 
     @reprSampleMinNFiles.setter
-    def reprSampleMinNFiles(self, n: int, /):   # noqa: N802
+    def reprSampleMinNFiles(self, n: int, /):  # noqa: N802
         # pylint: disable=invalid-name,no-member
         if (n <= self.nFiles) and (n != self._reprSampleMinNFiles):
             self._reprSampleMinNFiles: int = n
 
     @reprSampleMinNFiles.deleter
-    def reprSampleMinNFiles(self):   # noqa: N802
+    def reprSampleMinNFiles(self):  # noqa: N802
         # pylint: disable=invalid-name,no-member
         self._reprSampleMinNFiles: int = min(self._REPR_SAMPLE_MIN_N_FILES,
                                              self.nFiles)

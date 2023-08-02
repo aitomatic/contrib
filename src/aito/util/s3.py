@@ -132,7 +132,7 @@ def sync(from_dir_path: PathType, to_dir_path: PathType,
                        (' --quiet' if quiet else ''))
 
     if verbose:
-        _LOGGER.info(msg=(msg := f'Syncing "{from_dir_path}" to "{to_dir_path}"...'))   # noqa: E501
+        _LOGGER.info(msg=(msg := f'Syncing "{from_dir_path}" to "{to_dir_path}"...'))  # noqa: E501
         _LOGGER.debug(msg=f'Running: {s3_command}...')
         tic = time.time()
 

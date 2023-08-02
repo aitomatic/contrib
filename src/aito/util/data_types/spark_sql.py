@@ -4,7 +4,7 @@
 from typing import Tuple   # Py3.9+: use built-ins
 
 # pylint: disable=unused-import
-from pyspark.sql.types import (   # noqa: F401
+from pyspark.sql.types import (  # noqa: F401
     DataType,
 
     NullType,

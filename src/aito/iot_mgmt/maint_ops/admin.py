@@ -373,7 +373,7 @@ class EquipmentInstanceAlertPeriodAdmin(ModelAdmin):
                     queryset=EQUIPMENT_INSTANCE_ALARM_PERIOD_STR_QUERYSET),
                 Prefetch(
                     lookup='equipment_instance_problem_diagnoses',
-                    queryset=EQUIPMENT_INSTANCE_PROBLEM_DIAGNOSIS_ID_ONLY_UNORDERED_QUERYSET))   # noqa: E501
+                    queryset=EQUIPMENT_INSTANCE_PROBLEM_DIAGNOSIS_ID_ONLY_UNORDERED_QUERYSET))  # noqa: E501
             ) if request.resolver_match.url_name.endswith('_change') \
             else qs.defer('date_range', 'info')
 
