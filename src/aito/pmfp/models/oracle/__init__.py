@@ -34,11 +34,11 @@ class FaultPredOracleModeler:
 
         self.student_input_cat_cols: Sequence[str] = student_input_cat_cols
         self.student_input_num_cols: Sequence[str] = student_input_num_cols
-        self.student_input_subsampling_factor: int = student_input_subsampling_factor   # noqa: E501
+        self.student_input_subsampling_factor: int = student_input_subsampling_factor  # noqa: E501
         self.student_input_n_rows_per_day: int = student_input_n_rows_per_day
 
-        self.student_train_date_range: Tuple[str, str] = student_train_date_range   # noqa: E501
-        self.student_tuning_date_range: Tuple[str, str] = student_tuning_date_range   # noqa: E501
+        self.student_train_date_range: Tuple[str, str] = student_train_date_range  # noqa: E501
+        self.student_tuning_date_range: Tuple[str, str] = student_tuning_date_range  # noqa: E501
 
     def build_model(self) -> FaultPredOracle:
         """Construct an Oracle from a Knowledge ("Teacher") Model."""
@@ -84,7 +84,7 @@ class FaultPredOracle(BaseFaultPredictor):
 
         teacher_class_name, teacher_version = teacher_name.split('--')
         teacher_class = getattr(ai.models, teacher_class_name)
-        teacher: BaseFaultPredTeacher = teacher_class.load(version=teacher_version)   # noqa: E501
+        teacher: BaseFaultPredTeacher = teacher_class.load(version=teacher_version)  # noqa: E501
 
         student: TimeSeriesDLFaultPredStudent = \
             TimeSeriesDLFaultPredStudent.load(version=version)
@@ -101,8 +101,8 @@ class FaultPredOracle(BaseFaultPredictor):
             -> Tuple[bool, bool, bool]:
         """Make oracle prediction."""
         return (
-            teacher_pred := self.teacher.predict(df_for_1_equipment_unit_for_1_day),   # noqa: E501
-            student_pred := self.student.predict(df_for_1_equipment_unit_for_1_day,   # noqa: E501
+            teacher_pred := self.teacher.predict(df_for_1_equipment_unit_for_1_day),  # noqa: E501
+            student_pred := self.student.predict(df_for_1_equipment_unit_for_1_day,  # noqa: E501
                                                  return_binary=True),
             self.ensemble.predict(teacher_pred=teacher_pred,
                                   student_pred=student_pred))
@@ -113,7 +113,7 @@ class FaultPredOracle(BaseFaultPredictor):
             data=zip(
                 teacher_preds := self.teacher.batch_predict(parquet_ds),
                 student_preds := self.student.batch_predict(parquet_ds,
-                                                            return_binary=True),   # noqa: E501
+                                                            return_binary=True),  # noqa: E501
                 ensemble_preds := self.ensemble.batch_predict(
                     teacher_preds=teacher_preds, student_preds=student_preds)),
             index=ensemble_preds.index,

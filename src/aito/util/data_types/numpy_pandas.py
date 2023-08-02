@@ -6,7 +6,7 @@ from typing import Tuple   # Py3.9+: use built-ins
 import numpy
 
 # pylint: disable=unused-import
-from pandas.api.types import (   # noqa: F401
+from pandas.api.types import (  # noqa: F401
     is_bool_dtype,
     is_categorical_dtype,
     is_complex_dtype,

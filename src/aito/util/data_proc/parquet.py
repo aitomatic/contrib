@@ -107,7 +107,7 @@ class ParquetDataset(AbstractS3FileDataHandler):
             AbstractDataHandler._DEFAULT_MIN_PROPORTION_BY_MAX_N_CATS))
 
     def __init__(self, path: str, *, awsRegion: Optional[str] = None,
-                 accessKey: Optional[str] = None, secretKey: Optional[str] = None,   # noqa: E501
+                 accessKey: Optional[str] = None, secretKey: Optional[str] = None,  # noqa: E501
                  _mappers: Optional[Callable] = None,
                  _reduceMustInclCols: Optional[ColsType] = None,
                  verbose: bool = True, **kwargs: Any):

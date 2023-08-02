@@ -94,8 +94,8 @@ class TimeSeriesDLFaultPredStudentModeler:
             returnPreproc=True)
 
         flattening_subsampler: PandasFlatteningSubsampler = \
-            PandasFlatteningSubsampler(columns=tuple(preprocessor.sortedPreprocCols),   # noqa: E501
-                                       everyNRows=self.input_subsampling_factor,   # noqa: E501
+            PandasFlatteningSubsampler(columns=tuple(preprocessor.sortedPreprocCols),  # noqa: E501
+                                       everyNRows=self.input_subsampling_factor,  # noqa: E501
                                        totalNRows=self.input_n_rows_per_day)
 
         parquet_ds: ParquetDataset = parquet_ds.map(
@@ -109,7 +109,7 @@ class TimeSeriesDLFaultPredStudentModeler:
                                    # squeeze=False,   # deprecated
                                    observed=False,
                                    dropna=True)
-                        .apply(func=flattening_subsampler, padWithLastRow=True)))   # noqa: E501
+                        .apply(func=flattening_subsampler, padWithLastRow=True)))  # noqa: E501
 
         parquet_ds.stdOutLogger.info(msg='Featurizing into Pandas DF...')
         df: DataFrame = parquet_ds.collect()
@@ -136,12 +136,12 @@ class TimeSeriesDLFaultPredStudentModeler:
                                 how='left', lsuffix='', rsuffix='', sort=False)
 
         print(f'TRAINING ON {(n_rows := len(df)):,} ROWS w/ FAULT INCIDENCE = '
-              f'{100 * teacher_predicted_faults_series.sum() / n_rows:,.1f}%...')   # noqa: E501
+              f'{100 * teacher_predicted_faults_series.sum() / n_rows:,.1f}%...')  # noqa: E501
         transformed_cols: List[str] = flattening_subsampler.transformedCols
         print(f'{(n_cols := len(transformed_cols)):,} Columns')
 
         n_fwd_transforms: int = round(number=math.log(n_cols,
-                                                      hidden_layer_compress_factor),   # noqa: E501
+                                                      hidden_layer_compress_factor),  # noqa: E501
                                       ndigits=None)
         hidden_layer_sizes: Tuple[int] = \
             tuple(hidden_layer_compress_factor ** i
@@ -316,16 +316,16 @@ class TimeSeriesDLFaultPredStudentModeler:
             # greater than or equal to the number of iterations.
         )
 
-        x_resampled, y_resampled = (RandomOverSampler(sampling_strategy='minority',   # noqa: E501
+        x_resampled, y_resampled = (RandomOverSampler(sampling_strategy='minority',  # noqa: E501
                                                       random_state=random_seed,
                                                       shrinkage=None)
-                                    .fit_resample(X=df[transformed_cols].values,   # noqa: E501
+                                    .fit_resample(X=df[transformed_cols].values,  # noqa: E501
                                                   y=df.FAULT.astype(dtype=int,
                                                                     copy=True,
-                                                                    errors='raise')   # noqa: E501
+                                                                    errors='raise')  # noqa: E501
                                                   ))
 
-        print(f'Class-Balanced Training Data Set with {len(y_resampled):,} Samples')   # noqa: E501
+        print(f'Class-Balanced Training Data Set with {len(y_resampled):,} Samples')  # noqa: E501
 
         native_skl_mlp_classifier.fit(X=x_resampled, y=y_resampled)
 
@@ -444,7 +444,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
                                 errors=None) as input_params_tmp_file:
             yaml.safe_dump(data={'cat-cols': self.input_cat_cols,
                                  'num-cols': self.input_num_cols,
-                                 'subsampling-factor': self.input_subsampling_factor,   # noqa: E501
+                                 'subsampling-factor': self.input_subsampling_factor,  # noqa: E501
                                  'n-rows-per-day': self.input_n_rows_per_day},
                            stream=input_params_tmp_file,
                            default_style=None,
@@ -567,7 +567,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
 
         teacher_class_name, teacher_version = teacher_name.split('--')
         teacher_class = getattr(ai.models, teacher_class_name)
-        teacher: BaseFaultPredTeacher = teacher_class.load(version=teacher_version)   # noqa: E501
+        teacher: BaseFaultPredTeacher = teacher_class.load(version=teacher_version)  # noqa: E501
 
         _student_class_name, _student_version = student_str.split('--')
 
@@ -613,7 +613,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
             student.input_cat_cols = d['cat-cols']
             student.input_num_cols = d['num-cols']
             student.input_subsampling_factor = d.get('subsampling-factor', 1)
-            student.input_n_rows_per_day = d.get('n-rows-per-day', N_MINUTES_PER_DAY)   # noqa: E501
+            student.input_n_rows_per_day = d.get('n-rows-per-day', N_MINUTES_PER_DAY)  # noqa: E501
 
         # load preprocessing params
         with NamedTemporaryFile(mode='rt',
@@ -636,7 +636,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
                       hdfs=False, is_dir=False)
 
             student.preprocessor = \
-                PandasMLPreprocessor.from_yaml(path=preproc_params_tmp_file.name)   # noqa: E501
+                PandasMLPreprocessor.from_yaml(path=preproc_params_tmp_file.name)  # noqa: E501
 
         # load native object
         with NamedTemporaryFile(mode='rb',
@@ -705,7 +705,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
         prob: float = self.native_obj.predict_proba(
             X=expand_dims(
                 self.flattening_subsampler(
-                    self.preprocessor(df_for_1_equipment_unit_for_1_day)).values,   # noqa: E501
+                    self.preprocessor(df_for_1_equipment_unit_for_1_day)).values,  # noqa: E501
                 axis=0))[0, 1]
 
         return (prob > self.decision_threshold) if return_binary else prob
@@ -732,7 +732,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
 
         df.loc[:, 'FAULT'] = self.native_obj.predict_proba(X=df.values)[:, 1]
 
-        return (df.FAULT > self.decision_threshold) if return_binary else df.FAULT   # noqa: E501
+        return (df.FAULT > self.decision_threshold) if return_binary else df.FAULT  # noqa: E501
 
     def tune_decision_threshold(self, tuning_date_range: Tuple[str, str]):
         """Tune Model's decision threshold to maximize P-R harmonic mean."""
@@ -740,8 +740,8 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
 
         precision, recall, thresholds = \
             precision_recall_curve(
-                y_true=((_y_true := self.teacher.batch_process(date=tune_from_date,   # noqa: E501
-                                                               to_date=tune_to_date))   # noqa: E501
+                y_true=((_y_true := self.teacher.batch_process(date=tune_from_date,  # noqa: E501
+                                                               to_date=tune_to_date))  # noqa: E501
                         .mask(cond=_y_true.isnull(),
                               other=False,
                               inplace=False,
@@ -753,7 +753,7 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
                                                return_binary=False))
 
         df: DataFrame = DataFrame(data=dict(threshold=list(thresholds) + [1],
-                                            precision=precision, recall=recall))   # noqa: E501
+                                            precision=precision, recall=recall))  # noqa: E501
         df.loc[:, 'pr_hmean'] = hmean(df[['precision', 'recall']], axis=1)
         best_pr_tradeoff_idx: int = df.pr_hmean.argmax(skipna=True)
         print('BEST PRECISION-RECALL TRADE-OFF:')
@@ -762,6 +762,6 @@ class TimeSeriesDLFaultPredStudent(BaseFaultPredictor):
         print(f'- Decision Threshold: {self.decision_threshold:.3f}')
         print(f'- Precision: {df.precision.iloc[best_pr_tradeoff_idx]:.3f}')
         print(f'- Recall: {df.recall.iloc[best_pr_tradeoff_idx]:.3f}')
-        print(f'- PR Harmonic Mean: {df.pr_hmean.iloc[best_pr_tradeoff_idx]:.3f}')   # noqa: E501
+        print(f'- PR Harmonic Mean: {df.pr_hmean.iloc[best_pr_tradeoff_idx]:.3f}')  # noqa: E501
 
         self.save()

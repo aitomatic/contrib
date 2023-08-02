@@ -182,7 +182,7 @@ class Namespace(ArgParseNamespace):
         value = self._as_namespace_if_applicable(value)
 
         if len(nested_attr_names) > 1:
-            nested_ns: Namespace = self._get_nested_attr(nested_attr_names[:-1])   # noqa: E501
+            nested_ns: Namespace = self._get_nested_attr(nested_attr_names[:-1])  # noqa: E501
             setattr(nested_ns, nested_attr_names[-1], value)
 
         else:
@@ -207,7 +207,7 @@ class Namespace(ArgParseNamespace):
         """Iterate through content."""
         return (k for k in self.__dict__ if k != '__metadata__')
 
-    def update(self,   # noqa: MC0001
+    def update(self,  # noqa: MC0001
                other: Union[ArgParseNamespace,
                             SimpleNamespace,
                             dict,
@@ -227,7 +227,7 @@ class Namespace(ArgParseNamespace):
                      if not (k.startswith('__') or isinstance(v, ModuleType))}
 
         else:
-            raise ValueError('*** `other` must be Namespace, Dict or Module ***')   # noqa: E501
+            raise ValueError('*** `other` must be Namespace, Dict or Module ***')  # noqa: E501
 
         __modules_first__ = kwargs.pop('__modules_first__', False)
         other.update(copy.deepcopy(kwargs))

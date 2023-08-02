@@ -56,7 +56,7 @@ from pyarrow.types import (  # noqa: F401
     is_dictionary,
 )
 
-from aito.util.data_types.spark_sql import (   # noqa: F401
+from aito.util.data_types.spark_sql import (  # noqa: F401
     _NULL_TYPE,
     _BOOL_TYPE,
     _STR_TYPE,
@@ -127,7 +127,7 @@ def is_possible_cat(arrow_type: DataType, /) -> bool:
 
 def is_possible_feature(arrow_type: DataType) -> bool:
     """Check if data type is possibly an ML feature."""
-    return is_boolean(arrow_type) or is_string(arrow_type) or is_num(arrow_type)   # noqa: E501
+    return is_boolean(arrow_type) or is_string(arrow_type) or is_num(arrow_type)  # noqa: E501
 
 
 def is_complex(arrow_type: DataType, /) -> bool:

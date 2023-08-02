@@ -105,7 +105,7 @@ def _exec(cmd: str, must_succeed: bool = False):
             raise RuntimeError(f'*** COMMAND ERROR: {cmd} ***\n{out}\n{err}\n')
 
 
-def command_prefix(hdfs: bool = True, hadoop_home: PathType = '/opt/hadoop') -> str:   # noqa: E501
+def command_prefix(hdfs: bool = True, hadoop_home: PathType = '/opt/hadoop') -> str:  # noqa: E501
     """Get command prefix."""
     return f'{_hdfs_cmd(hadoop_home=hadoop_home)} dfs -' if hdfs else ''
 
@@ -248,14 +248,14 @@ def get(from_hdfs: PathType, to_local: PathType,
                       f'"{from_hdfs}" "{to_local}"')
 
             if _mv:
-                rm(path=from_hdfs, hdfs=True, is_dir=is_dir, hadoop_home=hadoop_home)   # noqa: E501
+                rm(path=from_hdfs, hdfs=True, is_dir=is_dir, hadoop_home=hadoop_home)  # noqa: E501
 
     elif from_hdfs != to_local:
         if _mv:
-            mv(from_path=from_hdfs, to_path=to_local, hdfs=False, is_dir=is_dir)   # noqa: E501
+            mv(from_path=from_hdfs, to_path=to_local, hdfs=False, is_dir=is_dir)  # noqa: E501
 
         else:
-            cp(from_path=from_hdfs, to_path=to_local, hdfs=False, is_dir=is_dir)   # noqa: E501
+            cp(from_path=from_hdfs, to_path=to_local, hdfs=False, is_dir=is_dir)  # noqa: E501
 
     if must_succeed:
         if isinstance(to_local, str):
@@ -283,7 +283,7 @@ def put(from_local: PathType, to_hdfs: PathType,
 
     elif from_local != to_hdfs:
         if _mv:
-            mv(from_path=from_local, to_path=to_hdfs, hdfs=False, is_dir=is_dir)   # noqa: E501
+            mv(from_path=from_local, to_path=to_hdfs, hdfs=False, is_dir=is_dir)  # noqa: E501
 
         else:
-            cp(from_path=from_local, to_path=to_hdfs, hdfs=False, is_dir=is_dir)   # noqa: E501
+            cp(from_path=from_local, to_path=to_hdfs, hdfs=False, is_dir=is_dir)  # noqa: E501

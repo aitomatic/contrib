@@ -167,7 +167,7 @@ EQUIPMENT_INSTANCE_ID_ONLY_UNORDERED_QUERYSET = \
     .order_by()
 
 
-EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET = (   # noqa: E501
+EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET = (  # noqa: E501
     EquipmentInstance.objects
     .only('id', 'equipment_unique_type')
     .order_by())
@@ -240,7 +240,7 @@ EQUIPMENT_FACILITY_REST_API_QUERYSET = \
     .prefetch_related(
         Prefetch(
             lookup='equipment_instances',
-            queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_STR_QUERYSET))   # noqa: E501
+            queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_STR_QUERYSET))  # noqa: E501
 
 
 EQUIPMENT_SYSTEM_REST_API_QUERYSET = \

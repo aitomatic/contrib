@@ -8,7 +8,7 @@ from aito.pmfp.data_mgmt import EquipmentParquetDataSet
 from aito.util.data_proc import ParquetDataset
 
 from k1st_contrib.iot_mgmt.api import (EquipmentUniqueTypeGroup,
-                                       EquipmentUniqueTypeGroupDataFieldProfile)   # noqa: E501
+                                       EquipmentUniqueTypeGroupDataFieldProfile)  # noqa: E501
 
 
 MAX_N_DISTINCT_VALUES_TO_PROFILE: int = 30
@@ -32,7 +32,7 @@ def run(general_type: str, unique_type_group: str):
         equipment_unique_type_group=eq_unq_tp_grp).delete()
 
     # profile Data Fields and save profiles into DB
-    for equipment_data_field in tqdm(eq_unq_tp_grp.equipment_data_fields.all()):   # noqa: E501
+    for equipment_data_field in tqdm(eq_unq_tp_grp.equipment_data_fields.all()):  # noqa: E501
         eq_data_field_name: str = equipment_data_field.name
 
         if eq_data_field_name in eq_unq_tp_grp_parquet_ds.possibleFeatureCols:

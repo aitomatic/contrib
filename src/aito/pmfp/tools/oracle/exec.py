@@ -29,7 +29,7 @@ from aito.util.path import add_cwd_to_py_path
                context_settings=None,
                # callback=None,
                # params=None,
-               help='Batch-predict equipment faults >>>',   # noqa: E501
+               help='Batch-predict equipment faults >>>',  # noqa: E501
                epilog='^^^ Batch-predict equipment faults',  # noqa: E501
                short_help='Batch-predict equipment faults',  # noqa: E501
                options_metavar='[OPTIONS]',

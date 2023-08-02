@@ -27,8 +27,8 @@ from k1st_contrib.iot_mgmt.data.querysets import (
     EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET,
     EQUIPMENT_UNIQUE_TYPE_NAME_ONLY_QUERYSET,
     EQUIPMENT_INSTANCE_ID_ONLY_UNORDERED_QUERYSET,
-    EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET,   # noqa: E501
-    EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_ID_ONLY_UNORDERED_QUERYSET,   # noqa: E501
+    EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET,  # noqa: E501
+    EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_ID_ONLY_UNORDERED_QUERYSET,  # noqa: E501
 )
 
 
@@ -265,12 +265,12 @@ class EquipmentUniqueTypeAdmin(ModelAdmin):
             qs.prefetch_related(
                 Prefetch(
                     lookup='equipment_unique_type_groups',
-                    queryset=EQUIPMENT_UNIQUE_TYPE_GROUP_ID_ONLY_UNORDERED_QUERYSET))   # noqa: E501
+                    queryset=EQUIPMENT_UNIQUE_TYPE_GROUP_ID_ONLY_UNORDERED_QUERYSET))  # noqa: E501
             ) if request.resolver_match.url_name.endswith('_change') \
             else qs.prefetch_related(
             Prefetch(
                 lookup='equipment_instances',
-                queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET),   # noqa: E501
+                queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_UNIQUE_TYPE_ID_ONLY_UNORDERED_QUERYSET),  # noqa: E501
             Prefetch(
                 lookup='equipment_unique_type_groups',
                 queryset=EQUIPMENT_UNIQUE_TYPE_GROUP_NAME_ONLY_QUERYSET))
@@ -348,7 +348,7 @@ class EquipmentFacilityAdmin(ModelAdmin):
             else qs.prefetch_related(
                 Prefetch(
                     lookup='equipment_instances',
-                    queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_ID_ONLY_UNORDERED_QUERYSET))   # noqa: E501
+                    queryset=EQUIPMENT_INSTANCE_RELATED_TO_EQUIPMENT_FACILITY_ID_ONLY_UNORDERED_QUERYSET))  # noqa: E501
 
     @silk_profile(name='Admin: Equipment Facilities')
     def changelist_view(self, *args, **kwargs):
@@ -402,7 +402,7 @@ class EquipmentInstanceAdmin(ModelAdmin):
             .prefetch_related(
                 Prefetch(
                     lookup='equipment_unique_type_groups',
-                    queryset=EQUIPMENT_UNIQUE_TYPE_GROUP_ID_ONLY_UNORDERED_QUERYSET))   # noqa: E501
+                    queryset=EQUIPMENT_UNIQUE_TYPE_GROUP_ID_ONLY_UNORDERED_QUERYSET))  # noqa: E501
             ) if request.resolver_match.url_name.endswith('_change') \
             else qs.select_related(
             'equipment_general_type',

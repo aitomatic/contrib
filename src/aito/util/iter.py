@@ -17,7 +17,7 @@ def to_iterable(obj: Any, /, *, iterable_type=tuple) -> Iterable:
     if isinstance(obj, iterable_type):
         return obj
 
-    if isinstance(obj, Iterable) and (not isinstance(obj, (str, tensorflow.Tensor))):   # noqa: E501
+    if isinstance(obj, Iterable) and (not isinstance(obj, (str, tensorflow.Tensor))):  # noqa: E501
         return iterable_type(obj)
 
     if iterable_type is tuple:

@@ -71,9 +71,9 @@ class EquipmentInstanceAlarmPeriodRelatedField(RelatedField):
             from_utc_date_time=str(value.from_utc_date_time),
             to_utc_date_time=str(value.to_utc_date_time),
             duration_in_days=value.duration_in_days,
-            has_associated_equipment_instance_alert_periods=   # noqa: E251
+            has_associated_equipment_instance_alert_periods=  # noqa: E251
             value.has_associated_equipment_instance_alert_periods,
-            has_associated_equipment_instance_problem_diagnoses=   # noqa: E251
+            has_associated_equipment_instance_problem_diagnoses=  # noqa: E251
             value.has_associated_equipment_instance_problem_diagnoses)
 
 
@@ -94,9 +94,9 @@ class EquipmentInstanceProblemDiagnosisRelatedField(RelatedField):
                                      value.equipment_problem_types.all()],
             dismissed=value.dismissed,
             comments=value.comments,
-            has_associated_equipment_instance_alarm_periods=   # noqa: E251
+            has_associated_equipment_instance_alarm_periods=  # noqa: E251
             value.has_associated_equipment_instance_alarm_periods,
-            has_associated_equipment_instance_alert_periods=   # noqa: E251
+            has_associated_equipment_instance_alert_periods=  # noqa: E251
             value.has_associated_equipment_instance_alert_periods)
 
 
@@ -120,9 +120,9 @@ class EquipmentInstanceAlertPeriodRelatedField(RelatedField):
             ongoing=value.ongoing,
             info=value.info,
             diagnosis_status=value.diagnosis_status.name,
-            has_associated_equipment_instance_alarm_periods=   # noqa: E251
+            has_associated_equipment_instance_alarm_periods=  # noqa: E251
             value.has_associated_equipment_instance_alarm_periods,
-            has_associated_equipment_instance_problem_diagnoses=   # noqa: E251
+            has_associated_equipment_instance_problem_diagnoses=  # noqa: E251
             value.has_associated_equipment_instance_problem_diagnoses)
 
 

@@ -87,7 +87,7 @@ class EquipmentInstanceDailyRiskScore(Model):
 
     def __str__(self):
         """Return string repr."""
-        return (f'{self.equipment_unique_type_group.equipment_general_type.name} '   # noqa: E501
+        return (f'{self.equipment_unique_type_group.equipment_general_type.name} '  # noqa: E501
                 f'{self.equipment_unique_type_group.name} '
                 f'#{self.equipment_instance.name} on {self.date}: '
                 f'{self.risk_score_name} = {self.risk_score_value:.3g}')
@@ -207,7 +207,7 @@ class EquipmentInstanceDailyPredictedFault(Model):
 
     def __str__(self):
         """Return string repr."""
-        return (f'{self.equipment_unique_type_group.equipment_general_type.name} '   # noqa: E501
+        return (f'{self.equipment_unique_type_group.equipment_general_type.name} '  # noqa: E501
                 f'{self.equipment_unique_type_group.name} '
                 f'#{self.equipment_instance.name} on {self.date}: '
                 f'{self.fault_type.name.upper()} predicted '
@@ -306,8 +306,8 @@ class EquipmentInstanceAlarmPeriod(Model):
     def __str__(self):
         """Return string repr."""
         return ((f'{self.equipment_instance}: {self.alarm_type.name.upper()} '
-                 f'from {self.from_utc_date_time}') +   # noqa: W504
-                (f' to {self.to_utc_date_time} ({self.duration_in_days:.3f} Days)'   # noqa: E501
+                 f'from {self.from_utc_date_time}') +  # noqa: W504
+                (f' to {self.to_utc_date_time} ({self.duration_in_days:.3f} Days)'  # noqa: E501
                  if self.to_utc_date_time
                  else ' (ONGOING)'))
 
@@ -315,7 +315,7 @@ class EquipmentInstanceAlarmPeriod(Model):
         """Save."""
         if self.to_utc_date_time:
             self.duration_in_days = (
-                (self.to_utc_date_time -   # noqa: W504
+                (self.to_utc_date_time -  # noqa: W504
                  self.from_utc_date_time).total_seconds()
             ) / _ONE_DAY_TIME_DELTA_TOTAL_SECONDS
 
@@ -685,7 +685,7 @@ class EquipmentInstanceAlertPeriod(Model):
              if self.ongoing
              else '') +
             'Alert on ' +
-            (f'{self.equipment_unique_type_group.equipment_general_type.name.upper()} '   # noqa: E501
+            (f'{self.equipment_unique_type_group.equipment_general_type.name.upper()} '  # noqa: E501
              f'{self.equipment_unique_type_group.name} '
              f'#{self.equipment_instance.name} '
              f'from {self.from_date} to {self.to_date} '
@@ -747,10 +747,10 @@ def equipment_instance_alarm_period_post_save(
         has_associated_equipment_instance_alarm_periods=True)
 
     EquipmentInstanceAlarmPeriod.objects.filter(pk=instance.pk).update(
-        has_associated_equipment_instance_alert_periods=   # noqa: E251
+        has_associated_equipment_instance_alert_periods=  # noqa: E251
         bool(equipment_instance_alert_periods.count()),
 
-        has_associated_equipment_instance_problem_diagnoses=   # noqa: E251
+        has_associated_equipment_instance_problem_diagnoses=  # noqa: E251
         bool(equipment_instance_problem_diagnoses.count()))
 
 
@@ -792,7 +792,7 @@ def equipment_instance_alert_period_post_save(
         has_associated_equipment_instance_alert_periods=True)
 
     EquipmentInstanceAlertPeriod.objects.filter(pk=instance.pk).update(
-        has_associated_equipment_instance_problem_diagnoses=   # noqa: E251
+        has_associated_equipment_instance_problem_diagnoses=  # noqa: E251
         bool(equipment_instance_problem_diagnoses.count()))
 
 
@@ -835,10 +835,10 @@ def equipment_instance_problem_diagnosis_post_save(
     EquipmentInstanceProblemDiagnosis.objects.filter(pk=instance.pk).update(
         has_equipment_problems=bool(instance.equipment_problem_types.count()),
 
-        has_associated_equipment_instance_alarm_periods=   # noqa: E251
+        has_associated_equipment_instance_alarm_periods=  # noqa: E251
         bool(equipment_instance_alarm_periods.count()),
 
-        has_associated_equipment_instance_alert_periods=   # noqa: E251
+        has_associated_equipment_instance_alert_periods=  # noqa: E251
         bool(equipment_instance_alert_periods.count()))
 
 

@@ -42,14 +42,14 @@ load_dotenv(dotenv_path='.env',
 S3_BUCKET: Optional[str] = os.environ.get('AITO_PMFP_S3_BUCKET')
 LOCAL_HOME_DIR_PATH = Path.home()
 
-H1ST_MODEL_DIR_NAME: str = '.h1st/models'
+H1ST_MODEL_DIR_NAME: str = '.aito/models'
 H1ST_MODELS_DIR_PATH: Union[str, Path] = (
     f's3://{S3_BUCKET}/{H1ST_MODEL_DIR_NAME}'
     if S3_BUCKET
     else (LOCAL_HOME_DIR_PATH / H1ST_MODEL_DIR_NAME)
 )
 
-BATCH_OUTPUT_DIR_NAME: str = '.h1st/batch-output'
+BATCH_OUTPUT_DIR_NAME: str = '.aito/batch-output'
 H1ST_BATCH_OUTPUT_DIR_PATH: Union[str, Path] = (
     f's3://{S3_BUCKET}/{BATCH_OUTPUT_DIR_NAME}'
     if S3_BUCKET
@@ -73,7 +73,7 @@ class BaseFaultPredictor:
 
     def __repr__(self) -> str:
         """Return string repr."""
-        return f'{self.unique_type_group} {type(self).__name__} "{self.version}"'   # noqa: E501
+        return f'{self.unique_type_group} {type(self).__name__} "{self.version}"'  # noqa: E501
 
     @cached_property
     def name(self) -> str:
@@ -107,7 +107,7 @@ class BaseFaultPredictor:
     def list_versions(cls) -> List[str]:
         """List model versions."""
         if S3_BUCKET:
-            prefix_len: int = len(prefix := f'{H1ST_MODEL_DIR_NAME}/{cls.__name__}/')   # noqa: E501
+            prefix_len: int = len(prefix := f'{H1ST_MODEL_DIR_NAME}/{cls.__name__}/')  # noqa: E501
 
             results: dict = s3.client().list_objects_v2(Bucket=S3_BUCKET,
                                                         Delimiter='/',
@@ -158,7 +158,7 @@ class BaseFaultPredictor:
         try:
             parquet_ds: ParquetDataset = (
                 EquipmentParquetDataSet(general_type=self.general_type,
-                                        unique_type_group=self.unique_type_group)   # noqa: E501
+                                        unique_type_group=self.unique_type_group)  # noqa: E501
                 .load_by_date(date=date, to_date=to_date,
                               equipment_instance_id=equipment_instance_id))
 
@@ -167,9 +167,9 @@ class BaseFaultPredictor:
 
             return ({}
                     if return_json
-                    else (DataFrame(columns=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL,   # noqa: E501
+                    else (DataFrame(columns=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL,  # noqa: E501
                                              'FAULT'])
-                          .set_index(keys=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],   # noqa: E501
+                          .set_index(keys=[EQUIPMENT_INSTANCE_ID_COL, DATE_COL],  # noqa: E501
                                      drop=True,
                                      append=False,
                                      verify_integrity=True,

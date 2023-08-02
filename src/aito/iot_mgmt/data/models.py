@@ -238,9 +238,9 @@ class EquipmentDataField(Model):
                  if self.logical_data_type
                  else 'UNTYPED') +
                 (f', unit {self.numeric_measurement_unit.name.upper()}'
-                 if self.numeric_measurement_unit and self.numeric_measurement_unit.name   # noqa: E501
+                 if self.numeric_measurement_unit and self.numeric_measurement_unit.name  # noqa: E501
                  else '') +
-                f', nulls ({self.lower_numeric_null}, {self.upper_numeric_null})' +   # noqa: E501
+                f', nulls ({self.lower_numeric_null}, {self.upper_numeric_null})' +  # noqa: E501
                 (''
                  if self.min_val is None
                  else f', min {self.min_val}') +
@@ -401,16 +401,16 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
 
             print(
                 f'{instance}: Changed Equipment Data Fields: {action.upper()}:'
-                f' Updating Equipment Data Fields of {equipment_unique_type_groups_to_update}...'   # noqa: E501
+                f' Updating Equipment Data Fields of {equipment_unique_type_groups_to_update}...'  # noqa: E501
             )
 
             for equipment_unique_type_group_to_update in \
                     equipment_unique_type_groups_to_update:
-                equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                    equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                         *(equipment_unique_type.equipment_data_fields.all()
                           for equipment_unique_type in
-                          equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),   # noqa: E501
+                          equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),  # noqa: E501
                         all=False),
                     clear=False)
 
@@ -419,9 +419,9 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
                 model.objects.filter(pk__in=pk_set)
 
             equipment_unique_type_groups_to_update = \
-                changed_equipment_unique_types[0].equipment_unique_type_groups.all().union(   # noqa: E501
+                changed_equipment_unique_types[0].equipment_unique_type_groups.all().union(  # noqa: E501
                     *(equipment_unique_type.equipment_unique_type_groups.all()
-                      for equipment_unique_type in changed_equipment_unique_types[1:]),   # noqa: E501
+                      for equipment_unique_type in changed_equipment_unique_types[1:]),  # noqa: E501
                     all=False)
 
             if equipment_unique_type_groups_to_update:
@@ -433,11 +433,11 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
 
                 for equipment_unique_type_group_to_update in \
                         equipment_unique_type_groups_to_update:
-                    equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                        equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                        equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                             *(equipment_unique_type.equipment_data_fields.all()
                               for equipment_unique_type in
-                              equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),   # noqa: E501
+                              equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),  # noqa: E501
                             all=False),
                         clear=False)
 
@@ -459,9 +459,9 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
                     .equipment_unique_types.exclude(pk=instance.pk))
 
                 if remaining_equipment_unique_types.count():
-                    equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                        remaining_equipment_unique_types[0].equipment_data_fields.all().union(   # noqa: E501
-                            *(remaining_equipment_unique_type.equipment_data_fields.all()   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                        remaining_equipment_unique_types[0].equipment_data_fields.all().union(  # noqa: E501
+                            *(remaining_equipment_unique_type.equipment_data_fields.all()  # noqa: E501
                               for remaining_equipment_unique_type in
                               remaining_equipment_unique_types[1:]),
                             all=False),
@@ -473,7 +473,7 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
                         f'{action.upper()}: CLEARING Equipment Data Fields '
                         f'of {equipment_unique_type_groups_to_update}... ***')
 
-                    equipment_unique_type_group_to_update.equipment_data_fields.clear()   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.clear()  # noqa: E501
 
         elif (model is EquipmentUniqueType) and \
                 instance.equipment_unique_types.count():
@@ -481,8 +481,8 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
                 instance.equipment_unique_types.all()
 
             equipment_unique_type_groups_to_update = \
-                equipment_unique_types_to_clear[0].equipment_unique_type_groups.all().union(   # noqa: E501
-                    *(equipment_unique_type_to_clear.equipment_unique_type_groups.all()   # noqa: E501
+                equipment_unique_types_to_clear[0].equipment_unique_type_groups.all().union(  # noqa: E501
+                    *(equipment_unique_type_to_clear.equipment_unique_type_groups.all()  # noqa: E501
                       for equipment_unique_type_to_clear in
                       equipment_unique_types_to_clear[1:]),
                     all=False)
@@ -500,15 +500,15 @@ def equipment_unique_types_equipment_data_fields_m2m_changed(
                         equipment_unique_type_group_to_update
                         .equipment_unique_types.all()[0])
 
-                    equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                        (first_equipment_unique_type.equipment_data_fields.exclude(pk=instance.pk)   # noqa: E501
-                         if first_equipment_unique_type in equipment_unique_types_to_clear   # noqa: E501
-                         else first_equipment_unique_type.equipment_data_fields.all()).union(   # noqa: E501
-                            *((equipment_unique_type_group_equipment_unique_type.equipment_data_fields.exclude(pk=instance.pk)   # noqa: E501
-                               if equipment_unique_type_group_equipment_unique_type in equipment_unique_types_to_clear   # noqa: E501
-                               else equipment_unique_type_group_equipment_unique_type.equipment_data_fields.all())   # noqa: E501
-                              for equipment_unique_type_group_equipment_unique_type in   # noqa: E501
-                                equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                        (first_equipment_unique_type.equipment_data_fields.exclude(pk=instance.pk)  # noqa: E501
+                         if first_equipment_unique_type in equipment_unique_types_to_clear  # noqa: E501
+                         else first_equipment_unique_type.equipment_data_fields.all()).union(  # noqa: E501
+                            *((equipment_unique_type_group_equipment_unique_type.equipment_data_fields.exclude(pk=instance.pk)  # noqa: E501
+                               if equipment_unique_type_group_equipment_unique_type in equipment_unique_types_to_clear  # noqa: E501
+                               else equipment_unique_type_group_equipment_unique_type.equipment_data_fields.all())  # noqa: E501
+                              for equipment_unique_type_group_equipment_unique_type in  # noqa: E501
+                                equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),  # noqa: E501
                             all=False),
                         clear=False)
 
@@ -549,7 +549,7 @@ def equipment_unique_type_groups_equipment_unique_types_m2m_changed(
                       f'{action.upper()}: Updating Data Fields...')
 
                 instance.equipment_data_fields.set(
-                    instance.equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                    instance.equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                         *(equipment_unique_type.equipment_data_fields.all()
                           for equipment_unique_type in
                           instance.equipment_unique_types.all()[1:]),
@@ -572,12 +572,12 @@ def equipment_unique_type_groups_equipment_unique_types_m2m_changed(
 
             for equipment_unique_type_group_to_update in \
                     equipment_unique_type_groups_to_update:
-                if equipment_unique_type_group_to_update.equipment_unique_types.count():   # noqa: E501
-                    equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                        equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                if equipment_unique_type_group_to_update.equipment_unique_types.count():  # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                        equipment_unique_type_group_to_update.equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                             *(equipment_unique_type.equipment_data_fields.all()
                               for equipment_unique_type in
-                              equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),   # noqa: E501
+                              equipment_unique_type_group_to_update.equipment_unique_types.all()[1:]),  # noqa: E501
                             all=False),
                         clear=False)
 
@@ -586,7 +586,7 @@ def equipment_unique_type_groups_equipment_unique_types_m2m_changed(
                           f'REMOVED Equipment Unique Types: {action.upper()}: '
                           'CLEARING Data Fields... ***')
 
-                    equipment_unique_type_group_to_update.equipment_data_fields.clear()   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.clear()  # noqa: E501
 
     elif action == 'pre_clear':
         if model is EquipmentUniqueType:
@@ -611,8 +611,8 @@ def equipment_unique_type_groups_equipment_unique_types_m2m_changed(
                     .equipment_unique_types.exclude(pk=instance.pk))
 
                 if remaining_equipment_unique_types.count():
-                    equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                        remaining_equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                        remaining_equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                             *(equipment_unique_type.equipment_data_fields.all()
                               for equipment_unique_type in
                               remaining_equipment_unique_types[1:]),
@@ -624,7 +624,7 @@ def equipment_unique_type_groups_equipment_unique_types_m2m_changed(
                           f'REMOVING Equipment Unique Types: {action.upper()}:'
                           f' CLEARING Data Fields... ***')
 
-                    equipment_unique_type_group_to_update.equipment_data_fields.clear()   # noqa: E501
+                    equipment_unique_type_group_to_update.equipment_data_fields.clear()  # noqa: E501
 
 
 m2m_changed.connect(
@@ -645,7 +645,7 @@ def equipment_unique_type_pre_delete(sender, instance, using, *args, **kwargs):
 
         print(f'*** DELETING {instance}: '
               'Updating Data Streams of '
-              f'{equipment_unique_type_groups_to_update}... ***'   # noqa: E501
+              f'{equipment_unique_type_groups_to_update}... ***'  # noqa: E501
               )
 
         for equipment_unique_type_group_to_update in \
@@ -655,8 +655,8 @@ def equipment_unique_type_pre_delete(sender, instance, using, *args, **kwargs):
                 .exclude(pk=instance.pk))
 
             if remaining_equipment_unique_types.count():
-                equipment_unique_type_group_to_update.equipment_data_fields.set(   # noqa: E501
-                    remaining_equipment_unique_types.all()[0].equipment_data_fields.all().union(   # noqa: E501
+                equipment_unique_type_group_to_update.equipment_data_fields.set(  # noqa: E501
+                    remaining_equipment_unique_types.all()[0].equipment_data_fields.all().union(  # noqa: E501
                         *(equipment_unique_type.equipment_data_fields.all()
                           for equipment_unique_type in
                           remaining_equipment_unique_types[1:]),
@@ -665,10 +665,10 @@ def equipment_unique_type_pre_delete(sender, instance, using, *args, **kwargs):
 
             else:
                 print(f'*** DELETING {instance}: '
-                      f'CLEARING Data Streams of {equipment_unique_type_group_to_update}... ***'   # noqa: E501
+                      f'CLEARING Data Streams of {equipment_unique_type_group_to_update}... ***'  # noqa: E501
                       )
 
-                equipment_unique_type_group_to_update.equipment_data_fields.clear()   # noqa: E501
+                equipment_unique_type_group_to_update.equipment_data_fields.clear()  # noqa: E501
 
 
 pre_delete.connect(
