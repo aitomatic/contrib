@@ -11,7 +11,7 @@ class H1stIoTDataManagementBaseModuleConfig(AppConfig):
 
     label = 'IoT_DataMgmt'
 
-    verbose_name = 'H1st IoT Data Management'
+    verbose_name = 'IoT Data Management'
 
     def ready(self):
         """Run scripts/tasks to initialize module."""

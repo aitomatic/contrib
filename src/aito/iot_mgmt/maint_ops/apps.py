@@ -11,4 +11,4 @@ class H1stIoTDataManagementMaintenanceOperationsModuleConfig(AppConfig):
 
     label = 'IoT_MaintOps'
 
-    verbose_name = 'H1st IoT Maintenance Operations'
+    verbose_name = 'IoT Maintenance Operations'
