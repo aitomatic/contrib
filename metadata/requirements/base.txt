@@ -33,3 +33,6 @@ PsycoPG2-binary >= 2.9.6
 
 # H1st
 H1st @ https://GitHub.com/H1st-AI/H1st/archive/oracle-pmfp.zip
+
+# OpenSSM
+OpenSSM @ https://GitHub.com/Aitomatic/OpenSSM/archive/main.zip
