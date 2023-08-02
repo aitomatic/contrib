@@ -42,14 +42,14 @@ load_dotenv(dotenv_path='.env',
 S3_BUCKET: Optional[str] = os.environ.get('AITO_PMFP_S3_BUCKET')
 LOCAL_HOME_DIR_PATH = Path.home()
 
-H1ST_MODEL_DIR_NAME: str = '.h1st/models'
+H1ST_MODEL_DIR_NAME: str = '.aito/models'
 H1ST_MODELS_DIR_PATH: Union[str, Path] = (
     f's3://{S3_BUCKET}/{H1ST_MODEL_DIR_NAME}'
     if S3_BUCKET
     else (LOCAL_HOME_DIR_PATH / H1ST_MODEL_DIR_NAME)
 )
 
-BATCH_OUTPUT_DIR_NAME: str = '.h1st/batch-output'
+BATCH_OUTPUT_DIR_NAME: str = '.aito/batch-output'
 H1ST_BATCH_OUTPUT_DIR_PATH: Union[str, Path] = (
     f's3://{S3_BUCKET}/{BATCH_OUTPUT_DIR_NAME}'
     if S3_BUCKET
