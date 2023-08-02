@@ -6,7 +6,7 @@
 from dataclasses import dataclass
 from functools import cached_property, lru_cache
 import os
-from typing import Literal, Optional
+from typing import Optional
 
 from dotenv.main import load_dotenv
 from pandas import DataFrame
@@ -45,7 +45,7 @@ DATE_TIME_COL: str = 'date_time'
 class EquipmentParquetDataSet:
     """Equipment Unique Type Group Parquet Data Set."""
 
-    general_type: Literal['refrig', 'disp_case']
+    general_type: str
     unique_type_group: str
 
     @cached_property
