@@ -37,4 +37,5 @@ PsycoPG2-binary >= 2.9.7
 OpenSSM >= 0.1.3
 
 # misc / other
+CLICK >= 8.1.6
 Ruamel.YAML >= 0.17.32
