@@ -13,11 +13,11 @@ TensorFlow >= 2.12.0  # let higher dependencies figure
 Transformers >= 4.31.0
 
 # LLM & related
-LangChain >= 0.0.248
-PandasAI >= 0.8.1
+LangChain >= 0.0.261
+PandasAI >= 0.8.2
 
 # Django & related
-Django >= 4.2.3
+Django >= 4.2.4
 Django-Configurations >= 2.4.1
 Django-CORS-Headers >= 4.2.0
 Django-Environ >= 0.10.0
@@ -28,11 +28,8 @@ Django-Silk >= 5.0.3
 DRF-Writable-Nested >= 0.7.0
 
 # DB-related
-PsycoPG >= 3.1.9
-PsycoPG2-binary >= 2.9.6
-
-# H1st
-H1st @ https://GitHub.com/H1st-AI/H1st/archive/oracle-pmfp.zip
+PsycoPG >= 3.1.10
+PsycoPG2-binary >= 2.9.7
 
 # OpenSSM
-OpenSSM @ https://GitHub.com/Aitomatic/OpenSSM/archive/main.zip
+OpenSSM >= 0.1.3
