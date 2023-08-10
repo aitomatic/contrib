@@ -1,4 +1,6 @@
 # Data Proc
+Pandas >= 1.5  # let higher dependencies figure
+PyArrow >= 12.0.1
 PySpark >= 3.4.1
 
 # Image Processing
