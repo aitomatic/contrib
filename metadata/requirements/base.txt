@@ -1,22 +1,22 @@
 # Data Proc
 Pandas >= 1.5  # let higher dependencies figure
-PyArrow >= 12.0.1
+PyArrow >= 13.0.0
 PySpark >= 3.4.1
 
 # Image Processing
 Pillow >= 9.5.0  # let higher dependencies figure
-PyCOCOTools >= 2.0.6
+PyCOCOTools >= 2.0.7
 
 # DL/ML
 Imbalanced-Learn >= 0.11.0
 TensorFlow >= 2.12.0  # let higher dependencies figure
 
 # Hugging Face
-Transformers >= 4.31.0
+Transformers >= 4.32.1
 
 # LLM & related
-LangChain >= 0.0.261
-PandasAI >= 0.8.2
+LangChain >= 0.0.276
+PandasAI >= 1.0.11
 
 # Django & related
 Django >= 4.2.4
@@ -37,5 +37,5 @@ PsycoPG2-binary >= 2.9.7
 OpenSSM >= 0.1.3
 
 # misc / other
-CLICK >= 8.1.6
+CLICK >= 8.1.7
 Ruamel.YAML >= 0.17.32
