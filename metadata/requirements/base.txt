@@ -38,4 +38,5 @@ OpenSSM-dev[cv] >= 0.1.6.29
 
 # misc / other
 CLICK >= 8.1.7
+Python-DotEnv >= 1.0.0
 Ruamel.YAML >= 0.17.35
