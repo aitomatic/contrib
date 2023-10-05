@@ -16,7 +16,7 @@ Transformers >= 4.34.0
 
 # LLM & related
 LangChain >= 0.0.308
-PandasAI >= 1.2.10
+# PandasAI >= 1.2.10  # conflicting dependencies
 
 # Django & related
 Django >= 4.2.6
