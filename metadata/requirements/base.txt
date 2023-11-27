@@ -1,27 +1,27 @@
 # Data Proc
 Pandas >= 1.5  # let higher dependencies figure
-PyArrow >= 13.0.0
+PyArrow >= 14.0.1
 PySpark >= 3.5.0
 
 # Image Processing
-Pillow >= 9.5.0  # let higher dependencies figure
+Pillow >= 9.5  # let higher dependencies figure
 PyCOCOTools >= 2.0.7
 
 # DL/ML
 Imbalanced-Learn >= 0.11.0
-TensorFlow >= 2.14.0
+TensorFlow >= 2.15.0
 
 # Hugging Face
-Transformers >= 4.34.0
+Transformers >= 4.35.2
 
 # LLM & related
-LangChain >= 0.0.309
-# PandasAI >= 1.2.10  # conflicting dependencies
+LangChain >= 0.0.340
+# PandasAI >= 1.5.4  # TODO: check compat
 
 # Django & related
-Django >= 4.2.6
-Django-Configurations >= 2.4.1
-Django-CORS-Headers >= 4.2.0
+Django >= 4.2.7
+Django-Configurations >= 2.5
+Django-CORS-Headers >= 4.3.1
 Django-Environ >= 0.11.2
 Django-Extensions >= 3.2.3
 Django-Jazzmin >= 2.6.0
@@ -30,13 +30,13 @@ Django-Silk >= 5.0.4
 DRF-Writable-Nested >= 0.7.0
 
 # DB-related
-PsycoPG >= 3.1.12
+PsycoPG >= 3.1.13
 PsycoPG2-binary >= 2.9.9
 
 # OpenSSM
-OpenSSM-dev[cv] >= 0.1.6.29
+OpenSSA-dev[cv] >= 0.1.6.2
 
 # misc / other
 CLICK >= 8.1.7
 Python-DotEnv >= 1.0.0
-Ruamel.YAML >= 0.17.35
+Ruamel.YAML >= 0.18.5
