@@ -49,6 +49,7 @@ dynamic = [
 
   # entry points / scripts
   'entry-points',
+  'scripts',
 ]
 
 
@@ -136,7 +137,7 @@ test = {file = 'metadata/requirements/test.txt'}
 
 [build-system]
 requires = [
-  'SetUpTools >= 68.0.0',
-  'Wheel >= 0.41.0',
+  'SetUpTools >= 69.0.2',
+  'Wheel >= 0.42.0',
 ]
 build-backend = 'setuptools.build_meta'
