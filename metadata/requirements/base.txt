@@ -15,11 +15,11 @@ TensorFlow >= 2.15.0
 Transformers >= 4.35.2
 
 # LLM & related
-LangChain >= 0.0.340
+LangChain >= 0.0.345
 # PandasAI >= 1.5.4  # TODO: check compat
 
 # Django & related
-Django >= 4.2.7
+Django >= 5.0
 Django-Configurations >= 2.5
 Django-CORS-Headers >= 4.3.1
 Django-Environ >= 0.11.2
@@ -30,11 +30,11 @@ Django-Silk >= 5.0.4
 DRF-Writable-Nested >= 0.7.0
 
 # DB-related
-PsycoPG >= 3.1.13
+PsycoPG >= 3.1.14
 PsycoPG2-binary >= 2.9.9
 
 # OpenSSM
-OpenSSA-dev[cv] >= 0.1.6.2
+OpenSSA @ https://GitHub.com/Aitomatic/OpenSSA/archive/experimental.zip
 
 # misc / other
 CLICK >= 8.1.7
